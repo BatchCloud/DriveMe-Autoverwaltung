@@ -7,15 +7,15 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import driveMe.costumers.model.Costumer;
+import driveMe.costumers.model.Customer;
 import driveMe.service.databaseService;
 
-public class CostumerService {
+public class CustomerService {
 
 	
-	public static ArrayList<Costumer> findCostumerByAll() {
+	public static ArrayList<Customer> findCostumerByAll() {
 		Connection con = databaseService.MysqlConnection();
-		ArrayList<Costumer> costumers = new ArrayList<Costumer>();
+		ArrayList<Customer> costumers = new ArrayList<Customer>();
 		
 		try {
 			Statement st = con.createStatement();
@@ -28,7 +28,7 @@ public class CostumerService {
 				String username = rs.getString("username");
 				Date birthday = rs.getDate("birthday");
 				
-				Costumer costumer = new Costumer(id, firstname, lastname, username, birthday);
+				Customer costumer = new Customer(id, firstname, lastname, username, birthday);
 				costumers.add(costumer);
 			}
 			con.close();		
@@ -39,9 +39,9 @@ public class CostumerService {
 		return costumers;
 	}
 	
-	public static Costumer findCostumerById(int id) {
+	public static Customer findCostumerById(int id) {
 		Connection con = databaseService.MysqlConnection();
-		Costumer costumer = null;
+		Customer costumer = null;
 		
 		try {
 			Statement st = con.createStatement();
@@ -54,7 +54,7 @@ public class CostumerService {
 				String username = rs.getString("username");
 				Date birthday = rs.getDate("birthday");
 				
-				costumer = new Costumer(userid, firstname, lastname, username, birthday);
+				costumer = new Customer(userid, firstname, lastname, username, birthday);
 			}
 			
 			con.close();		
@@ -66,9 +66,9 @@ public class CostumerService {
 		return costumer;
 	}
 
-	public static Costumer findCostumerByUsername(String usernameid) {
+	public static Customer findCostumerByUsername(String usernameid) {
 		Connection con = databaseService.MysqlConnection();
-		Costumer costumer = null;
+		Customer costumer = null;
 		
 		try {
 			Statement st = con.createStatement();
@@ -81,7 +81,7 @@ public class CostumerService {
 				String username = rs.getString("username");
 				Date birthday = rs.getDate("birthday");
 				
-				costumer = new Costumer(userid, firstname, lastname, username, birthday);
+				costumer = new Customer(userid, firstname, lastname, username, birthday);
 			}
 			
 			con.close();		
