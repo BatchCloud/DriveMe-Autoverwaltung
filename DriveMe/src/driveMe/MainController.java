@@ -36,8 +36,6 @@ public JFrame mainFrame=new JFrame("DriveMe");
 		mainFrame.getContentPane().setLayout(new BorderLayout(0, 0));
 		
 		setUpHeader();
-		
-		
 	}
 
 	private void setUpHeader() 
@@ -76,6 +74,7 @@ public JFrame mainFrame=new JFrame("DriveMe");
 		vehicleButton.setMargin(new Insets(0, 0, 0, 0));
 		vehicleButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				mainFrame.getContentPane().removeAll();
 				mainFrame.getContentPane().add(vehicleContent());
 			}
 		});
@@ -87,9 +86,9 @@ public JFrame mainFrame=new JFrame("DriveMe");
 		customerButton.setBorder(null);
 		customerButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-	//						mainFrame.getContentPane().removeAll();
+				mainFrame.getContentPane().removeAll();
 	//						add customer page to contentPane
-							mainFrame.getContentPane().add(customerContent());
+				mainFrame.getContentPane().add(customerContent());
 			}
 		});
 		customerButton.setBackground(primaryColor);
@@ -112,8 +111,6 @@ public JFrame mainFrame=new JFrame("DriveMe");
 		vehiclePanel.setBackground(SystemColor.windowBorder);
 		vehiclePanel.setLayout(new BorderLayout(0, 0));
 		
-		JFrame vehicleText = new JFrame("Juchei! -vehicle");
-		vehiclePanel.add(vehicleText);
 		
 		return vehiclePanel;
 	} 
@@ -125,9 +122,6 @@ public JFrame mainFrame=new JFrame("DriveMe");
 		customerPanel.setMinimumSize(new Dimension(10, 128));
 		customerPanel.setBackground(SystemColor.windowBorder);
 		customerPanel.setLayout(new BorderLayout(0, 0));
-		
-		JFrame vehicleText = new JFrame("Juchei! -customer");
-		customerPanel.add(vehicleText);
 		
 		return customerPanel;
 	}

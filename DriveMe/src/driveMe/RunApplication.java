@@ -31,9 +31,4 @@ public class RunApplication extends MainController{
 		});
 	}
 	
-	public RunApplication()
-	{
-		
-	}
-	
 }
