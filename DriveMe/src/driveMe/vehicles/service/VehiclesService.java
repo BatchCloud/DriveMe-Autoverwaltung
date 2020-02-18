@@ -12,7 +12,7 @@ import driveMe.vehicles.model.Vehicle;
 
 public class VehiclesService {
 	
-	public ArrayList<Vehicle> findVehiclesByAll() {
+	public static ArrayList<Vehicle> findVehiclesByAll() {
 		Connection con = databaseService.MysqlConnection();
 		ArrayList<Vehicle> vehicles = new ArrayList<Vehicle>();
 		
@@ -42,7 +42,7 @@ public class VehiclesService {
 		return vehicles;
 	}
 	
-	public Vehicle findVehiclesById(int _id) {
+	public static Vehicle findVehiclesById(int _id) {
 		Connection con = databaseService.MysqlConnection();
 		Vehicle vehicle = null;
 		

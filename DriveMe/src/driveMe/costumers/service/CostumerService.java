@@ -13,7 +13,7 @@ import driveMe.service.databaseService;
 public class CostumerService {
 
 	
-	public ArrayList<Costumer> findCostumerByAll() {
+	public static ArrayList<Costumer> findCostumerByAll() {
 		Connection con = databaseService.MysqlConnection();
 		ArrayList<Costumer> costumers = new ArrayList<Costumer>();
 		
@@ -39,7 +39,7 @@ public class CostumerService {
 		return costumers;
 	}
 	
-	public Costumer findCostumerById(int id) {
+	public static Costumer findCostumerById(int id) {
 		Connection con = databaseService.MysqlConnection();
 		Costumer costumer = null;
 		
@@ -66,7 +66,7 @@ public class CostumerService {
 		return costumer;
 	}
 
-	public Costumer findCostumerByUsername(String usernameid) {
+	public static Costumer findCostumerByUsername(String usernameid) {
 		Connection con = databaseService.MysqlConnection();
 		Costumer costumer = null;
 		

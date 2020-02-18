@@ -6,13 +6,17 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Insets;
 import java.awt.SystemColor;
-import java.awt.Window.Type;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
+import driveMe.costumers.model.Costumer;
+import driveMe.costumers.service.CostumerService;
+import driveMe.vehicles.service.VehiclesService;
 
 
 public class MainController {
@@ -22,9 +26,7 @@ public JFrame mainFrame=new JFrame("DriveMe");
 	private Color primaryColor = new Color(105,157,217);
 	private Color secondColor = new Color(238,238,238);
 	
-	/**
-	 * @wbp.parser.entryPoint
-	 */
+	
 	protected void initialize() {
 
 		//Setup Main frame
@@ -95,7 +97,6 @@ public JFrame mainFrame=new JFrame("DriveMe");
 		customerButton.setMargin(new Insets(0, 0, 0, 0));
 		customerButton.setPreferredSize(new Dimension(150, 35));
 		headerTop.add(customerButton);
-		
 	}
 	
 	private void setUpHeaderBottom(JPanel headerPanel) 
@@ -111,7 +112,6 @@ public JFrame mainFrame=new JFrame("DriveMe");
 		vehiclePanel.setBackground(SystemColor.windowBorder);
 		vehiclePanel.setLayout(new BorderLayout(0, 0));
 		
-		
 		return vehiclePanel;
 	} 
 	
@@ -122,6 +122,7 @@ public JFrame mainFrame=new JFrame("DriveMe");
 		customerPanel.setMinimumSize(new Dimension(10, 128));
 		customerPanel.setBackground(SystemColor.windowBorder);
 		customerPanel.setLayout(new BorderLayout(0, 0));
+		
 		
 		return customerPanel;
 	}
