@@ -17,7 +17,7 @@ import javax.swing.JPanel;
 
 public class MainController {
 
-	public JFrame mainFrame; //new JFrame("DriveMe");
+public JFrame mainFrame=new JFrame("DriveMe");
 	
 	private Color primaryColor = new Color(105,157,217);
 	private Color secondColor = new Color(238,238,238);
@@ -28,9 +28,9 @@ public class MainController {
 	protected void initialize() {
 
 		//Setup Main frame
-		mainFrame.setType(Type.POPUP);
+//		mainFrame.setType(Type.POPUP);
 		mainFrame.setBackground(primaryColor);
-		mainFrame.getContentPane().setMinimumSize(new Dimension(0, 16));
+		mainFrame.getContentPane().setMinimumSize(new Dimension(20, 16));
 		mainFrame.setBounds(100, 100, 1106, 661);
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainFrame.getContentPane().setLayout(new BorderLayout(0, 0));

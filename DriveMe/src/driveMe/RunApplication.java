@@ -23,6 +23,7 @@ public class RunApplication extends MainController{
 				        UIManager.put("TabbedPane.unselectedTabBackground", Color.RED);
 					MainController window = new MainController();
 					window.mainFrame.setVisible(true);
+					window.initialize();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -32,7 +33,7 @@ public class RunApplication extends MainController{
 	
 	public RunApplication()
 	{
-		initialize();
+		
 	}
 	
 }

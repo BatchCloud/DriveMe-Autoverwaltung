@@ -16,15 +16,12 @@ public class databaseService {
 
 		try {
 			Statement st = con.createStatement();
-			st.executeUpdate("create table users (\r\n" + 
-					"    id int unsigned auto_increment not null,\r\n" + 
-					"    first_name varchar(32) not null,\r\n" + 
-					"    last_name varchar(32) not null,\r\n" + 
-					"    date_created timestamp default now(),\r\n" + 
-					"    is_admin boolean,\r\n" + 
-					"    num_points int,\r\n" + 
-					"    primary key (id)\r\n" + 
-					");");
+//			st.execute("SELECT id,username,firstname,lastname,birthday FROM `customers` WHERE verified= '1'");
+			ResultSet rs = st.executeQuery("SELECT id,username,firstname,lastname,birthday FROM `customers` WHERE verified= '1'");
+			while (rs.next()) {
+				  String lastName = rs.getString("firstname");
+				  System.out.println(lastName + "\n");
+				}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
