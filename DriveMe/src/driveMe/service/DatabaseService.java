@@ -22,8 +22,9 @@ public class DatabaseService {
 
 	public static void main(String[] args) {
 		
-		Timestamp from = new Timestamp(120, 2, 3, 10, 00, 00, 00);
-		Timestamp to = new Timestamp(120, 2, 3, 11, 00, 00, 00);
+		Timestamp from = new Timestamp(120, 1, 18, 15, 00, 00, 00);
+		Timestamp to = new Timestamp(120, 1, 18, 15, 30, 00, 00);
+		
 		
 		System.out.println(rentVehicle(1, 1, from, to));
 
@@ -66,17 +67,16 @@ public class DatabaseService {
 					    Date x = calendar1.getTime(); // from 
 					    Date y = calendar2.getTime(); // to
 					    
-					    if (x.after(calendar3.getTime()) && x.before(calendar4.getTime())) 
+					    if ((x.after(calendar3.getTime()) || x.equals(calendar3.getTime())) && (x.before(calendar4.getTime() )|| x.equals(calendar4.getTime())) ) 
 					    {
-	    					//x between the time
-					    	if (y.after(calendar3.getTime()) && y.before(calendar4.getTime()))
+							isRentable = false;
+							
+					    	//x between the time
+					    	if ( ( y.after(calendar3.getTime()) || y.equals(calendar3.getTime())) &&( y.before(calendar4.getTime()) || y.equals(calendar4.getTime())) )
 					    	{
 		    					//y also between
-					    		isRentable = true;
-					    	}
-					    	else
-					    	{
 					    		isRentable = false;
+					    		
 					    	}
 					    }
 					    else if (x.after(calendar4.getTime()))
@@ -89,10 +89,18 @@ public class DatabaseService {
 					    	//to before time to check
 					    	isRentable = true;
 					    }
-					    else
-					    {
-					    	isRentable = false;
+//					    else
+//					    {
+//					    	if (y.after(calendar4.getTime()) && y.before(calendar3.getTime()))
+//					    	{
+//		    					//y not between
+//					    		isRentable = true;
+//					    	}
+//					    }
+					    if(!isRentable) {
+					    	break;
 					    }
+					    
 					} catch (Exception e) {
 					    e.printStackTrace();
 					}
