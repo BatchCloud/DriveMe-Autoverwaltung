@@ -7,13 +7,13 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import driveMe.service.databaseService;
+import driveMe.service.DatabaseService;
 import driveMe.vehicles.model.Vehicle;
 
 public class VehiclesService {
 	
 	public static ArrayList<Vehicle> findVehiclesByAll() {
-		Connection con = databaseService.MysqlConnection();
+		Connection con = DatabaseService.MysqlConnection();
 		ArrayList<Vehicle> vehicles = new ArrayList<Vehicle>();
 		
 		try {
@@ -43,7 +43,7 @@ public class VehiclesService {
 	}
 	
 	public static Vehicle findVehiclesById(int _id) {
-		Connection con = databaseService.MysqlConnection();
+		Connection con = DatabaseService.MysqlConnection();
 		Vehicle vehicle = null;
 		
 		try {

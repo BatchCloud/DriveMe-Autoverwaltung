@@ -8,13 +8,13 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import driveMe.costumers.model.Customer;
-import driveMe.service.databaseService;
+import driveMe.service.DatabaseService;
 
 public class CustomerService {
 
 	
 	public static ArrayList<Customer> findCostumerByAll() {
-		Connection con = databaseService.MysqlConnection();
+		Connection con = DatabaseService.MysqlConnection();
 		ArrayList<Customer> costumers = new ArrayList<Customer>();
 		
 		try {
@@ -40,7 +40,7 @@ public class CustomerService {
 	}
 	
 	public static Customer findCostumerById(int id) {
-		Connection con = databaseService.MysqlConnection();
+		Connection con = DatabaseService.MysqlConnection();
 		Customer costumer = null;
 		
 		try {
@@ -67,7 +67,7 @@ public class CustomerService {
 	}
 
 	public static Customer findCostumerByUsername(String usernameid) {
-		Connection con = databaseService.MysqlConnection();
+		Connection con = DatabaseService.MysqlConnection();
 		Customer costumer = null;
 		
 		try {
