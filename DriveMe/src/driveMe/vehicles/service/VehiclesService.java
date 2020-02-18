@@ -1,7 +1,7 @@
 package driveMe.vehicles.service;
 
 import java.sql.Connection;
-
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -30,15 +30,18 @@ public class VehiclesService {
 				String latitude = rs.getString("latitude");
 				String image = rs.getString("image");
 				String fuel = rs.getString("fuel");
+				Date reservedFrom = rs.getDate("reservedFrom");
+				Date reservedTo = rs.getDate("reservedTo");
+				boolean isReserved = rs.getBoolean("isReserved");
 				
-				Vehicle vehicle = new Vehicle(id, model, brand, ps, seats, longitude, latitude, image, fuel);
+				Vehicle vehicle = new Vehicle(id, model, brand, ps, seats, longitude, latitude, image, fuel, reservedFrom, reservedTo, isReserved);
 				vehicles.add(vehicle);
 			}
 			con.close();		
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
+	
 		return vehicles;
 	}
 	
@@ -60,8 +63,11 @@ public class VehiclesService {
 				String latitude = rs.getString("latitude");
 				String image = rs.getString("image");
 				String fuel = rs.getString("fuel");
+				Date reservedFrom = rs.getDate("reservedFrom");
+				Date reservedTo = rs.getDate("reservedTo");
+				boolean isReserved = rs.getBoolean("isReserved");
 				
-				vehicle = new Vehicle(id, model, brand, ps, seats, longitude, latitude, image, fuel);
+				vehicle = new Vehicle(id, model, brand, ps, seats, longitude, latitude, image, fuel, reservedFrom, reservedTo, isReserved);
 			}
 			con.close();		
 		} catch (SQLException e) {
