@@ -63,16 +63,36 @@ public class DatabaseService {
 					    calendar4.setTime(reservedTo);
 					    calendar4.add(Calendar.DATE, 1);
 					    
-					    Date x = calendar1.getTime();
-				
-					    if (x.after(calendar3.getTime()) && x.before(calendar4.getTime())) {
-						    
-					    	Date y = calendar2.getTime();
-						    if (y.after(calendar3.getTime()) && y.before(calendar4.getTime())) {
-						    	isRentable = true;
-						    }					    	
-					    }
+					    Date x = calendar1.getTime(); // from 
+					    Date y = calendar2.getTime(); // to
 					    
+					    if (x.after(calendar3.getTime()) && x.before(calendar4.getTime())) 
+					    {
+	    					//x between the time
+					    	if (y.after(calendar3.getTime()) && y.before(calendar4.getTime()))
+					    	{
+		    					//y also between
+					    		isRentable = true;
+					    	}
+					    	else
+					    	{
+					    		isRentable = false;
+					    	}
+					    }
+					    else if (x.after(calendar4.getTime()))
+					    {
+					    	//from after time to check
+					    	isRentable = true;
+					    }
+					    else if (y.before(calendar3.getTime()))
+					    {
+					    	//to before time to check
+					    	isRentable = true;
+					    }
+					    else
+					    {
+					    	isRentable = false;
+					    }
 					} catch (Exception e) {
 					    e.printStackTrace();
 					}
