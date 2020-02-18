@@ -2,19 +2,13 @@ package driveMe.service;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 
-import driveMe.costumers.model.Customer;
-import driveMe.costumers.service.CustomerService;
+import driveMe.customers.model.Customer;
+import driveMe.customers.service.CustomerService;
 import driveMe.vehicles.model.Vehicle;
 import driveMe.vehicles.service.VehiclesService;
 

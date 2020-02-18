@@ -23,7 +23,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.MatteBorder;
 
 import driveMe.vehicles.model.Vehicle;
-import driveMe.vehicles.service.VehiclesService;
+import driveMe.vehicles.service.VehicleService;
 import net.miginfocom.swing.MigLayout;
 
 
@@ -163,7 +163,7 @@ public JFrame mainFrame=new JFrame("DriveMe");
 		customerButton.setBackground(primaryColor);
 		vehicleButton.setBackground(secondColor);
 		
-		ArrayList<Vehicle> vehicles = VehiclesService.findVehiclesByAll();
+		ArrayList<Vehicle> vehicles = VehicleService.findVehiclesByAll();
 		int i = 0;
 		for (Vehicle currentVehicle : vehicles)
 		{

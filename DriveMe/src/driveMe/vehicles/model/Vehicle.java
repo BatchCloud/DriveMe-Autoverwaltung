@@ -1,7 +1,5 @@
 package driveMe.vehicles.model;
 
-import java.sql.Date;
-
 public class Vehicle {
 
 	int id;

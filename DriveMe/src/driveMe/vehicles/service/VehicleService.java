@@ -1,7 +1,6 @@
 package driveMe.vehicles.service;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -10,7 +9,7 @@ import java.util.ArrayList;
 import driveMe.service.DatabaseService;
 import driveMe.vehicles.model.Vehicle;
 
-public class VehiclesService {
+public class VehicleService {
 	
 	public static ArrayList<Vehicle> findVehiclesByAll() {
 		Connection con = DatabaseService.MysqlConnection();
