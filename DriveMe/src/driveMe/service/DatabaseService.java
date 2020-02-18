@@ -38,62 +38,43 @@ public class DatabaseService {
 		if(customer != null && vehicle !=null ) {
 			Connection con = DatabaseService.MysqlConnection();
 			
-			try {
-				
+			try 
+			{
 				Statement st = con.createStatement();
 				ResultSet rs = st.executeQuery("SELECT rentedfrom,rentedto FROM `rentedvehicles` ");
 				boolean isRentable = false;
-				while (rs.next()) {
+				while (rs.next()) 
+				{
 					Timestamp reservedFrom = rs.getTimestamp("rentedfrom");
 					Timestamp reservedTo = rs.getTimestamp("rentedto");
 					
-					try {
-					    Calendar calendar1 = Calendar.getInstance();
-					    calendar1.setTime(from);
-					    calendar1.add(Calendar.DATE, 1);
-
-					    Calendar calendar2 = Calendar.getInstance();
-					    calendar2.setTime(to);
-					    calendar2.add(Calendar.DATE, 1);
-
-					    Calendar calendar3 = Calendar.getInstance();
-					    calendar3.setTime(reservedFrom);
-					    calendar3.add(Calendar.DATE, 1);
-
-					    Calendar calendar4 = Calendar.getInstance();
-					    calendar4.setTime(reservedTo);
-					    calendar4.add(Calendar.DATE, 1);
-					    
-					    Date x = calendar1.getTime(); // from 
-					    Date y = calendar2.getTime(); // to
-					    
-					    if ((x.after(calendar3.getTime()) || x.equals(calendar3.getTime())) && (x.before(calendar4.getTime() )|| x.equals(calendar4.getTime())) ) 
+					try 
+					{
+					    if ((from.after(reservedFrom) || from.equals(reservedFrom)) && (from.before(reservedTo)|| from.equals(reservedTo)) ) 
 					    {
 							isRentable = false;
-							
-					    	//x between the time
-					    	if ( ( y.after(calendar3.getTime()) || y.equals(calendar3.getTime())) &&( y.before(calendar4.getTime()) || y.equals(calendar4.getTime())) )
+					    	//from between the time
+					    	if ( (to.after(reservedFrom) || to.equals(reservedFrom)) &&( to.before(reservedTo) || to.equals(reservedTo)) )
 					    	{
-		    					//y also between
+		    					//to also between
 					    		isRentable = false;
-					    		
 					    	}
 					    }
-					    else if (x.after(calendar4.getTime()))
+					    else if (from.after(reservedTo))
 					    {
 					    	//from after time to check
 					    	isRentable = true;
 					    }
-					    else if (y.before(calendar3.getTime()))
+					    else if (to.before(reservedFrom))
 					    {
 					    	//to before time to check
 					    	isRentable = true;
 					    }
 //					    else
 //					    {
-//					    	if (y.after(calendar4.getTime()) && y.before(calendar3.getTime()))
+//					    	if (to.after(calendar4.getTime()) && to.before(calendar3.getTime()))
 //					    	{
-//		    					//y not between
+//		    					//to not between
 //					    		isRentable = true;
 //					    	}
 //					    }
@@ -101,21 +82,14 @@ public class DatabaseService {
 					    	break;
 					    }
 					    
-					} catch (Exception e) {
+					}
+					catch (Exception e) 
+					{
 					    e.printStackTrace();
 					}
-					
-					
-//					if ((from.after(_to) && to.after(_to)) || !(to.before(_from) && from.before(_from))) {
-//						if () {
-//							isRentable = true;
-//						}
-//						
-//					} else {
-//						isRentable = false;
-//					}
 				}
-				if(isRentable) {
+				if(isRentable) 
+				{
 //					String query = "INSERT into rentedvehicles (userid, vehicleid, rentedfrom, rentedto, pricetype) values (?, ?, ?, ?, ?)";
 //
 //					PreparedStatement preparedStmt = con.prepareStatement(query);
@@ -129,11 +103,14 @@ public class DatabaseService {
 //					con.close();
 					
 					return true;
-				}else {
+				}
+				else 
+				{
 					con.close();
 				}
-				
-			} catch (SQLException e) {
+			} 
+			catch (SQLException e) 
+			{
 				e.printStackTrace();
 			}
 		}
