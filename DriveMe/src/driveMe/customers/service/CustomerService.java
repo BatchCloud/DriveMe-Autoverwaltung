@@ -1,4 +1,4 @@
-package driveMe.costumers.service;
+package driveMe.customers.service;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import driveMe.costumers.model.Customer;
+import driveMe.customers.model.Customer;
 import driveMe.service.DatabaseService;
 
 public class CustomerService {

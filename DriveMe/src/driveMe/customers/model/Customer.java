@@ -1,4 +1,4 @@
-package driveMe.costumers.model;
+package driveMe.customers.model;
 
 import java.util.Date;
 
@@ -21,7 +21,6 @@ public class Customer {
 	public int getId() {
 		return id;
 	}
-
 	public void setId(int id) {
 		this.id = id;
 	}
@@ -29,7 +28,6 @@ public class Customer {
 	public String getFirstname() {
 		return firstname;
 	}
-
 	public void setFirstname(String firstname) {
 		this.firstname = firstname;
 	}
@@ -37,7 +35,6 @@ public class Customer {
 	public String getLastname() {
 		return lastname;
 	}
-
 	public void setLastname(String lastname) {
 		this.lastname = lastname;
 	}
@@ -45,7 +42,6 @@ public class Customer {
 	public String getUsername() {
 		return username;
 	}
-
 	public void setUsername(String username) {
 		this.username = username;
 	}
@@ -53,10 +49,8 @@ public class Customer {
 	public Date getBirthday() {
 		return birthday;
 	}
-
 	public void setBirthday(Date birthday) {
 		this.birthday = birthday;
 	}
-	
 	
 }
