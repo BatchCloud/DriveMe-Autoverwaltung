@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import driveMe.costumers.model.Costumer;
 import driveMe.costumers.service.CostumerService;
@@ -76,8 +77,7 @@ public JFrame mainFrame=new JFrame("DriveMe");
 		vehicleButton.setMargin(new Insets(0, 0, 0, 0));
 		vehicleButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				mainFrame.getContentPane().removeAll();
-				mainFrame.getContentPane().add(vehicleContent());
+				SwingUtilities.updateComponentTreeUI(mainFrame.add(vehicleContent()));
 			}
 		});
 		vehicleButton.setPreferredSize(new Dimension(150, 35));
@@ -88,9 +88,7 @@ public JFrame mainFrame=new JFrame("DriveMe");
 		customerButton.setBorder(null);
 		customerButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				mainFrame.getContentPane().removeAll();
-	//						add customer page to contentPane
-				mainFrame.getContentPane().add(customerContent());
+				SwingUtilities.updateComponentTreeUI(mainFrame.add(customerContent()));
 			}
 		});
 		customerButton.setBackground(primaryColor);
@@ -109,7 +107,7 @@ public JFrame mainFrame=new JFrame("DriveMe");
 		JPanel vehiclePanel = new JPanel();
 		vehiclePanel.setPreferredSize(new Dimension(10, 90));
 		vehiclePanel.setMinimumSize(new Dimension(10, 128));
-		vehiclePanel.setBackground(SystemColor.windowBorder);
+		vehiclePanel.setBackground(SystemColor.GREEN);
 		vehiclePanel.setLayout(new BorderLayout(0, 0));
 		
 		return vehiclePanel;
@@ -120,7 +118,7 @@ public JFrame mainFrame=new JFrame("DriveMe");
 		JPanel customerPanel = new JPanel();
 		customerPanel.setPreferredSize(new Dimension(10, 90));
 		customerPanel.setMinimumSize(new Dimension(10, 128));
-		customerPanel.setBackground(SystemColor.windowBorder);
+		customerPanel.setBackground(SystemColor.RED);
 		customerPanel.setLayout(new BorderLayout(0, 0));
 		
 		
