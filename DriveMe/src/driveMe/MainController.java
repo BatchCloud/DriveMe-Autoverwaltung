@@ -161,9 +161,9 @@ public JFrame mainFrame=new JFrame("DriveMe");
 		vehiclePanel.setLayout(new BorderLayout(0, 0));
 		vehiclePanel.setLayout(new MigLayout("", "[320px]", "[100px]"));
 		
-		customerButton.setForeground(Color.BLACK);
+		customerButton.setForeground(Color.WHITE);
 		customerButton.setBackground(primaryColor);
-		vehicleButton.setForeground(Color.WHITE);
+		vehicleButton.setForeground(Color.BLACK);
 		vehicleButton.setBackground(secondColor);
 		
 		ArrayList<Vehicle> vehicles = VehicleService.findVehiclesByAll();
