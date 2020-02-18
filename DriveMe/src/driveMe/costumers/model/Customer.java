@@ -2,7 +2,7 @@ package driveMe.costumers.model;
 
 import java.util.Date;
 
-public class Costumer {
+public class Customer {
 	
 	int id;
 	String firstname;
@@ -10,7 +10,7 @@ public class Costumer {
 	String username;
 	Date birthday;
 	
-	public Costumer (int id, String firstname, String lastname, String username, Date birthday) {
+	public Customer (int id, String firstname, String lastname, String username, Date birthday) {
 		this.id = id;
 		this.firstname = firstname;
 		this.lastname = lastname;

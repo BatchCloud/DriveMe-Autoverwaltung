@@ -2,14 +2,9 @@ package driveMe.service;
 
 import java.sql.*;
 
-public class databaseService {
+public class DatabaseService {
 
-	public static void main(String[] args) {
-
-
-	}
-
-	
+	@SuppressWarnings("deprecation")
 	public static Connection MysqlConnection() {
 		final String hostname = "192.168.2.8";
 		final String port = "3306";

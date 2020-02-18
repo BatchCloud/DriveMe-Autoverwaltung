@@ -15,8 +15,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import driveMe.costumers.model.Costumer;
-import driveMe.costumers.service.CostumerService;
 import driveMe.vehicles.service.VehiclesService;
 
 
