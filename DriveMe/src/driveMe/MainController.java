@@ -241,28 +241,23 @@ public JFrame mainFrame=new JFrame("DriveMe");
 		JPanel carDetails = new JPanel();
 		carDetails.setLayout(null);
 		
-		if(currentVehicle.isReserved())
-		{
-			JLabel lblReserved = new JLabel("Reserviert von: " + currentVehicle.getReservedFrom() + " bis: " + currentVehicle.getReservedTo());
-			lblReserved.setFont(new Font("Tahoma", Font.PLAIN, 9));
-			lblReserved.setBounds(25, 25, 103, 14);
-			carDetails.add(lblReserved);
+		JLabel lblReserved = new JLabel("Keine Buchung");
+		lblReserved.setFont(new Font("Tahoma", Font.PLAIN, 9));
+		lblReserved.setBounds(25, 25, 103, 14);
+		carDetails.add(lblReserved);
+		
+		JLabel lblLocation = new JLabel("Aktueller Standort: " + currentVehicle.getLatitude() + " " + currentVehicle.getLongitude());
+		lblLocation.setBounds(25, 11, 48, 14);
+		carDetails.add(lblLocation);
 			
-			JLabel lblLocation = new JLabel("Aktueller Standort: " + currentVehicle.getLatitude() + " " + currentVehicle.getLongitude());
-			lblLocation.setBounds(25, 11, 48, 14);
-			carDetails.add(lblLocation);
-		}
-		else
-		{
-			JLabel lblReserved = new JLabel("Keine Buchung");
-			lblReserved.setFont(new Font("Tahoma", Font.PLAIN, 9));
-			lblReserved.setBounds(25, 25, 103, 14);
-			carDetails.add(lblReserved);
-			
-			JLabel lblLocation = new JLabel("Aktueller Standort: ");
-			lblLocation.setBounds(25, 11, 48, 14);
-			carDetails.add(lblLocation);
-		}
+//			JLabel lblReserved = new JLabel("Reserviert von: " + currentVehicle.getReservedFrom() + " bis: " + currentVehicle.getReservedTo());
+//			lblReserved.setFont(new Font("Tahoma", Font.PLAIN, 9));
+//			lblReserved.setBounds(25, 25, 103, 14);
+//			carDetails.add(lblReserved);
+//			
+//			JLabel lblLocation = new JLabel("Aktueller Standort: ");
+//			lblLocation.setBounds(25, 11, 48, 14);
+//			carDetails.add(lblLocation);
 				
 		vehiclePanel.add(carDetails, BorderLayout.CENTER);
 			
