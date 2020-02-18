@@ -30,11 +30,8 @@ public class VehiclesService {
 				String latitude = rs.getString("latitude");
 				String image = rs.getString("image");
 				String fuel = rs.getString("fuel");
-				Date reservedFrom = rs.getDate("reservedFrom");
-				Date reservedTo = rs.getDate("reservedTo");
-				boolean isReserved = rs.getBoolean("isReserved");
-				
-				Vehicle vehicle = new Vehicle(id, model, brand, ps, seats, longitude, latitude, image, fuel, reservedFrom, reservedTo, isReserved);
+
+				Vehicle vehicle = new Vehicle(id, model, brand, ps, seats, longitude, latitude, image, fuel);
 				vehicles.add(vehicle);
 			}
 			con.close();		
@@ -63,11 +60,8 @@ public class VehiclesService {
 				String latitude = rs.getString("latitude");
 				String image = rs.getString("image");
 				String fuel = rs.getString("fuel");
-				Date reservedFrom = rs.getDate("reservedFrom");
-				Date reservedTo = rs.getDate("reservedTo");
-				boolean isReserved = rs.getBoolean("isReserved");
 				
-				vehicle = new Vehicle(id, model, brand, ps, seats, longitude, latitude, image, fuel, reservedFrom, reservedTo, isReserved);
+				vehicle = new Vehicle(id, model, brand, ps, seats, longitude, latitude, image, fuel);
 			}
 			con.close();		
 		} catch (SQLException e) {

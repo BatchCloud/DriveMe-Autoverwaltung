@@ -1,9 +1,17 @@
 package driveMe.service;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import driveMe.costumers.model.Customer;
 import driveMe.costumers.service.CustomerService;
@@ -33,32 +41,64 @@ public class DatabaseService {
 				
 				Statement st = con.createStatement();
 				ResultSet rs = st.executeQuery("SELECT rentedfrom,rentedto FROM `rentedvehicles` ");
-				boolean isRentable = true;
+				boolean isRentable = false;
 				while (rs.next()) {
-					Timestamp _from = rs.getTimestamp("rentedfrom");
-					Timestamp _to = rs.getTimestamp("rentedto");
-					if ((from.after(_to) && to.after(_to)) || ) {
-						
-							isRentable = true;
-						
-					} else if((to.before(_from) && from.before(_from))) {
-						isRentable = true;
-					} else {
-						isRentable = false;
+					Timestamp reservedFrom = rs.getTimestamp("rentedfrom");
+					Timestamp reservedTo = rs.getTimestamp("rentedto");
+					
+					try {
+					    Calendar calendar1 = Calendar.getInstance();
+					    calendar1.setTime(from);
+					    calendar1.add(Calendar.DATE, 1);
+
+					    Calendar calendar2 = Calendar.getInstance();
+					    calendar2.setTime(to);
+					    calendar2.add(Calendar.DATE, 1);
+
+					    Calendar calendar3 = Calendar.getInstance();
+					    calendar3.setTime(reservedFrom);
+					    calendar3.add(Calendar.DATE, 1);
+
+					    Calendar calendar4 = Calendar.getInstance();
+					    calendar4.setTime(reservedTo);
+					    calendar4.add(Calendar.DATE, 1);
+					    
+					    Date x = calendar1.getTime();
+				
+					    if (x.after(calendar3.getTime()) && x.before(calendar4.getTime())) {
+						    
+					    	Date y = calendar2.getTime();
+						    if (y.after(calendar3.getTime()) && y.before(calendar4.getTime())) {
+						    	isRentable = true;
+						    }					    	
+					    }
+					    
+					} catch (Exception e) {
+					    e.printStackTrace();
 					}
+					
+					
+//					if ((from.after(_to) && to.after(_to)) || !(to.before(_from) && from.before(_from))) {
+//						if () {
+//							isRentable = true;
+//						}
+//						
+//					} else {
+//						isRentable = false;
+//					}
 				}
 				if(isRentable) {
-					String query = "INSERT into rentedvehicles (userid, vehicleid, rentedfrom, rentedto, pricetype) values (?, ?, ?, ?, ?)";
-
-					PreparedStatement preparedStmt = con.prepareStatement(query);
-					preparedStmt.setInt(1, customer.getId());
-					preparedStmt.setInt(2, vehicle.getId());
-					preparedStmt.setTimestamp(3, from);
-					preparedStmt.setTimestamp(4, to);
-					preparedStmt.setInt(5, 1);
-
-					preparedStmt.execute();
-					con.close();
+//					String query = "INSERT into rentedvehicles (userid, vehicleid, rentedfrom, rentedto, pricetype) values (?, ?, ?, ?, ?)";
+//
+//					PreparedStatement preparedStmt = con.prepareStatement(query);
+//					preparedStmt.setInt(1, customer.getId());
+//					preparedStmt.setInt(2, vehicle.getId());
+//					preparedStmt.setTimestamp(3, from);
+//					preparedStmt.setTimestamp(4, to);
+//					preparedStmt.setInt(5, 1);
+//
+//					preparedStmt.execute();
+//					con.close();
 					
 					return true;
 				}else {

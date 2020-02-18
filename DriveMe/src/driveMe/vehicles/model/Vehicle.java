@@ -13,12 +13,10 @@ public class Vehicle {
 	String 	latitude;
 	String image;
 	String fuel;
-	Date reservedFrom;
-	Date reservedTo;
-	boolean isReserved;
+
 	
 	public Vehicle (int id, String model, String brand, int ps, int seats, String longitude, 
-					String latitude, String image, String fuel,Date reservedFrom, Date reservedTo, boolean isReserved)
+					String latitude, String image, String fuel)
 	{
 		this.id = id;
 		this.model = model;
@@ -29,32 +27,10 @@ public class Vehicle {
 		this.latitude = latitude;
 		this.image = image;
 		this.fuel = fuel;
-		this.reservedFrom = reservedFrom;
-		this.reservedTo = reservedTo;
-		this.isReserved = isReserved;
+
 	}
 
 
-	public Date getReservedFrom() {
-		return reservedFrom;
-	}
-	public void setReservedFrom(Date reservedFrom) {
-		this.reservedFrom = reservedFrom;
-	}
-
-	public Date getReservedTo() {
-		return reservedTo;
-	}
-	public void setReservedTo(Date reservedTo) {
-		this.reservedTo = reservedTo;
-	}
-
-	public boolean isReserved() {
-		return isReserved;
-	}
-	public void setReserved(boolean isReserved) {
-		this.isReserved = isReserved;
-	}
 
 	public int getId() {
 		return id;
