@@ -3,6 +3,7 @@ package driveMe;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Insets;
 import java.awt.SystemColor;
 import java.awt.Window.Type;
@@ -16,7 +17,7 @@ import javax.swing.JPanel;
 
 public class MainController {
 
-	public JFrame mainFrame = new JFrame("DriveMe");
+	public JFrame mainFrame; //new JFrame("DriveMe");
 	
 	private Color primaryColor = new Color(105,157,217);
 	private Color secondColor = new Color(238,238,238);
@@ -34,6 +35,13 @@ public class MainController {
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainFrame.getContentPane().setLayout(new BorderLayout(0, 0));
 		
+		setUpHeader();
+		
+		
+	}
+
+	private void setUpHeader() 
+	{
 		//Setup header pannel
 		JPanel headerPanel = new JPanel();
 		headerPanel.setPreferredSize(new Dimension(10, 90));
@@ -42,6 +50,11 @@ public class MainController {
 		mainFrame.getContentPane().add(headerPanel, BorderLayout.NORTH);
 		headerPanel.setLayout(new BorderLayout(0, 0));
 		
+		setUpHeaderTop(headerPanel);
+		setUpHeaderBottom(headerPanel); //TODO
+	}
+	
+	private void setUpHeaderTop(JPanel headerPanel) {
 		//Setup header top to header pannel
 		JPanel headerTop = new JPanel();
 		headerPanel.add(headerTop, BorderLayout.NORTH);
@@ -50,9 +63,11 @@ public class MainController {
 		headerTop.setPreferredSize(new Dimension(0, 35));
 		headerTop.setBackground(primaryColor);
 		
-		///
-			/// FlowLayout?
-		///
+		//Set FlowLayout that buttons at headerTop are left justified
+		FlowLayout headerTopFlowLayout = (FlowLayout) headerTop.getLayout();
+		headerTopFlowLayout.setVgap(0);
+		headerTopFlowLayout.setHgap(0);
+		headerTopFlowLayout.setAlignment(FlowLayout.LEFT);
 		
 		//Add Buttons to header
 		JButton vehicleButton = new JButton("Fahrzeuge");
@@ -61,7 +76,7 @@ public class MainController {
 		vehicleButton.setMargin(new Insets(0, 0, 0, 0));
 		vehicleButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				mainFrame.getContentPane().add(vehicleContent());
 			}
 		});
 		vehicleButton.setPreferredSize(new Dimension(150, 35));
@@ -72,9 +87,9 @@ public class MainController {
 		customerButton.setBorder(null);
 		customerButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				mainFrame.getContentPane().removeAll();
-//				add customer page to contentPane
-//				mainFrame.getContentPane().add());
+	//						mainFrame.getContentPane().removeAll();
+	//						add customer page to contentPane
+							mainFrame.getContentPane().add(customerContent());
 			}
 		});
 		customerButton.setBackground(primaryColor);
@@ -84,4 +99,36 @@ public class MainController {
 		
 	}
 	
+	private void setUpHeaderBottom(JPanel headerPanel) 
+	{
+		//TODO
+	}
+
+	private JPanel vehicleContent() 
+	{
+		JPanel vehiclePanel = new JPanel();
+		vehiclePanel.setPreferredSize(new Dimension(10, 90));
+		vehiclePanel.setMinimumSize(new Dimension(10, 128));
+		vehiclePanel.setBackground(SystemColor.windowBorder);
+		vehiclePanel.setLayout(new BorderLayout(0, 0));
+		
+		JFrame vehicleText = new JFrame("Juchei! -vehicle");
+		vehiclePanel.add(vehicleText);
+		
+		return vehiclePanel;
+	} 
+	
+	private JPanel customerContent() 
+	{
+		JPanel customerPanel = new JPanel();
+		customerPanel.setPreferredSize(new Dimension(10, 90));
+		customerPanel.setMinimumSize(new Dimension(10, 128));
+		customerPanel.setBackground(SystemColor.windowBorder);
+		customerPanel.setLayout(new BorderLayout(0, 0));
+		
+		JFrame vehicleText = new JFrame("Juchei! -customer");
+		customerPanel.add(vehicleText);
+		
+		return customerPanel;
+	}
 }
