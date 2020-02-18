@@ -11,8 +11,10 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
 import driveMe.vehicles.service.VehiclesService;
@@ -26,6 +28,9 @@ public JFrame mainFrame=new JFrame("DriveMe");
 	private Color secondColor = new Color(238,238,238);
 	
 	
+	/**
+	 * @wbp.parser.entryPoint
+	 */
 	protected void initialize() {
 
 		//Setup Main frame
@@ -69,38 +74,77 @@ public JFrame mainFrame=new JFrame("DriveMe");
 		headerTopFlowLayout.setAlignment(FlowLayout.LEFT);
 		
 		//Add Buttons to header
-		JButton vehicleButton = new JButton("Fahrzeuge");
-		vehicleButton.setBorder(null);
-		vehicleButton.setBackground(secondColor);
-		vehicleButton.setMargin(new Insets(0, 0, 0, 0));
-		vehicleButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				SwingUtilities.updateComponentTreeUI(mainFrame.add(vehicleContent()));
-			}
-		});
-		vehicleButton.setPreferredSize(new Dimension(150, 35));
-		headerTop.add(vehicleButton);
-		
 		JButton customerButton = new JButton("Kunden");
 		customerButton.setForeground(Color.WHITE);
 		customerButton.setBorder(null);
-		customerButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				SwingUtilities.updateComponentTreeUI(mainFrame.add(customerContent()));
-			}
-		});
-		customerButton.setBackground(primaryColor);
+		customerButton.setBackground(secondColor);
 		customerButton.setMargin(new Insets(0, 0, 0, 0));
 		customerButton.setPreferredSize(new Dimension(150, 35));
+		
+		JButton vehicleButton = new JButton("Fahrzeuge");
+		vehicleButton.setBorder(null);
+		vehicleButton.setBackground(primaryColor);
+		vehicleButton.setMargin(new Insets(0, 0, 0, 0));
+		vehicleButton.setPreferredSize(new Dimension(150, 35));
+		headerTop.add(vehicleButton);
+		
+		customerButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				SwingUtilities.updateComponentTreeUI(mainFrame.getContentPane().add(customerContent(customerButton, vehicleButton)));
+			}
+		});
+		vehicleButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				SwingUtilities.updateComponentTreeUI(mainFrame.getContentPane().add(vehicleContent(customerButton, vehicleButton)));
+			}
+		});
 		headerTop.add(customerButton);
 	}
 	
 	private void setUpHeaderBottom(JPanel headerPanel) 
 	{
-		//TODO
+		//Set header bottom
+		JPanel headerBottom = new JPanel();
+		headerPanel.add(headerBottom, BorderLayout.CENTER);
+		headerBottom.setPreferredSize(new Dimension(10, 20));
+		headerBottom.setMinimumSize(new Dimension(10, 27));
+		headerBottom.setBackground(secondColor);
+		headerBottom.setLayout(new BorderLayout(0, 0));
+		
+		//Set leftSidePanel to header bottom
+		JPanel leftSidePanel = new JPanel();
+		leftSidePanel.setPreferredSize(new Dimension(200, 10));
+		headerBottom.add(leftSidePanel, BorderLayout.WEST);
+
+		//Set rightSidePanel to header bottom
+		JPanel rightSidePanel = new JPanel();
+		rightSidePanel.setPreferredSize(new Dimension(200, 10));
+		rightSidePanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		headerBottom.add(rightSidePanel, BorderLayout.EAST);
+		//Add compobox to rightSidePanel
+		addComboBoxToPanel(rightSidePanel);
+		
+		//Set topSidePanel to header bottom
+		JPanel topSidePanel = new JPanel();
+		headerBottom.add(topSidePanel, BorderLayout.NORTH);
+
+		//Set bottomSidePanel to header bottom		
+		JPanel bottomSidePanel = new JPanel();
+		headerBottom.add(bottomSidePanel, BorderLayout.SOUTH);
+		
+		//Set midSidePanel to header bottom
+		JPanel midSidePanel = new JPanel();
+		midSidePanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		headerBottom.add(midSidePanel, BorderLayout.CENTER);
+		//Set textField to midSidePanel
+		JTextField textField = new JTextField();
+		textField.setPreferredSize(new Dimension(400, 25));
+		textField.setSize(new Dimension(400, 24));
+		midSidePanel.add(textField);
+		textField.setColumns(50);
 	}
 
-	private JPanel vehicleContent() 
+	private JPanel vehicleContent(JButton customerButton, JButton vehicleButton) 
 	{
 		JPanel vehiclePanel = new JPanel();
 		vehiclePanel.setPreferredSize(new Dimension(10, 90));
@@ -108,10 +152,13 @@ public JFrame mainFrame=new JFrame("DriveMe");
 		vehiclePanel.setBackground(SystemColor.GREEN);
 		vehiclePanel.setLayout(new BorderLayout(0, 0));
 		
+		customerButton.setBackground(primaryColor);
+		vehicleButton.setBackground(secondColor);
+		
 		return vehiclePanel;
 	} 
 	
-	private JPanel customerContent() 
+	private JPanel customerContent(JButton customerButton, JButton vehicleButton) 
 	{
 		JPanel customerPanel = new JPanel();
 		customerPanel.setPreferredSize(new Dimension(10, 90));
@@ -119,7 +166,23 @@ public JFrame mainFrame=new JFrame("DriveMe");
 		customerPanel.setBackground(SystemColor.RED);
 		customerPanel.setLayout(new BorderLayout(0, 0));
 		
+		customerButton.setBackground(secondColor);
+		vehicleButton.setBackground(primaryColor);
 		
 		return customerPanel;
+	}
+	
+	private void addComboBoxToPanel(JPanel panel)
+	{
+		JComboBox<String> comboBox = new JComboBox<String>();
+		
+		comboBox.setForeground(Color.WHITE);
+		comboBox.setBorder(null);
+		comboBox.setBackground(primaryColor);
+		comboBox.setPreferredSize(new Dimension(145, 25));
+		comboBox.addItem("Filtern");
+		comboBox.addItem("test");
+		
+		panel.add(comboBox);
 	}
 }
