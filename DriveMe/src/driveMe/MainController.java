@@ -23,7 +23,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.MatteBorder;
 
 import driveMe.vehicles.model.Vehicle;
-import driveMe.vehicles.service.VehiclesService;
+import driveMe.vehicles.service.VehicleService;
 import net.miginfocom.swing.MigLayout;
 
 
@@ -84,13 +84,14 @@ public JFrame mainFrame=new JFrame("DriveMe");
 		JButton customerButton = new JButton("Kunden");
 		customerButton.setForeground(Color.WHITE);
 		customerButton.setBorder(null);
-		customerButton.setBackground(secondColor);
+		customerButton.setBackground(primaryColor);
 		customerButton.setMargin(new Insets(0, 0, 0, 0));
 		customerButton.setPreferredSize(new Dimension(150, 35));
 		
 		JButton vehicleButton = new JButton("Fahrzeuge");
 		vehicleButton.setBorder(null);
-		vehicleButton.setBackground(primaryColor);
+		vehicleButton.setForeground(Color.BLACK);
+		vehicleButton.setBackground(secondColor);
 		vehicleButton.setMargin(new Insets(0, 0, 0, 0));
 		vehicleButton.setPreferredSize(new Dimension(150, 35));
 		headerTop.add(vehicleButton);
@@ -156,14 +157,16 @@ public JFrame mainFrame=new JFrame("DriveMe");
 		JPanel vehiclePanel = new JPanel();
 		vehiclePanel.setPreferredSize(new Dimension(10, 90));
 		vehiclePanel.setMinimumSize(new Dimension(10, 128));
-		vehiclePanel.setBackground(SystemColor.GREEN);
+		vehiclePanel.setBackground(SystemColor.WHITE);
 		vehiclePanel.setLayout(new BorderLayout(0, 0));
 		vehiclePanel.setLayout(new MigLayout("", "[320px]", "[100px]"));
 		
+		customerButton.setForeground(Color.BLACK);
 		customerButton.setBackground(primaryColor);
+		vehicleButton.setForeground(Color.WHITE);
 		vehicleButton.setBackground(secondColor);
 		
-		ArrayList<Vehicle> vehicles = VehiclesService.findVehiclesByAll();
+		ArrayList<Vehicle> vehicles = VehicleService.findVehiclesByAll();
 		int i = 0;
 		for (Vehicle currentVehicle : vehicles)
 		{
@@ -185,6 +188,8 @@ public JFrame mainFrame=new JFrame("DriveMe");
 		
 		customerButton.setBackground(secondColor);
 		vehicleButton.setBackground(primaryColor);
+		customerButton.setForeground(Color.BLACK);
+		vehicleButton.setForeground(Color.WHITE );
 		
 		return customerPanel;
 	}
@@ -213,7 +218,7 @@ public JFrame mainFrame=new JFrame("DriveMe");
 		innerVehiclePanel.setPreferredSize(new Dimension(10, 50));
 		innerVehiclePanel.setLayout(null);
 			
-		JLabel vehicleDetails = new JLabel("[34343434] Mercedes Benz A-Klasse");
+		JLabel vehicleDetails = new JLabel(currentVehicle.getBrand() + " " + currentVehicle.getModel());
 		vehicleDetails.setBounds(59, 11, 200, 14);
 		innerVehiclePanel.add(vehicleDetails);
 	
