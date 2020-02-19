@@ -10,7 +10,7 @@ import java.sql.Timestamp;
 import driveMe.customers.model.Customer;
 import driveMe.customers.service.CustomerService;
 import driveMe.vehicles.model.Vehicle;
-import driveMe.vehicles.service.VehiclesService;
+import driveMe.vehicles.service.VehicleService;
 
 public class DatabaseService {
 
@@ -27,7 +27,7 @@ public class DatabaseService {
 	private static boolean rentVehicle(int customerid, int vehicleid, Timestamp from, Timestamp to) {
 
 		Customer customer = CustomerService.findCostumerById(customerid);
-		Vehicle vehicle = VehiclesService.findVehiclesById(vehicleid);
+		Vehicle vehicle = VehicleService.findVehiclesById(vehicleid);
 		
 		if(customer != null && vehicle !=null ) {
 			Connection con = DatabaseService.MysqlConnection();

@@ -7,6 +7,7 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.Insets;
+import java.awt.Rectangle;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,10 +19,13 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.border.MatteBorder;
 
+import driveMe.customers.model.Customer;
+import driveMe.customers.service.CustomerService;
 import driveMe.vehicles.model.Vehicle;
 import driveMe.vehicles.service.VehicleService;
 import net.miginfocom.swing.MigLayout;
@@ -49,6 +53,8 @@ public JFrame mainFrame=new JFrame("DriveMe");
 		mainFrame.getContentPane().setLayout(new BorderLayout(0, 0));
 		
 		setUpHeader();
+		
+		mainFrame.getContentPane().add(vehicleContent(null, null));
 	}
 
 	private void setUpHeader() 
@@ -62,7 +68,7 @@ public JFrame mainFrame=new JFrame("DriveMe");
 		headerPanel.setLayout(new BorderLayout(0, 0));
 		
 		setUpHeaderTop(headerPanel);
-		setUpHeaderBottom(headerPanel); //TODO
+		setUpHeaderBottom(headerPanel);
 	}
 	
 	private void setUpHeaderTop(JPanel headerPanel) {
@@ -158,19 +164,36 @@ public JFrame mainFrame=new JFrame("DriveMe");
 		vehiclePanel.setMinimumSize(new Dimension(10, 128));
 		vehiclePanel.setBackground(SystemColor.GREEN);
 		vehiclePanel.setLayout(new BorderLayout(0, 0));
-		vehiclePanel.setLayout(new MigLayout("", "[320px]", "[100px]"));
+//		vehiclePanel.setLayout(new MigLayout("", "[320px]", "[100px]"));
 		
-		customerButton.setBackground(primaryColor);
-		vehicleButton.setBackground(secondColor);
+		if(customerButton != null)
+		{
+			customerButton.setBackground(primaryColor);	
+		}
+		else if(vehicleButton != null)
+		{
+			vehicleButton.setBackground(secondColor);	
+		}
+		
+		JPanel scrollPane = new JPanel();
+		scrollPane.setBackground(Color.WHITE);
+		scrollPane.setLayout(new MigLayout("", "[320px]", "[100px]"));
+		
+		JScrollPane scrollPaneContainer = new JScrollPane(scrollPane, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPaneContainer.setBorder(null);
+		scrollPaneContainer.setBounds(new Rectangle(0, 0, 0, 20));
+		scrollPaneContainer.setPreferredSize(new Dimension(0, 200));
 		
 		ArrayList<Vehicle> vehicles = VehicleService.findVehiclesByAll();
 		int i = 0;
 		for (Vehicle currentVehicle : vehicles)
 		{
 			String position = "cell 0 "+ i + ",grow";
-			vehiclePanel.add(createVehiclePanel(currentVehicle), position );
+			scrollPaneContainer.add(createVehiclePanel(currentVehicle), position );
 			i++;
 		}
+		
+		vehiclePanel.add(scrollPaneContainer, BorderLayout.CENTER);
 		
 		return vehiclePanel;
 	} 
@@ -185,6 +208,13 @@ public JFrame mainFrame=new JFrame("DriveMe");
 		
 		customerButton.setBackground(secondColor);
 		vehicleButton.setBackground(primaryColor);
+		
+		ArrayList<Customer> customers = CustomerService.findCostumerByAll();
+		int i = 0;
+		for(Customer customer : customers)
+		{
+			
+		}
 		
 		return customerPanel;
 	}
