@@ -24,12 +24,9 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.border.MatteBorder;
 
-<<<<<<< HEAD
 import driveMe.customers.model.Customer;
 import driveMe.customers.service.CustomerService;
-=======
 import driveMe.constants.DriveMeConstants;
->>>>>>> branch 'master' of https://github.com/BatchCloud/driveme_v1.git
 import driveMe.vehicles.model.Vehicle;
 import driveMe.vehicles.service.VehicleService;
 import net.miginfocom.swing.MigLayout;
@@ -195,7 +192,7 @@ public JFrame mainFrame=new JFrame("DriveMe");
 		for (Vehicle currentVehicle : vehicles)
 		{
 			String position = "cell 0 "+ i + ",grow";
-			scrollPaneContainer.add(createVehiclePanel(currentVehicle), position );
+			scrollPane.add(createVehiclePanel(currentVehicle), position );
 			i++;
 		}
 		
