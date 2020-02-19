@@ -2,6 +2,7 @@ package driveMe.service;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -15,100 +16,75 @@ import driveMe.vehicles.service.VehicleService;
 public class DatabaseService {
 
 	public static void main(String[] args) {
-		
+		@SuppressWarnings("deprecation")
 		Timestamp from = new Timestamp(120, 1, 18, 15, 00, 00, 00);
+		@SuppressWarnings("deprecation")
 		Timestamp to = new Timestamp(120, 1, 18, 15, 30, 00, 00);
-		
-		
-		System.out.println(rentVehicle(1, 1, from, to));
 
+		System.out.println(rentVehicle(1, 1, from, to));
 	}
 
+	
+	
 	private static boolean rentVehicle(int customerid, int vehicleid, Timestamp from, Timestamp to) {
 
 		Customer customer = CustomerService.findCostumerById(customerid);
 		Vehicle vehicle = VehicleService.findVehiclesById(vehicleid);
-		
-		if(customer != null && vehicle !=null ) {
+
+		if (customer != null && vehicle != null) {
 			Connection con = DatabaseService.MysqlConnection();
-			
-			try 
-			{
+
+			try {
 				Statement st = con.createStatement();
 				ResultSet rs = st.executeQuery("SELECT rentedfrom,rentedto FROM `rentedvehicles` ");
 				boolean isRentable = false;
-				while (rs.next()) 
-				{
+				while (rs.next()) {
 					Timestamp reservedFrom = rs.getTimestamp("rentedfrom");
 					Timestamp reservedTo = rs.getTimestamp("rentedto");
-					
-					try 
-					{
-					    if ((from.after(reservedFrom) || from.equals(reservedFrom)) && (from.before(reservedTo)|| from.equals(reservedTo)) ) 
-					    {
+
+					try {
+						if ((from.after(reservedFrom) || from.equals(reservedFrom))
+								&& (from.before(reservedTo) || from.equals(reservedTo))) {
 							isRentable = false;
-					    	//from between the time
-					    	if ( (to.after(reservedFrom) || to.equals(reservedFrom)) &&( to.before(reservedTo) || to.equals(reservedTo)) )
-					    	{
-		    					//to also between
-					    		isRentable = false;
-					    	}
-					    }
-					    else if (from.after(reservedTo))
-					    {
-					    	//from after time to check
-					    	isRentable = true;
-					    }
-					    else if (to.before(reservedFrom))
-					    {
-					    	//to before time to check
-					    	isRentable = true;
-					    }
-//					    else
-//					    {
-//					    	if (to.after(calendar4.getTime()) && to.before(calendar3.getTime()))
-//					    	{
-//		    					//to not between
-//					    		isRentable = true;
-//					    	}
-//					    }
-					    if(!isRentable) {
-					    	break;
-					    }
-					    
-					}
-					catch (Exception e) 
-					{
-					    e.printStackTrace();
+							if ((to.after(reservedFrom) || to.equals(reservedFrom))
+									&& (to.before(reservedTo) || to.equals(reservedTo))) {
+								isRentable = false;
+							}
+						} else if (from.after(reservedTo)) {
+							isRentable = true;
+						} else if (to.before(reservedFrom)) {
+							isRentable = true;
+						}
+
+						if (!isRentable) {
+							break;
+						}
+
+					} catch (Exception e) {
+						e.printStackTrace();
 					}
 				}
-				if(isRentable) 
-				{
-//					String query = "INSERT into rentedvehicles (userid, vehicleid, rentedfrom, rentedto, pricetype) values (?, ?, ?, ?, ?)";
-//
-//					PreparedStatement preparedStmt = con.prepareStatement(query);
-//					preparedStmt.setInt(1, customer.getId());
-//					preparedStmt.setInt(2, vehicle.getId());
-//					preparedStmt.setTimestamp(3, from);
-//					preparedStmt.setTimestamp(4, to);
-//					preparedStmt.setInt(5, 1);
-//
-//					preparedStmt.execute();
-//					con.close();
-					
+				if (isRentable) {
+					String query = "INSERT into rentedvehicles (userid, vehicleid, rentedfrom, rentedto, pricetype) values (?, ?, ?, ?, ?)";
+					PreparedStatement preparedStmt = con.prepareStatement(query);
+					preparedStmt.setInt(1, customer.getId());
+					preparedStmt.setInt(2, vehicle.getId());
+					preparedStmt.setTimestamp(3, from);
+					preparedStmt.setTimestamp(4, to);
+					preparedStmt.setInt(5, 1);
+
+					preparedStmt.execute();
+					con.close();
+
 					return true;
-				}
-				else 
-				{
+				} else {
 					con.close();
 				}
-			} 
-			catch (SQLException e) 
-			{
+			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
-		
+
 		return false;
 	}
 

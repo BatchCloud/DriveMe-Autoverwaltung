@@ -24,8 +24,12 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.border.MatteBorder;
 
+<<<<<<< HEAD
 import driveMe.customers.model.Customer;
 import driveMe.customers.service.CustomerService;
+=======
+import driveMe.constants.DriveMeConstants;
+>>>>>>> branch 'master' of https://github.com/BatchCloud/driveme_v1.git
 import driveMe.vehicles.model.Vehicle;
 import driveMe.vehicles.service.VehicleService;
 import net.miginfocom.swing.MigLayout;
@@ -51,6 +55,7 @@ public JFrame mainFrame=new JFrame("DriveMe");
 		mainFrame.setBounds(100, 100, 1106, 661);
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainFrame.getContentPane().setLayout(new BorderLayout(0, 0));
+		mainFrame.getContentPane().add(vehicleContent(new JButton(), new JButton()));
 		
 		setUpHeader();
 		
@@ -90,13 +95,14 @@ public JFrame mainFrame=new JFrame("DriveMe");
 		JButton customerButton = new JButton("Kunden");
 		customerButton.setForeground(Color.WHITE);
 		customerButton.setBorder(null);
-		customerButton.setBackground(secondColor);
+		customerButton.setBackground(primaryColor);
 		customerButton.setMargin(new Insets(0, 0, 0, 0));
 		customerButton.setPreferredSize(new Dimension(150, 35));
 		
 		JButton vehicleButton = new JButton("Fahrzeuge");
 		vehicleButton.setBorder(null);
-		vehicleButton.setBackground(primaryColor);
+		vehicleButton.setForeground(Color.BLACK);
+		vehicleButton.setBackground(secondColor);
 		vehicleButton.setMargin(new Insets(0, 0, 0, 0));
 		vehicleButton.setPreferredSize(new Dimension(150, 35));
 		headerTop.add(vehicleButton);
@@ -208,6 +214,8 @@ public JFrame mainFrame=new JFrame("DriveMe");
 		
 		customerButton.setBackground(secondColor);
 		vehicleButton.setBackground(primaryColor);
+		customerButton.setForeground(Color.BLACK);
+		vehicleButton.setForeground(Color.WHITE );
 		
 		ArrayList<Customer> customers = CustomerService.findCostumerByAll();
 		int i = 0;
@@ -243,7 +251,7 @@ public JFrame mainFrame=new JFrame("DriveMe");
 		innerVehiclePanel.setPreferredSize(new Dimension(10, 50));
 		innerVehiclePanel.setLayout(null);
 			
-		JLabel vehicleDetails = new JLabel("[34343434] Mercedes Benz A-Klasse");
+		JLabel vehicleDetails = new JLabel(currentVehicle.getBrand() + " " + currentVehicle.getModel());
 		vehicleDetails.setBounds(59, 11, 200, 14);
 		innerVehiclePanel.add(vehicleDetails);
 	
@@ -253,14 +261,14 @@ public JFrame mainFrame=new JFrame("DriveMe");
 		innerVehiclePanel.add(vehicleLocation);
 	
 		JButton moreDetailsBtn = new JButton("");
-//		moreDetailsBtn.setIcon(resizeImageIcon1(new ImageIcon(DriveMe.class.getResource("/test121/standort.png")), 15, 15));
+		moreDetailsBtn.setIcon(resizeImageIcon("standort.png", 15, 15));
 		moreDetailsBtn.setBorder(null);
 		moreDetailsBtn.setPreferredSize(new Dimension(10, 10));
 		moreDetailsBtn.setBounds(294, 11, 26, 23);
 		innerVehiclePanel.add(moreDetailsBtn);
 		
 		JButton reservationBtn = new JButton("");
-//		reservationBtn.setIcon(resizeImageIcon1(new ImageIcon(DriveMe.class.getResource("/test121/menu.png")), 15, 15));
+		reservationBtn.setIcon(resizeImageIcon("menu.png", 15, 15));
 		reservationBtn.setBorder(null);
 		reservationBtn.setPreferredSize(new Dimension(10, 10));
 		reservationBtn.setBounds(269, 11, 26, 23);
@@ -294,8 +302,10 @@ public JFrame mainFrame=new JFrame("DriveMe");
 		return vehiclePanel;
 	}
 	
-	private ImageIcon resizeImageIcon1(ImageIcon imageIcon, int heigth, int width) 
+	private ImageIcon resizeImageIcon(String url, int heigth, int width) 
 	{
+		ImageIcon imageIcon = new ImageIcon(MainController.class.getResource(DriveMeConstants.Picture.PATH + url));
+		
 		Image image = imageIcon.getImage(); // transform it 
 		Image newimg = image.getScaledInstance(heigth, width,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way  
 		return imageIcon = new ImageIcon(newimg);

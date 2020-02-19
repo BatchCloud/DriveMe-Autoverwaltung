@@ -4,7 +4,7 @@ public class DriveMeConstants {
 	
 	public class Picture
 	{
-		public static final String PATH = "";
+		public static final String PATH = "/driveMe/assets/";
 	}
 	
 	
