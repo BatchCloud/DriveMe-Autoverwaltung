@@ -168,12 +168,12 @@ public JFrame mainFrame=new JFrame("DriveMe");
 		bodyContentPanel.setLayout(new BorderLayout(0, 0));
 		
 			//Vehicle Panel Align West 
-			JPanel vehiclePanel = new JPanel();
+			JPanel vehiclePanelWest = new JPanel();
 			bodyContentPanel.setPreferredSize(new Dimension(10, 90));
-			vehiclePanel.setMinimumSize(new Dimension(10, 128));
-			vehiclePanel.setPreferredSize(new Dimension(400, 10));
-			vehiclePanel.setBackground(SystemColor.GREEN);
-			vehiclePanel.setLayout(new BorderLayout(0, 0));
+			vehiclePanelWest.setMinimumSize(new Dimension(10, 128));
+			vehiclePanelWest.setPreferredSize(new Dimension(400, 10));
+			vehiclePanelWest.setBackground(SystemColor.GREEN);
+			vehiclePanelWest.setLayout(new BorderLayout(0, 0));
 
 			if(customerButton != null)
 			{
@@ -202,25 +202,25 @@ public JFrame mainFrame=new JFrame("DriveMe");
 				i++;
 			}
 			
-			vehiclePanel.add(scrollPaneContainer, BorderLayout.CENTER);
+			vehiclePanelWest.add(scrollPaneContainer, BorderLayout.CENTER);
 			
 			//Placeholder for vehiclePanel
 			JPanel placeholderNorth = new JPanel();
 			placeholderNorth.setBackground(Color.WHITE);
 			placeholderNorth.setPreferredSize(new Dimension(100, 30));
-			vehiclePanel.add(placeholderNorth, BorderLayout.NORTH);
+			vehiclePanelWest.add(placeholderNorth, BorderLayout.NORTH);
 			
 			JPanel placeholderWest = new JPanel();
 			placeholderWest.setBackground(Color.WHITE);
 			placeholderWest.setPreferredSize(new Dimension(30, 10));
-			vehiclePanel.add(placeholderWest, BorderLayout.WEST);
+			vehiclePanelWest.add(placeholderWest, BorderLayout.WEST);
 			
 			JPanel placeholderSouth = new JPanel();
 			placeholderSouth.setBackground(Color.WHITE);
 			placeholderSouth.setPreferredSize(new Dimension(30, 30));
-			vehiclePanel.add(placeholderSouth, BorderLayout.SOUTH);
+			vehiclePanelWest.add(placeholderSouth, BorderLayout.SOUTH);
 			
-		bodyContentPanel.add(vehiclePanel, BorderLayout.WEST);
+		bodyContentPanel.add(vehiclePanelWest, BorderLayout.WEST);
 		return bodyContentPanel;
 	} 
 	
