@@ -7,6 +7,7 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.Insets;
+import java.awt.Rectangle;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,10 +19,12 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.border.MatteBorder;
 
+import driveMe.constants.DriveMeConstants;
 import driveMe.vehicles.model.Vehicle;
 import driveMe.vehicles.service.VehicleService;
 import net.miginfocom.swing.MigLayout;
@@ -47,6 +50,7 @@ public JFrame mainFrame=new JFrame("DriveMe");
 		mainFrame.setBounds(100, 100, 1106, 661);
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainFrame.getContentPane().setLayout(new BorderLayout(0, 0));
+		mainFrame.getContentPane().add(vehicleContent(new JButton(), new JButton()));
 		
 		setUpHeader();
 	}
@@ -161,10 +165,16 @@ public JFrame mainFrame=new JFrame("DriveMe");
 		vehiclePanel.setLayout(new BorderLayout(0, 0));
 		vehiclePanel.setLayout(new MigLayout("", "[320px]", "[100px]"));
 		
+//		JScrollPane scrollPane = new JScrollPane(vehiclePanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+//		scrollPane.setBorder(null);
+//		scrollPane.setBounds(new Rectangle(0, 0, 0, 20));
+		
 		customerButton.setForeground(Color.WHITE);
 		customerButton.setBackground(primaryColor);
 		vehicleButton.setForeground(Color.BLACK);
 		vehicleButton.setBackground(secondColor);
+		
+		
 		
 		ArrayList<Vehicle> vehicles = VehicleService.findVehiclesByAll();
 		int i = 0;
@@ -228,14 +238,14 @@ public JFrame mainFrame=new JFrame("DriveMe");
 		innerVehiclePanel.add(vehicleLocation);
 	
 		JButton moreDetailsBtn = new JButton("");
-//		moreDetailsBtn.setIcon(resizeImageIcon1(new ImageIcon(DriveMe.class.getResource("/test121/standort.png")), 15, 15));
+		moreDetailsBtn.setIcon(resizeImageIcon("standort.png", 15, 15));
 		moreDetailsBtn.setBorder(null);
 		moreDetailsBtn.setPreferredSize(new Dimension(10, 10));
 		moreDetailsBtn.setBounds(294, 11, 26, 23);
 		innerVehiclePanel.add(moreDetailsBtn);
 		
 		JButton reservationBtn = new JButton("");
-//		reservationBtn.setIcon(resizeImageIcon1(new ImageIcon(DriveMe.class.getResource("/test121/menu.png")), 15, 15));
+		reservationBtn.setIcon(resizeImageIcon("menu.png", 15, 15));
 		reservationBtn.setBorder(null);
 		reservationBtn.setPreferredSize(new Dimension(10, 10));
 		reservationBtn.setBounds(269, 11, 26, 23);
@@ -269,8 +279,10 @@ public JFrame mainFrame=new JFrame("DriveMe");
 		return vehiclePanel;
 	}
 	
-	private ImageIcon resizeImageIcon1(ImageIcon imageIcon, int heigth, int width) 
+	private ImageIcon resizeImageIcon(String url, int heigth, int width) 
 	{
+		ImageIcon imageIcon = new ImageIcon(MainController.class.getResource(DriveMeConstants.Picture.PATH + url));
+		
 		Image image = imageIcon.getImage(); // transform it 
 		Image newimg = image.getScaledInstance(heigth, width,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way  
 		return imageIcon = new ImageIcon(newimg);
