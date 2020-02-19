@@ -7,6 +7,7 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.Insets;
+import java.awt.Panel;
 import java.awt.Rectangle;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
@@ -52,13 +53,10 @@ public JFrame mainFrame=new JFrame("DriveMe");
 		mainFrame.setBounds(100, 100, 1106, 661);
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainFrame.getContentPane().setLayout(new BorderLayout(0, 0));
-		mainFrame.getContentPane().add(vehicleContent(new JButton(), new JButton()));
-		
 		setUpHeader();
 		
-		mainFrame.getContentPane().add(vehicleContent(null, null));
+		mainFrame.getContentPane().add(vehicleContent( null, null));
 	}
-
 	private void setUpHeader() 
 	{
 		//Setup header pannel
@@ -104,6 +102,8 @@ public JFrame mainFrame=new JFrame("DriveMe");
 		vehicleButton.setPreferredSize(new Dimension(150, 35));
 		headerTop.add(vehicleButton);
 		
+	
+		
 		customerButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				SwingUtilities.updateComponentTreeUI(mainFrame.getContentPane().add(customerContent(customerButton, vehicleButton)));
@@ -111,7 +111,7 @@ public JFrame mainFrame=new JFrame("DriveMe");
 		});
 		vehicleButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				SwingUtilities.updateComponentTreeUI(mainFrame.getContentPane().add(vehicleContent(customerButton, vehicleButton)));
+				SwingUtilities.updateComponentTreeUI(mainFrame.getContentPane().add(vehicleContent( customerButton, vehicleButton)));
 			}
 		});
 		headerTop.add(customerButton);
@@ -162,43 +162,66 @@ public JFrame mainFrame=new JFrame("DriveMe");
 
 	private JPanel vehicleContent(JButton customerButton, JButton vehicleButton) 
 	{
-		JPanel vehiclePanel = new JPanel();
-		vehiclePanel.setPreferredSize(new Dimension(10, 90));
-		vehiclePanel.setMinimumSize(new Dimension(10, 128));
-		vehiclePanel.setBackground(SystemColor.GREEN);
-		vehiclePanel.setLayout(new BorderLayout(0, 0));
-//		vehiclePanel.setLayout(new MigLayout("", "[320px]", "[100px]"));
+		//Main Body Content Panel for Vehicle
+		JPanel bodyContentPanel = new JPanel();
+		bodyContentPanel.setBackground(Color.WHITE);
+		bodyContentPanel.setLayout(new BorderLayout(0, 0));
 		
-		if(customerButton != null)
-		{
-			customerButton.setBackground(primaryColor);	
-		}
-		else if(vehicleButton != null)
-		{
-			vehicleButton.setBackground(secondColor);	
-		}
-		
-		JPanel scrollPane = new JPanel();
-		scrollPane.setBackground(Color.WHITE);
-		scrollPane.setLayout(new MigLayout("", "[320px]", "[100px]"));
-		
-		JScrollPane scrollPaneContainer = new JScrollPane(scrollPane, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		scrollPaneContainer.setBorder(null);
-		scrollPaneContainer.setBounds(new Rectangle(0, 0, 0, 20));
-		scrollPaneContainer.setPreferredSize(new Dimension(0, 200));
-		
-		ArrayList<Vehicle> vehicles = VehicleService.findVehiclesByAll();
-		int i = 0;
-		for (Vehicle currentVehicle : vehicles)
-		{
-			String position = "cell 0 "+ i + ",grow";
-			scrollPane.add(createVehiclePanel(currentVehicle), position );
-			i++;
-		}
-		
-		vehiclePanel.add(scrollPaneContainer, BorderLayout.CENTER);
-		
-		return vehiclePanel;
+			//Vehicle Panel Align West 
+			JPanel vehiclePanel = new JPanel();
+			bodyContentPanel.setPreferredSize(new Dimension(10, 90));
+			vehiclePanel.setMinimumSize(new Dimension(10, 128));
+			vehiclePanel.setPreferredSize(new Dimension(400, 10));
+			vehiclePanel.setBackground(SystemColor.GREEN);
+			vehiclePanel.setLayout(new BorderLayout(0, 0));
+
+			if(customerButton != null)
+			{
+				customerButton.setBackground(primaryColor);	
+			}
+			else if(vehicleButton != null)
+			{
+				vehicleButton.setBackground(secondColor);	
+			}
+			
+			JPanel scrollPane = new JPanel();
+			scrollPane.setBackground(Color.WHITE);
+			scrollPane.setLayout(new MigLayout("", "[320px]", "[100px]"));
+			
+			JScrollPane scrollPaneContainer = new JScrollPane(scrollPane, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+			scrollPaneContainer.setBorder(null);
+			scrollPaneContainer.setBounds(new Rectangle(0, 0, 0, 20));
+			scrollPaneContainer.setPreferredSize(new Dimension(0, 200));
+			
+			ArrayList<Vehicle> vehicles = VehicleService.findVehiclesByAll();
+			int i = 0;
+			for (Vehicle currentVehicle : vehicles)
+			{
+				String position = "cell 0 "+ i + ",grow";
+				scrollPane.add(createVehiclePanel(currentVehicle), position );
+				i++;
+			}
+			
+			vehiclePanel.add(scrollPaneContainer, BorderLayout.CENTER);
+			
+			//Placeholder for vehiclePanel
+			JPanel placeholderNorth = new JPanel();
+			placeholderNorth.setBackground(Color.WHITE);
+			placeholderNorth.setPreferredSize(new Dimension(100, 30));
+			vehiclePanel.add(placeholderNorth, BorderLayout.NORTH);
+			
+			JPanel placeholderWest = new JPanel();
+			placeholderWest.setBackground(Color.WHITE);
+			placeholderWest.setPreferredSize(new Dimension(30, 10));
+			vehiclePanel.add(placeholderWest, BorderLayout.WEST);
+			
+			JPanel placeholderSouth = new JPanel();
+			placeholderSouth.setBackground(Color.WHITE);
+			placeholderSouth.setPreferredSize(new Dimension(30, 30));
+			vehiclePanel.add(placeholderSouth, BorderLayout.SOUTH);
+			
+		bodyContentPanel.add(vehiclePanel, BorderLayout.WEST);
+		return bodyContentPanel;
 	} 
 	
 	private JPanel customerContent(JButton customerButton, JButton vehicleButton) 
