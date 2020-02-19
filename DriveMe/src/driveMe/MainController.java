@@ -103,15 +103,25 @@ public JFrame mainFrame=new JFrame("DriveMe");
 		headerTop.add(vehicleButton);
 		
 	
-		
+		JPanel customerContent = customerContent(customerButton, vehicleButton);
+		JPanel vehicleContent = vehicleContent( customerButton, vehicleButton);
 		customerButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				SwingUtilities.updateComponentTreeUI(mainFrame.getContentPane().add(customerContent(customerButton, vehicleButton)));
+				mainFrame.getContentPane().removeAll();
+				setUpHeader();
+				//SwingUtilities.updateComponentTreeUI(mainFrame.getContentPane().add(customerContent));
+				mainFrame.getContentPane().add(customerContent);
+				mainFrame.getContentPane().revalidate();
 			}
 		});
 		vehicleButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				SwingUtilities.updateComponentTreeUI(mainFrame.getContentPane().add(vehicleContent( customerButton, vehicleButton)));
+				mainFrame.getContentPane().removeAll();
+				setUpHeader();
+				//SwingUtilities.updateComponentTreeUI(mainFrame.getContentPane().add(vehicleContent));
+				mainFrame.getContentPane().add(vehicleContent);
+			  
+				mainFrame.getContentPane().revalidate();
 			}
 		});
 		headerTop.add(customerButton);
@@ -205,22 +215,55 @@ public JFrame mainFrame=new JFrame("DriveMe");
 			vehiclePanelWest.add(scrollPaneContainer, BorderLayout.CENTER);
 			
 			//Placeholder for vehiclePanel
-			JPanel placeholderNorth = new JPanel();
-			placeholderNorth.setBackground(Color.WHITE);
-			placeholderNorth.setPreferredSize(new Dimension(100, 30));
-			vehiclePanelWest.add(placeholderNorth, BorderLayout.NORTH);
-			
 			JPanel placeholderWest = new JPanel();
 			placeholderWest.setBackground(Color.WHITE);
 			placeholderWest.setPreferredSize(new Dimension(30, 10));
 			vehiclePanelWest.add(placeholderWest, BorderLayout.WEST);
 			
+			//Placeholder for vehiclePanel
+			JPanel placeholderCenter = new JPanel();
+			placeholderCenter.setBackground(Color.WHITE);
+			placeholderCenter.setPreferredSize(new Dimension(10, 10));
+			vehiclePanelWest.add(placeholderCenter, BorderLayout.EAST);
+			
+		bodyContentPanel.add(vehiclePanelWest, BorderLayout.WEST);
+		
+		
+			//Placeholder for bodyContentPanel NORTH
+			JPanel placeholderNorth = new JPanel();
+			placeholderNorth.setBackground(Color.WHITE);
+			placeholderNorth.setPreferredSize(new Dimension(100, 30));
+			
+		bodyContentPanel.add(placeholderNorth, BorderLayout.NORTH);
+			
+		
+			//Placeholder for bodyContentPanel SOUTH
 			JPanel placeholderSouth = new JPanel();
 			placeholderSouth.setBackground(Color.WHITE);
 			placeholderSouth.setPreferredSize(new Dimension(30, 30));
-			vehiclePanelWest.add(placeholderSouth, BorderLayout.SOUTH);
+		
+		bodyContentPanel.add(placeholderSouth, BorderLayout.SOUTH);
+		
+		
+			// Center Panel Map
+			JPanel vehiclePanelCenter = new JPanel();
+			bodyContentPanel.setPreferredSize(new Dimension(10, 90));
+			vehiclePanelCenter.setMinimumSize(new Dimension(10, 128));
+			vehiclePanelCenter.setPreferredSize(new Dimension(400, 10));
+			vehiclePanelCenter.setBackground(SystemColor.GREEN);
+			vehiclePanelCenter.setLayout(new BorderLayout(0, 0));
 			
-		bodyContentPanel.add(vehiclePanelWest, BorderLayout.WEST);
+			
+			
+			
+			//Placeholder for vehiclePanelCenter
+			JPanel placeholderEAST = new JPanel();
+			placeholderEAST.setBackground(Color.WHITE);
+			placeholderEAST.setPreferredSize(new Dimension(30, 10));
+			vehiclePanelCenter.add(placeholderEAST, BorderLayout.EAST);
+			
+		bodyContentPanel.add(vehiclePanelCenter, BorderLayout.CENTER);
+			
 		return bodyContentPanel;
 	} 
 	
