@@ -287,15 +287,6 @@ public JFrame mainFrame=new JFrame("DriveMe");
 		customerBodyContentPanel.setBackground(Color.WHITE);
 		customerBodyContentPanel.setLayout(new BorderLayout(0, 0));
 		customerBodyContentPanel.setPreferredSize(new Dimension(10, 90));
-		
-		//Vehicle Panel Align West 
-		JPanel vehiclePanelWest = new JPanel();
-		
-		vehiclePanelWest.setMinimumSize(new Dimension(10, 128));
-		vehiclePanelWest.setPreferredSize(new Dimension(400, 10));
-		vehiclePanelWest.setBackground(SystemColor.GREEN);
-		vehiclePanelWest.setLayout(new BorderLayout(0, 0));
-
 
 		JPanel scrollPane = new JPanel();
 		scrollPane.setBackground(Color.WHITE);
@@ -306,12 +297,17 @@ public JFrame mainFrame=new JFrame("DriveMe");
 		scrollPaneContainer.setBounds(new Rectangle(0, 0, 0, 20));
 		scrollPaneContainer.setPreferredSize(new Dimension(0, 200));
 		
-		ArrayList<Vehicle> vehicles = VehicleService.findVehiclesByAll();
+		ArrayList<Customer> customer = CustomerService.findCostumerByAll();
 		int i = 0;
-		for (Vehicle currentVehicle : vehicles)
+		for (Customer currentCustomer : customer)
 		{
-			String position = "cell 0 "+ i + ",grow";
-			scrollPane.add(createVehiclePanel(currentVehicle), position );
+			String position = "cell "+ i + " 0,grow";
+			
+			JPanel test1 = new JPanel();
+			scrollPane.setBackground(Color.WHITE);
+			
+			
+			scrollPane.add(test1, position );
 			i++;
 		}
 		
@@ -326,12 +322,11 @@ public JFrame mainFrame=new JFrame("DriveMe");
 		customerBodyContentPanel.add(placeholderWest, BorderLayout.WEST);
 		
 		//Placeholder for customerBodyContentPanel EAST
-		JPanel placeholderCenter = new JPanel();
-		placeholderCenter.setBackground(Color.WHITE);
-		placeholderCenter.setPreferredSize(new Dimension(10, 10));
-		vehiclePanelWest.add(placeholderCenter, BorderLayout.EAST);
-		
-		customerBodyContentPanel.add(vehiclePanelWest, BorderLayout.WEST);
+		JPanel placeholderWEST = new JPanel();
+		placeholderWEST.setBackground(Color.WHITE);
+		placeholderWEST.setPreferredSize(new Dimension(30, 10));
+
+		customerBodyContentPanel.add(placeholderWEST, BorderLayout.EAST);
 	
 		//Placeholder for customerBodyContentPanel NORTH
 		JPanel placeholderNorth = new JPanel();
