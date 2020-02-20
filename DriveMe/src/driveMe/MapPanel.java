@@ -32,7 +32,7 @@ public final class MapPanel extends JXMapViewer{
 		// Set the focus
 		this.setZoom(4);
 		this.setAddressLocation(frankfurt);
-		
+	
 		
 		MouseInputListener mia = new PanMouseInputListener(this);
 		this.addMouseListener(mia);
