@@ -32,6 +32,11 @@ import driveMe.vehicles.model.Vehicle;
 import driveMe.vehicles.service.VehicleService;
 import net.miginfocom.swing.MigLayout;
 import java.awt.CardLayout;
+import java.awt.GridLayout;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import javax.swing.SpringLayout;
+import java.awt.Component;
 
 
 public class MainController {
@@ -289,25 +294,28 @@ public JFrame mainFrame=new JFrame("DriveMe");
 		customerBodyContentPanel.setPreferredSize(new Dimension(10, 90));
 
 		JPanel scrollPane = new JPanel();
+		scrollPane.setAlignmentY(Component.TOP_ALIGNMENT);
+		scrollPane.setAlignmentX(Component.LEFT_ALIGNMENT);
 		scrollPane.setBackground(Color.WHITE);
-		scrollPane.setLayout(new MigLayout("", "[320px]", "[100px]"));
 		
 		JScrollPane scrollPaneContainer = new JScrollPane(scrollPane, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPaneContainer.setBorder(null);
 		scrollPaneContainer.setBounds(new Rectangle(0, 0, 0, 20));
 		scrollPaneContainer.setPreferredSize(new Dimension(0, 200));
+		scrollPane.setLayout(new ModifiedFlowLayout());
+		
+		
+		
+
 		
 		ArrayList<Customer> customer = CustomerService.findCostumerByAll();
-		int i = 0;
+		int i = 5;
 		for (Customer currentCustomer : customer)
 		{
-			String position = "cell "+ i + " 0,grow";
 			
 			JPanel test1 = new JPanel();
-			scrollPane.setBackground(Color.WHITE);
-			
-			
-			scrollPane.add(test1, position );
+			test1.setPreferredSize(new Dimension(200, 200));
+			scrollPane.add(test1 );
 			i++;
 		}
 		
