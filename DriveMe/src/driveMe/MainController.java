@@ -118,13 +118,10 @@ public JFrame mainFrame=new JFrame("DriveMe");
 		JPanel vehicleContent = vehicleContent( customerButton, vehicleButton);
 		customerButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-//				mainFrame.getContentPane().removeAll();
-//				mainFrame.getContentPane().invalidate();
-//				laodUpHeader();
-				//SwingUtilities.updateComponentTreeUI(mainFrame.getContentPane().add(customerContent));
-//				mainFrame.getContentPane().add(customerContent);
-//				mainFrame.getContentPane().revalidate();
-				
+				customerButton.setBackground(secondColor);	
+				customerButton.setForeground(primaryColor);
+				vehicleButton.setBackground(primaryColor);	
+				vehicleButton.setForeground(Color.WHITE);
 				bodyContentPanel.removeAll();
 				bodyContentPanel.repaint();
 				bodyContentPanel.revalidate();
@@ -136,13 +133,10 @@ public JFrame mainFrame=new JFrame("DriveMe");
 		});
 		vehicleButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-//				mainFrame.getContentPane().removeAll();
-//				mainFrame.getContentPane().invalidate();
-//				laodUpHeader();
-				//SwingUtilities.updateComponentTreeUI(mainFrame.getContentPane().add(vehicleContent));
-//				mainFrame.getContentPane().add(vehicleContent);
-//			  
-//				mainFrame.getContentPane().revalidate();
+				customerButton.setBackground(primaryColor);	
+				customerButton.setForeground(Color.WHITE);
+				vehicleButton.setBackground(secondColor);	
+				vehicleButton.setForeground(primaryColor);
 				bodyContentPanel.removeAll();
 				bodyContentPanel.repaint();
 				bodyContentPanel.revalidate();
@@ -212,17 +206,7 @@ public JFrame mainFrame=new JFrame("DriveMe");
 			vehiclePanelWest.setBackground(SystemColor.GREEN);
 			vehiclePanelWest.setLayout(new BorderLayout(0, 0));
 
-			if(customerButton != null)
-			{
-				customerButton.setBackground(primaryColor);	
-				vehicleButton.setForeground(Color.WHITE);
-			}
-			if(vehicleButton != null)
-			{
-				vehicleButton.setBackground(secondColor);	
-				vehicleButton.setForeground(primaryColor);
-			}
-			
+	
 			JPanel scrollPane = new JPanel();
 			scrollPane.setBackground(Color.WHITE);
 			scrollPane.setLayout(new MigLayout("", "[320px]", "[100px]"));
@@ -310,16 +294,7 @@ public JFrame mainFrame=new JFrame("DriveMe");
 		customerPanel.setBackground(SystemColor.RED);
 		customerPanel.setLayout(new BorderLayout(0, 0));
 		
-		if(customerButton != null)
-		{
-			customerButton.setBackground(secondColor);	
-			vehicleButton.setForeground(primaryColor);
-		}
-		if(vehicleButton != null)
-		{
-			vehicleButton.setBackground(primaryColor);	
-			vehicleButton.setForeground(Color.WHITE);
-		}
+		
 		
 		ArrayList<Customer> customers = CustomerService.findCostumerByAll();
 		int i = 0;
