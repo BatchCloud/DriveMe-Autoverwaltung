@@ -45,6 +45,8 @@ import net.miginfocom.swing.MigLayout;
 import java.awt.CardLayout;
 
 import java.awt.Component;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 
 public class MainController {
@@ -66,6 +68,7 @@ public JFrame mainFrame=new JFrame("DriveMe");
 		mainFrame.setBackground(primaryColor);
 		mainFrame.getContentPane().setMinimumSize(new Dimension(20, 16));
 		mainFrame.setBounds(100, 100, 1106, 661);
+		mainFrame.setMinimumSize(new Dimension(1120, 600));
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainFrame.getContentPane().setLayout(new BorderLayout(0, 0));
 		
@@ -80,20 +83,21 @@ public JFrame mainFrame=new JFrame("DriveMe");
 		bodyContentPanel.setLayout(new BorderLayout(0, 0));
 		
 		setUpHeader(bodyContentPanel);
-		bodyContentPanel.setLayout(new CardLayout(0, 0));
 		
+<<<<<<< HEAD
 		bodyContentPanel.add(vehicleContent(""), "name_47788877080200");
+=======
+		bodyContentPanel.setLayout(new CardLayout(0, 0));
+		bodyContentPanel.add(vehicleContent(), "name_47788877080200");
+>>>>>>> refs/remotes/origin/master
 		bodyContentPanel.setVisible(true);
-
-		bodyContentPanel.setBounds(0, 0, (mainFrame.getWidth() + 100), (mainFrame.getHeight() - 130) );
+		bodyContentPanel.setBounds(0, 0, (mainFrame.getWidth() + 100), (mainFrame.getHeight() - 130) );	
 		
 		bodyJLayeredPane.add(bodyContentPanel);
+		
 		mainFrame.getContentPane().add(bodyJLayeredPane);
-		
-		
 		mainFrame.setVisible(true);
 		mainFrame.setLocationRelativeTo(null);
-		
 		mainFrame.addComponentListener(new ComponentAdapter() {
             public void componentResized(ComponentEvent e) {
             	bodyContentPanel.setBounds(0, 0, mainFrame.getWidth(), (mainFrame.getHeight() - 130) );
@@ -101,10 +105,10 @@ public JFrame mainFrame=new JFrame("DriveMe");
 
         });
 		mainFrame.addWindowStateListener(new WindowStateListener() {
-			   public void windowStateChanged(WindowEvent arg0) {
-				   bodyContentPanel.setBounds(0, 0, mainFrame.getWidth(), (mainFrame.getHeight() - 130) );
-			   }
-			});
+			public void windowStateChanged(WindowEvent arg0) {
+				bodyContentPanel.setBounds(0, 0, mainFrame.getWidth(), (mainFrame.getHeight() - 130) );
+			}
+		});
     
 	}
 	private void setUpHeader(JPanel bodyContentPanel) 
@@ -227,7 +231,7 @@ public JFrame mainFrame=new JFrame("DriveMe");
 		
 		//Set leftSidePanel to header bottom
 		JPanel leftSidePanel = new JPanel();
-		leftSidePanel.setPreferredSize(new Dimension(200, 10));
+		leftSidePanel.setPreferredSize(new Dimension(330, 10));
 		headerBottom.add(leftSidePanel, BorderLayout.WEST);
 		
 		JButton btnFahrzeugAnlegen = new JButton("Fahrzeug Anlegen");
@@ -252,6 +256,14 @@ public JFrame mainFrame=new JFrame("DriveMe");
 			}
 		});
 		leftSidePanel.add(btnFahrzeugAnlegen);
+		
+		JButton btnFahrzeugsettings = new JButton("Fahrzeuge ändern");
+		btnFahrzeugsettings.setPreferredSize(new Dimension(145, 25));
+		btnFahrzeugsettings.setMargin(new Insets(0, 0, 0, 0));
+		btnFahrzeugsettings.setForeground(Color.WHITE);
+		btnFahrzeugsettings.setBorder(null);
+		btnFahrzeugsettings.setBackground(new Color(105, 157, 217));
+		leftSidePanel.add(btnFahrzeugsettings);
 
 		//Set rightSidePanel to header bottom
 		JPanel rightSidePanel = new JPanel();
@@ -312,7 +324,16 @@ public JFrame mainFrame=new JFrame("DriveMe");
 		//Set leftSidePanel to header bottom
 		JPanel leftSidePanel = new JPanel();
 		leftSidePanel.setPreferredSize(new Dimension(200, 10));
+		
+		//Add compobox to rightSidePanel
+		addComboBoxToPanel(leftSidePanel);
 		headerBottom.add(leftSidePanel, BorderLayout.WEST);
+
+		//Set rightSidePanel to header bottom
+		JPanel rightSidePanel = new JPanel();
+		rightSidePanel.setPreferredSize(new Dimension(200, 10));
+		rightSidePanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		headerBottom.add(rightSidePanel, BorderLayout.EAST);
 		
 		JButton btnFahrzeugAnlegen = new JButton("Benutzer Anlegen");
 		btnFahrzeugAnlegen.setForeground(Color.WHITE);
@@ -335,15 +356,7 @@ public JFrame mainFrame=new JFrame("DriveMe");
 			
 			}
 		});
-		leftSidePanel.add(btnFahrzeugAnlegen);
-
-		//Set rightSidePanel to header bottom
-		JPanel rightSidePanel = new JPanel();
-		rightSidePanel.setPreferredSize(new Dimension(200, 10));
-		rightSidePanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-		headerBottom.add(rightSidePanel, BorderLayout.EAST);
-		//Add compobox to rightSidePanel
-		addComboBoxToPanel(rightSidePanel);
+		rightSidePanel.add(btnFahrzeugAnlegen);
 		
 		//Set topSidePanel to header bottom
 		JPanel topSidePanel = new JPanel();
@@ -537,7 +550,7 @@ public JFrame mainFrame=new JFrame("DriveMe");
 	private void addComboBoxToPanel(JPanel panel)
 	{
 		JComboBox<String> comboBox = new JComboBox<String>();
-		
+	
 		comboBox.setForeground(Color.WHITE);
 		comboBox.setBorder(null);
 		comboBox.setBackground(primaryColor);
@@ -546,6 +559,7 @@ public JFrame mainFrame=new JFrame("DriveMe");
 		comboBox.addItem("test");
 		
 		panel.add(comboBox);
+		
 	}
 	
 	private JPanel createCostumerPanel(Customer customer) {
