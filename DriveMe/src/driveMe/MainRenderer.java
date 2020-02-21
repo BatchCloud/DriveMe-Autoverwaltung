@@ -49,7 +49,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 
-public class MainController {
+public class MainRenderer {
 
 public JFrame mainFrame=new JFrame("DriveMe");
 	
@@ -84,12 +84,9 @@ public JFrame mainFrame=new JFrame("DriveMe");
 		
 		setUpHeader(bodyContentPanel);
 		
-<<<<<<< HEAD
-		bodyContentPanel.add(vehicleContent(""), "name_47788877080200");
-=======
+		bodyContentPanel.add(vehicleContent(), "name_47788877080200");
 		bodyContentPanel.setLayout(new CardLayout(0, 0));
 		bodyContentPanel.add(vehicleContent(), "name_47788877080200");
->>>>>>> refs/remotes/origin/master
 		bodyContentPanel.setVisible(true);
 		bodyContentPanel.setBounds(0, 0, (mainFrame.getWidth() + 100), (mainFrame.getHeight() - 130) );	
 		
@@ -169,7 +166,7 @@ public JFrame mainFrame=new JFrame("DriveMe");
 		
 	
 		JPanel customerContent = customerContent();
-		JPanel vehicleContent = vehicleContent("");
+		JPanel vehicleContent = vehicleContent();
 		
 		JPanel customeHeaderBottom = customerHeaderBottom();
 		JPanel vehicleHeaderBottom = vehicleHeaderBottom();
@@ -385,7 +382,7 @@ public JFrame mainFrame=new JFrame("DriveMe");
 		
 	}
 	
-	private JPanel vehicleContent(String textFieldSearchInput) 
+	private JPanel vehicleContent() 
 	{
 		JPanel  vehicleBodyContentPanel = new JPanel();
 		vehicleBodyContentPanel.setBackground(Color.WHITE);
@@ -413,18 +410,18 @@ public JFrame mainFrame=new JFrame("DriveMe");
 
 			ArrayList<Vehicle> vehicles = VehicleService.findVehiclesByAll();
 
-			if(StringUtils.isNotBlank(textFieldSearchInput) && vehiclePageActive)
-			{
-				ArrayList<Vehicle> sortedVehicles = new ArrayList<Vehicle>();
-				for(Vehicle currentVehicle : vehicles )
-				{
-					if(currentVehicle.getModel().contains(textFieldSearchInput))
-					{
-						sortedVehicles.add(currentVehicle);	
-					}
-				}
-				vehicles = sortedVehicles;
-			}
+//			if(StringUtils.isNotBlank(textFieldSearchInput) && vehiclePageActive)
+//			{
+//				ArrayList<Vehicle> sortedVehicles = new ArrayList<Vehicle>();
+//				for(Vehicle currentVehicle : vehicles )
+//				{
+//					if(currentVehicle.getModel().contains(textFieldSearchInput))
+//					{
+//						sortedVehicles.add(currentVehicle);	
+//					}
+//				}
+//				vehicles = sortedVehicles;
+//			}
 			
 			int i = 0;
 			for (Vehicle currentVehicle : vehicles)

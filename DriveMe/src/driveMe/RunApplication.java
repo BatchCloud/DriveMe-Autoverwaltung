@@ -24,7 +24,7 @@ public class RunApplication extends MainController{
 				        UIManager.put("TabbedPane.borderColor", Color.RED);
 				        UIManager.put("TabbedPane.tabAreaBackground", Color.RED);
 				        UIManager.put("TabbedPane.unselectedTabBackground", Color.RED);
-					MainController window = new MainController();
+				        MainRenderer window = new MainRenderer();
 					window.mainFrame.setVisible(true);
 					window.initialize();
 				} catch (Exception e) {
