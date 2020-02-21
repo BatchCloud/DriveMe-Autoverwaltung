@@ -41,6 +41,8 @@ import net.miginfocom.swing.MigLayout;
 import java.awt.CardLayout;
 
 import java.awt.Component;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 
 public class MainController {
