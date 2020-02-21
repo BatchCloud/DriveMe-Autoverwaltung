@@ -112,12 +112,22 @@ public JFrame mainFrame=new JFrame("DriveMe");
 		mainFrame.getContentPane().add(headerPanel, BorderLayout.NORTH);
 		headerPanel.setLayout(new BorderLayout(0, 0));
 		
-		setUpHeaderTop(bodyContentPanel,headerPanel);
-		setUpHeaderBottom(headerPanel);
+		JPanel headerBottom = new JPanel();
+		headerBottom.setPreferredSize(new Dimension(10, 20));
+		headerBottom.setMinimumSize(new Dimension(10, 27));
+		headerBottom.setBackground(secondColor);
+		headerBottom.setLayout(new BorderLayout(0, 0));
+		
+		setUpHeaderTop(bodyContentPanel,headerPanel,headerBottom);
+		
+		
+		headerBottom.add(vehicleHeaderBottom(),BorderLayout.CENTER);
+		headerPanel.add(headerBottom, BorderLayout.CENTER);
+		
 	}
 
 	
-	private void setUpHeaderTop(JPanel bodyContentPanel,JPanel headerPanel) {
+	private void setUpHeaderTop(JPanel bodyContentPanel,JPanel headerPanel,JPanel headerBottom ) {
 		//Setup header top to header pannel
 		JPanel headerTop = new JPanel();
 		headerPanel.add(headerTop, BorderLayout.NORTH);
@@ -151,6 +161,10 @@ public JFrame mainFrame=new JFrame("DriveMe");
 	
 		JPanel customerContent = customerContent();
 		JPanel vehicleContent = vehicleContent();
+		
+		JPanel customeHeaderBottom = customerHeaderBottom();
+		JPanel vehicleHeaderBottom = vehicleHeaderBottom();
+		
 		customerButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				customerButton.setBackground(secondColor);	
@@ -164,6 +178,12 @@ public JFrame mainFrame=new JFrame("DriveMe");
 				bodyContentPanel.repaint();
 				bodyContentPanel.revalidate();
 				
+				headerBottom.removeAll();
+				headerBottom.repaint();
+				headerBottom.revalidate();
+				headerBottom.add(customeHeaderBottom, BorderLayout.CENTER);
+				headerBottom.repaint();
+				headerBottom.revalidate();
 			}
 		});
 		vehicleButton.addActionListener(new ActionListener() {
@@ -178,16 +198,21 @@ public JFrame mainFrame=new JFrame("DriveMe");
 				bodyContentPanel.add(vehicleContent);
 				bodyContentPanel.repaint();
 				bodyContentPanel.revalidate();
+				
+				headerBottom.removeAll();
+				headerBottom.repaint();
+				headerBottom.revalidate();
+				headerBottom.add(vehicleHeaderBottom, BorderLayout.CENTER);
+				headerBottom.repaint();
+				headerBottom.revalidate();
 			}
 		});
 		headerTop.add(customerButton);
 	}
 	
-	private void setUpHeaderBottom(JPanel headerPanel) 
+	private JPanel vehicleHeaderBottom() 
 	{
-		//Set header bottom
 		JPanel headerBottom = new JPanel();
-		headerPanel.add(headerBottom, BorderLayout.CENTER);
 		headerBottom.setPreferredSize(new Dimension(10, 20));
 		headerBottom.setMinimumSize(new Dimension(10, 27));
 		headerBottom.setBackground(secondColor);
@@ -247,8 +272,77 @@ public JFrame mainFrame=new JFrame("DriveMe");
 		textField.setSize(new Dimension(400, 24));
 		midSidePanel.add(textField);
 		textField.setColumns(50);
+		return headerBottom;
 	}
 
+	private JPanel customerHeaderBottom( ) 
+	{
+		JPanel headerBottom = new JPanel();
+		headerBottom.setPreferredSize(new Dimension(10, 20));
+		headerBottom.setMinimumSize(new Dimension(10, 27));
+		headerBottom.setBackground(secondColor);
+		headerBottom.setLayout(new BorderLayout(0, 0));
+		
+		//Set leftSidePanel to header bottom
+		JPanel leftSidePanel = new JPanel();
+		leftSidePanel.setPreferredSize(new Dimension(200, 10));
+		headerBottom.add(leftSidePanel, BorderLayout.WEST);
+		
+		JButton btnFahrzeugAnlegen = new JButton("Benutzer Anlegen");
+		btnFahrzeugAnlegen.setForeground(Color.WHITE);
+		btnFahrzeugAnlegen.setPreferredSize(new Dimension(145, 25));
+		btnFahrzeugAnlegen.setMargin(new Insets(0, 0, 0, 0));
+		btnFahrzeugAnlegen.setBorder(null);
+		btnFahrzeugAnlegen.setBackground(primaryColor);
+		btnFahrzeugAnlegen.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+//				JPanel p = new JPanel(); 
+//		        p.setPreferredSize(new Dimension(400,400));
+//		        p.setBackground(Color.blue); ;
+//
+//				p.setBounds( (mainFrame.getWidth() / 2) - 400,  (mainFrame.getHeight()/ 2) - 400 , 400,400 );
+//	        	p.setVisible(true);
+//	        	bodyJLayeredPane.add(p, JLayeredPane.POPUP_LAYER);
+			
+				JOptionPane.showMessageDialog(mainFrame,new JTextField());
+			
+			}
+		});
+		leftSidePanel.add(btnFahrzeugAnlegen);
+
+		//Set rightSidePanel to header bottom
+		JPanel rightSidePanel = new JPanel();
+		rightSidePanel.setPreferredSize(new Dimension(200, 10));
+		rightSidePanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		headerBottom.add(rightSidePanel, BorderLayout.EAST);
+		//Add compobox to rightSidePanel
+		addComboBoxToPanel(rightSidePanel);
+		
+		//Set topSidePanel to header bottom
+		JPanel topSidePanel = new JPanel();
+		headerBottom.add(topSidePanel, BorderLayout.NORTH);
+
+		//Set bottomSidePanel to header bottom		
+		JPanel bottomSidePanel = new JPanel();
+		headerBottom.add(bottomSidePanel, BorderLayout.SOUTH);
+		
+		//Set midSidePanel to header bottom
+		JPanel midSidePanel = new JPanel();
+		midSidePanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		headerBottom.add(midSidePanel, BorderLayout.CENTER);
+		//Set textField to midSidePanel
+		JTextField textField = new JTextField();
+		textField.setPreferredSize(new Dimension(400, 25));
+		textField.setSize(new Dimension(400, 24));
+		midSidePanel.add(textField);
+		textField.setColumns(50);
+		
+		return headerBottom;
+				
+		
+	}
+	
 	private JPanel vehicleContent() 
 	{
 		JPanel  vehicleBodyContentPanel = new JPanel();
@@ -273,6 +367,8 @@ public JFrame mainFrame=new JFrame("DriveMe");
 			scrollPaneContainer.setBorder(null);
 			scrollPaneContainer.setBounds(new Rectangle(0, 0, 0, 20));
 			scrollPaneContainer.setPreferredSize(new Dimension(0, 200));
+			scrollPaneContainer.getVerticalScrollBar().setUnitIncrement(13);
+
 			
 			ArrayList<Vehicle> vehicles = VehicleService.findVehiclesByAll();
 			int i = 0;
@@ -356,6 +452,7 @@ public JFrame mainFrame=new JFrame("DriveMe");
 		scrollPaneContainer.setBorder(null);
 		scrollPaneContainer.setBounds(new Rectangle(0, 0, 0, 20));
 		scrollPaneContainer.setPreferredSize(new Dimension(0, 200));
+		scrollPaneContainer.getVerticalScrollBar().setUnitIncrement(13);
 		
 		ArrayList<Customer> customer = CustomerService.findCostumerByAll();
 		for (Customer currentCustomer : customer)
