@@ -239,8 +239,11 @@ public JFrame mainFrame=new JFrame("DriveMe");
 //				p.setBounds( (mainFrame.getWidth() / 2) - 400,  (mainFrame.getHeight()/ 2) - 400 , 400,400 );
 //	        	p.setVisible(true);
 //	        	bodyJLayeredPane.add(p, JLayeredPane.POPUP_LAYER);
-			
-				JOptionPane.showMessageDialog(mainFrame,new JTextField());
+				 JPanel panel = new JPanel();
+				 panel.add(new JButton("Click"));
+				 panel.add(new JTextField(20));
+				 panel.add(new JLabel("Label"));
+				 JOptionPane.showMessageDialog(mainFrame,panel,"Information",JOptionPane.INFORMATION_MESSAGE);
 			
 			}
 		});
@@ -514,7 +517,7 @@ public JFrame mainFrame=new JFrame("DriveMe");
 		comboBox.setPreferredSize(new Dimension(145, 25));
 		comboBox.addItem("Filtern");
 		comboBox.addItem("test");
-		
+
 		panel.add(comboBox);
 		
 	}
