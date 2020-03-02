@@ -11,40 +11,50 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowStateListener;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 import driveMe.constants.DriveMeConstants;
-import driveMe.controller.CustomerController;
-import driveMe.controller.VehicleController;
+import driveMe.controller.CustomerRenderer;
+import driveMe.controller.VehicleRenderer;
+import driveMe.customers.model.Customer;
+import driveMe.customers.service.CustomerService;
 import driveMe.util.DriveMeUtil;
+import driveMe.vehicles.model.Vehicle;
+import driveMe.vehicles.service.VehicleService;
 
 
 public class MainRenderer {
 
 	public JFrame mainFrame = new JFrame("DriveMe");
-	private JLayeredPane bodyJLayeredPane;
 	
-	private VehicleController vehicleController = new VehicleController();
-	private CustomerController customerController = new CustomerController();
-	private DriveMeUtil driveMeUtil = new DriveMeUtil();
+	public static JPanel bodyContentPanel = new JPanel();
+	private JLayeredPane bodyJLayeredPane = new JLayeredPane();;
+	
+	private VehicleRenderer vehicleRenderer;
+	private CustomerRenderer customerRenderer;
+	private DriveMeUtil driveMeUtil;
+	
 	private boolean vehiclePageActive = true;
+	
+	protected ArrayList<Vehicle> allVehicles = VehicleService.findAllVehicles();
+	protected ArrayList<Customer> allCustomers = CustomerService.findAllCustomers();
 	
 	/**
 	 * @wbp.parser.entryPoint
 	 */
 	protected void initialize() {
 
+		vehicleRenderer = new VehicleRenderer();
+		customerRenderer = new CustomerRenderer();
+		driveMeUtil = new DriveMeUtil();
+		
 		//Setup Main frame
 //		mainFrame.setType(Type.POPUP);
 		mainFrame.setBackground(DriveMeConstants.Colour.primaryColor);
@@ -54,20 +64,20 @@ public class MainRenderer {
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainFrame.getContentPane().setLayout(new BorderLayout(0, 0));
 		
-		bodyJLayeredPane = new JLayeredPane();
+//		bodyJLayeredPane = new JLayeredPane();
 		
-		//Main Body Content Panel for Vehicle
-		JPanel bodyContentPanel = new JPanel();
+		//Main Body Content Panel
+//		bodyContentPanel = new JPanel();
 		bodyJLayeredPane.setLayer(bodyContentPanel, 1);
 		bodyContentPanel.setBackground(Color.WHITE);
 		bodyContentPanel.setPreferredSize(new Dimension(26, 90));
 		bodyContentPanel.setLayout(new BorderLayout(0, 0));
 		
-		setUpHeader(bodyContentPanel);
+		setUpHeader();
 		
 //		bodyContentPanel.add(vehicleController.getVehicleContent(), "name_47788877080200");
 		bodyContentPanel.setLayout(new CardLayout(0, 0));
-		bodyContentPanel.add(vehicleController.getVehicleContent(), "name_47788877080200");
+		bodyContentPanel.add(vehicleRenderer.getVehicleContent(allVehicles), "name_47788877080200");
 		bodyContentPanel.setVisible(true);
 		bodyContentPanel.setBounds(0, 0, (mainFrame.getWidth() + 100), (mainFrame.getHeight() - 130) );	
 		
@@ -80,7 +90,6 @@ public class MainRenderer {
             public void componentResized(ComponentEvent e) {
             	bodyContentPanel.setBounds(0, 0, mainFrame.getWidth(), (mainFrame.getHeight() - 130) );
             }
-
         });
 		mainFrame.addWindowStateListener(new WindowStateListener() {
 			public void windowStateChanged(WindowEvent arg0) {
@@ -89,7 +98,7 @@ public class MainRenderer {
 		});
     
 	}
-	private void setUpHeader(JPanel bodyContentPanel) 
+	private void setUpHeader() 
 	{
 		//Setup header pannel
 		JPanel headerPanel = new JPanel();
@@ -105,14 +114,14 @@ public class MainRenderer {
 		headerBottom.setBackground(DriveMeConstants.Colour.secondColor);
 		headerBottom.setLayout(new BorderLayout(0, 0));
 		
-		setUpHeaderTop(bodyContentPanel,headerPanel,headerBottom);
+		setUpHeaderTop(headerPanel,headerBottom);
 		
 		
-		headerBottom.add(vehicleController.vehicleHeaderBottom(mainFrame, vehiclePageActive),BorderLayout.CENTER);
+		headerBottom.add(vehicleRenderer.vehicleHeaderBottom(mainFrame, vehiclePageActive),BorderLayout.CENTER);
 		headerPanel.add(headerBottom, BorderLayout.CENTER);
 	}
 	
-	private void setUpHeaderTop(JPanel bodyContentPanel,JPanel headerPanel,JPanel headerBottom ) {
+	private void setUpHeaderTop(JPanel headerPanel,JPanel headerBottom ) {
 		//Setup header top to header pannel
 		JPanel headerTop = new JPanel();
 		headerPanel.add(headerTop, BorderLayout.NORTH);
@@ -143,12 +152,11 @@ public class MainRenderer {
 		vehicleButton.setPreferredSize(new Dimension(150, 35));
 		headerTop.add(vehicleButton);
 		
-	
-		JPanel customerContent = customerController.getCustomerContent();
-		JPanel vehicleContent = vehicleController.getVehicleContent();
+		JPanel customerContent = customerRenderer.getCustomerContent(allCustomers);
+		JPanel vehicleContent = vehicleRenderer.getVehicleContent(allVehicles);
 		
-		JPanel customerHeaderBottom = customerController.customerHeaderBottom(mainFrame);
-		JPanel vehicleHeaderBottom = vehicleController.vehicleHeaderBottom(mainFrame, vehiclePageActive);
+		JPanel customerHeaderBottom = customerRenderer.customerHeaderBottom(mainFrame, vehiclePageActive);
+		JPanel vehicleHeaderBottom = vehicleRenderer.vehicleHeaderBottom(mainFrame, vehiclePageActive);
 		
 		customerButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -158,20 +166,10 @@ public class MainRenderer {
 				vehicleButton.setForeground(Color.WHITE);
 				
 				driveMeUtil.clearAndSetContent(bodyContentPanel, customerContent, null);
-//				bodyContentPanel.removeAll();
-//				bodyContentPanel.repaint();
-//				bodyContentPanel.revalidate();
-//				bodyContentPanel.add(customerContent);
-//				bodyContentPanel.repaint();
-//				bodyContentPanel.revalidate();
+//				driveMeUtil.clearAndSetContentForBodyPanel(customerContent);
 				
 				driveMeUtil.clearAndSetContent(headerBottom, customerHeaderBottom, BorderLayout.CENTER);
-//				headerBottom.removeAll();
-//				headerBottom.repaint();
-//				headerBottom.revalidate();
-//				headerBottom.add(customeHeaderBottom, BorderLayout.CENTER);
-//				headerBottom.repaint();
-//				headerBottom.revalidate();
+
 				vehiclePageActive = false;
 			}
 		});
@@ -183,20 +181,10 @@ public class MainRenderer {
 				vehicleButton.setForeground(DriveMeConstants.Colour.primaryColor);
 
 				driveMeUtil.clearAndSetContent(bodyContentPanel, vehicleContent, null);
-//				bodyContentPanel.removeAll();
-//				bodyContentPanel.repaint();
-//				bodyContentPanel.revalidate();
-//				bodyContentPanel.add(vehicleContent);
-//				bodyContentPanel.repaint();
-//				bodyContentPanel.revalidate();
+//				driveMeUtil.clearAndSetContentForBodyPanel(vehicleContent);
 				
 				driveMeUtil.clearAndSetContent(headerBottom, vehicleHeaderBottom, BorderLayout.CENTER);
-//				headerBottom.removeAll();
-//				headerBottom.repaint();
-//				headerBottom.revalidate();
-//				headerBottom.add(vehicleHeaderBottom, BorderLayout.CENTER);
-//				headerBottom.repaint();
-//				headerBottom.revalidate();
+
 				vehiclePageActive = true;
 			}
 		});

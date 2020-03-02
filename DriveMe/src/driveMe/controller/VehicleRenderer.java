@@ -23,15 +23,19 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.border.MatteBorder;
 
+import org.apache.commons.lang.StringUtils;
+
+import driveMe.MainRenderer;
 import driveMe.MapPanel;
 import driveMe.constants.DriveMeConstants;
 import driveMe.util.DriveMeUtil;
 import driveMe.vehicles.model.Vehicle;
-import driveMe.vehicles.service.VehicleService;
 import net.miginfocom.swing.MigLayout;
 
-public class VehicleController {
+public class VehicleRenderer extends MainRenderer{
 
+	private static  JPanel vehicleBodyContentPanel = new JPanel();
+	
 	private DriveMeUtil driveMeUtil = new DriveMeUtil();
 	
 	
@@ -111,18 +115,10 @@ public class VehicleController {
 	        @Override
 	        public void keyPressed(KeyEvent e) {
 	            	String input = textField.getText();
-	            	if(input.length() >2)
+            		if(vehiclePageActive)
 	            	{
-	            		if(vehiclePageActive)
-		            	{
-
-		            	}
-		            	else if(!vehiclePageActive)
-		            	{
-		            		
-		            	}
+            			refreshVehiclePanel(input);
 	            	}
-	            	
 	            }
 	    });
 		midSidePanel.add(textField);
@@ -130,109 +126,26 @@ public class VehicleController {
 		return headerBottom;
 	}
 	
-	public JPanel getVehicleContent() 
+	public JPanel getVehicleContent(ArrayList<Vehicle> vehicels) 
 	{
-		JPanel  vehicleBodyContentPanel = new JPanel();
-		vehicleBodyContentPanel.setBackground(Color.WHITE);
-		vehicleBodyContentPanel.setLayout(new BorderLayout(0, 0));
-		vehicleBodyContentPanel.setPreferredSize(new Dimension(10, 90));
+//		JPanel  vehicleBodyContentPanel = new JPanel();
+		VehicleRenderer.vehicleBodyContentPanel.setBackground(Color.WHITE);
+		VehicleRenderer.vehicleBodyContentPanel.setLayout(new BorderLayout(0, 0));
+		VehicleRenderer.vehicleBodyContentPanel.setPreferredSize(new Dimension(10, 90));
 		
-			//Vehicle Panel Align West 
-			JPanel vehiclePanelWest = new JPanel();
-			
-			vehiclePanelWest.setMinimumSize(new Dimension(10, 128));
-			vehiclePanelWest.setPreferredSize(new Dimension(400, 10));
-			vehiclePanelWest.setBackground(SystemColor.GREEN);
-			vehiclePanelWest.setLayout(new BorderLayout(0, 0));
+		JPanel vehicleContentPanel = createVehiclePanelWest(vehicels);
+		VehicleRenderer.vehicleBodyContentPanel.add(vehicleContentPanel, BorderLayout.WEST);
+		VehicleRenderer.vehicleBodyContentPanel.putClientProperty(vehicleContentPanel, DriveMeConstants.VehicleContent.VEHICLE_KEY);
 
-	
-			JPanel scrollPane = new JPanel();
-			scrollPane.setBackground(Color.WHITE);
-			scrollPane.setLayout(new MigLayout("", "[320px]", "[100px]"));
+		VehicleRenderer.vehicleBodyContentPanel.add(driveMeUtil.createPlaceholderPanel(new Dimension(30, 10)), BorderLayout.NORTH);
 			
-			JScrollPane scrollPaneContainer = new JScrollPane(scrollPane, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-			scrollPaneContainer.setBorder(null);
-			scrollPaneContainer.setBounds(new Rectangle(0, 0, 0, 20));
-			scrollPaneContainer.setPreferredSize(new Dimension(0, 200));
-			scrollPaneContainer.getVerticalScrollBar().setUnitIncrement(13);
-
-			ArrayList<Vehicle> vehicles = VehicleService.findVehiclesByAll();
-
-//			if(StringUtils.isNotBlank(textFieldSearchInput) && vehiclePageActive)
-//			{
-//				ArrayList<Vehicle> sortedVehicles = new ArrayList<Vehicle>();
-//				for(Vehicle currentVehicle : vehicles )
-//				{
-//					if(currentVehicle.getModel().contains(textFieldSearchInput))
-//					{
-//						sortedVehicles.add(currentVehicle);	
-//					}
-//				}
-//				vehicles = sortedVehicles;
-//			}
-			
-			int i = 0;
-			for (Vehicle currentVehicle : vehicles)
-			{
-				String position = "cell 0 "+ i + ",grow";
-				scrollPane.add(createVehiclePanel(currentVehicle), position );
-				i++;
-			}
-			
-			vehiclePanelWest.add(scrollPaneContainer, BorderLayout.CENTER);
-			
-			//Placeholder for vehiclePanel
-			JPanel placeholderWest = new JPanel();
-			placeholderWest.setBackground(Color.WHITE);
-			placeholderWest.setPreferredSize(new Dimension(30, 10));
-			vehiclePanelWest.add(placeholderWest, BorderLayout.WEST);
-			
-			//Placeholder for vehiclePanel
-			JPanel placeholderCenter = new JPanel();
-			placeholderCenter.setBackground(Color.WHITE);
-			placeholderCenter.setPreferredSize(new Dimension(10, 10));
-			vehiclePanelWest.add(placeholderCenter, BorderLayout.EAST);
-			
-		vehicleBodyContentPanel.add(vehiclePanelWest, BorderLayout.WEST);
+		VehicleRenderer.vehicleBodyContentPanel.add(driveMeUtil.createPlaceholderPanel(new Dimension(30, 10)), BorderLayout.SOUTH);
 		
+		JPanel vehicleBodyContentMap = createMapPanel();
+		VehicleRenderer.vehicleBodyContentPanel.add(createMapPanel(), BorderLayout.CENTER);
+		VehicleRenderer.vehicleBodyContentPanel.putClientProperty(vehicleBodyContentMap, DriveMeConstants.VehicleContent.MAP_KEY);
 		
-			//Placeholder for bodyContentPanel NORTH
-			JPanel placeholderNorth = new JPanel();
-			placeholderNorth.setBackground(Color.WHITE);
-			placeholderNorth.setPreferredSize(new Dimension(100, 30));
-			
-		vehicleBodyContentPanel.add(placeholderNorth, BorderLayout.NORTH);
-			
-		
-			//Placeholder for bodyContentPanel SOUTH
-			JPanel placeholderSouth = new JPanel();
-			placeholderSouth.setBackground(Color.WHITE);
-			placeholderSouth.setPreferredSize(new Dimension(30, 30));
-		
-		vehicleBodyContentPanel.add(placeholderSouth, BorderLayout.SOUTH);
-		
-		
-			// Center Panel Map
-			JPanel vehiclePanelCenter = new JPanel();
-			vehiclePanelCenter.setMinimumSize(new Dimension(10, 128));
-			vehiclePanelCenter.setPreferredSize(new Dimension(400, 10));
-			vehiclePanelCenter.setBackground(SystemColor.GREEN);
-			vehiclePanelCenter.setLayout(new BorderLayout(0, 0));
-			
-			vehiclePanelCenter.add(new MapPanel());
-			
-			
-			
-			
-			//Placeholder for vehiclePanelCenter
-			JPanel placeholderEAST = new JPanel();
-			placeholderEAST.setBackground(Color.WHITE);
-			placeholderEAST.setPreferredSize(new Dimension(30, 10));
-			vehiclePanelCenter.add(placeholderEAST, BorderLayout.EAST);
-			
-		vehicleBodyContentPanel.add(vehiclePanelCenter, BorderLayout.CENTER);
-			
-		return vehicleBodyContentPanel;
+		return VehicleRenderer.vehicleBodyContentPanel;
 	}
 	
 	private JPanel createVehiclePanel(Vehicle currentVehicle) 
@@ -294,5 +207,100 @@ public class VehicleController {
 		vehiclePanel.add(carDetails, BorderLayout.CENTER);
 			
 		return vehiclePanel;
+	}
+
+	private JPanel createVehiclePanelWest(ArrayList<Vehicle> vehicles)
+	{
+		//Vehicle Panel Align West 
+		JPanel vehiclePanelWest = new JPanel();
+		
+		vehiclePanelWest.setMinimumSize(new Dimension(10, 128));
+		vehiclePanelWest.setPreferredSize(new Dimension(400, 10));
+		vehiclePanelWest.setBackground(SystemColor.GREEN);
+		vehiclePanelWest.setLayout(new BorderLayout(0, 0));
+
+		vehiclePanelWest.add(createScrollPaneWithVehicles(vehicles), BorderLayout.CENTER);
+		
+		//Placeholder for vehiclePanel
+		JPanel placeholderWest = new JPanel();
+		placeholderWest.setBackground(Color.WHITE);
+		placeholderWest.setPreferredSize(new Dimension(30, 10));
+		vehiclePanelWest.add(placeholderWest, BorderLayout.WEST);
+		
+		//Placeholder for vehiclePanel
+		JPanel placeholderCenter = new JPanel();
+		placeholderCenter.setBackground(Color.WHITE);
+		placeholderCenter.setPreferredSize(new Dimension(10, 10));
+		vehiclePanelWest.add(placeholderCenter, BorderLayout.EAST);
+		return vehiclePanelWest;
+	}
+	
+	private JPanel createMapPanel()
+	{
+		// Center Panel Map
+		JPanel vehiclePanelCenter = new JPanel();
+		vehiclePanelCenter.setMinimumSize(new Dimension(10, 128));
+		vehiclePanelCenter.setPreferredSize(new Dimension(400, 10));
+		vehiclePanelCenter.setBackground(SystemColor.GREEN);
+		vehiclePanelCenter.setLayout(new BorderLayout(0, 0));
+		
+		vehiclePanelCenter.add(new MapPanel());
+		
+		//Placeholder for vehiclePanelCenter
+		JPanel placeholderEAST = new JPanel();
+		placeholderEAST.setBackground(Color.WHITE);
+		placeholderEAST.setPreferredSize(new Dimension(30, 10));
+		vehiclePanelCenter.add(placeholderEAST, BorderLayout.EAST);
+		
+		return vehiclePanelCenter;
+	}
+	
+	private JScrollPane createScrollPaneWithVehicles(ArrayList<Vehicle> vehicles)
+	{
+		JPanel scrollPane = new JPanel();
+		scrollPane.setBackground(Color.WHITE);
+		scrollPane.setLayout(new MigLayout("", "[320px]", "[100px]"));
+		
+		if(vehicles != null)
+		{
+			int i = 0;
+			for (Vehicle currentVehicle : vehicles)
+			{
+				String position = "cell 0 "+ i + ",grow";
+				scrollPane.add(createVehiclePanel(currentVehicle), position );
+				i++;
+			}
+		}
+		
+		JScrollPane scrollPaneContainer = new JScrollPane(scrollPane, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPaneContainer.setBorder(null);
+		scrollPaneContainer.setBounds(new Rectangle(0, 0, 0, 20));
+		scrollPaneContainer.setPreferredSize(new Dimension(0, 200));
+		scrollPaneContainer.getVerticalScrollBar().setUnitIncrement(13);
+		
+		return scrollPaneContainer;
+	}
+	
+	private void refreshVehiclePanel(String searchInput)
+	{
+		ArrayList<Vehicle> filteredVehicles = null;
+		if(allVehicles != null)
+		{
+			filteredVehicles = new ArrayList<Vehicle>();
+			for(Vehicle currentVehicle : allVehicles)
+			{
+				if(StringUtils.containsIgnoreCase(currentVehicle.getBrand() , searchInput) || StringUtils.containsIgnoreCase(currentVehicle.getModel() , searchInput))
+				{
+					filteredVehicles.add(currentVehicle);					
+				}
+			}
+		}
+		Object vehiclePanelWest = VehicleRenderer.vehicleBodyContentPanel.getClientProperty(DriveMeConstants.VehicleContent.VEHICLE_KEY);
+		
+		if(vehiclePanelWest instanceof JPanel)
+		{
+			driveMeUtil.clearAndSetContent((JPanel)vehiclePanelWest, createVehiclePanelWest(filteredVehicles), null);
+		}
+//		driveMeUtil.clearAndSetContent(bodyContentPanel, getVehicleContent(filteredVehicles), null);
 	}
 }

@@ -28,7 +28,7 @@ public class DatabaseService {
 	
 	private static boolean rentVehicle(int customerid, int vehicleid, Timestamp from, Timestamp to) {
 
-		Customer customer = CustomerService.findCostumerById(customerid);
+		Customer customer = CustomerService.findCustomerById(customerid);
 		Vehicle vehicle = VehicleService.findVehiclesById(vehicleid);
 
 		if (customer != null && vehicle != null) {

@@ -1,22 +1,25 @@
 package driveMe.util;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Image;
 
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import org.apache.commons.lang.StringUtils;
 
 import driveMe.MainRenderer;
 import driveMe.constants.DriveMeConstants;
 
-public class DriveMeUtil {
+public class DriveMeUtil extends MainRenderer{
 	
+	public DriveMeUtil()
+	{
+		
+	}
 	
 	public ImageIcon resizeImageIcon(String url, int heigth, int width) 
 	{
@@ -41,24 +44,45 @@ public class DriveMeUtil {
 		panel.add(comboBox);
 	}
 	
-	public void clearAndSetContent(JPanel bodyContentPanel, JPanel content, String borderLayout) 
+	public void clearAndSetContent(JPanel contentPanel, JPanel content, String borderLayout) 
 	{
-		bodyContentPanel.removeAll();
-		bodyContentPanel.repaint();
-		bodyContentPanel.revalidate();
+		contentPanel.removeAll();
+//		contentPanel.repaint();
+//		contentPanel.revalidate();
 		
 		if(StringUtils.isNotBlank(borderLayout))
 		{
-			bodyContentPanel.add(content, borderLayout);
+			contentPanel.add(content, borderLayout);
 		}
 		else
 		{
-			bodyContentPanel.add(content);
+			contentPanel.add(content);
 		}
+		SwingUtilities.updateComponentTreeUI(contentPanel);
+//		contentPanel.repaint();
+//		contentPanel.revalidate();
+	}
+	
+	public void clearAndSetContentForBodyPanel(JPanel content) 
+	{
+		bodyContentPanel.removeAll();
+//		bodyContentPanel.repaint();
+//		bodyContentPanel.revalidate();
 		
-		bodyContentPanel.repaint();
-		bodyContentPanel.revalidate();
+		bodyContentPanel.add(content);
+		SwingUtilities.updateComponentTreeUI(bodyContentPanel);
+//		bodyContentPanel.repaint();
+//		bodyContentPanel.revalidate();
+	}
+	
+	public JPanel createPlaceholderPanel(Dimension preferedSize)
+	{
+		//Placeholder for bodyContentPanel NORTH
+		JPanel placeholder= new JPanel();
+		placeholder.setBackground(Color.WHITE);
+		placeholder.setPreferredSize(preferedSize);
+		
+		return placeholder;
 	}
 
-	
 }

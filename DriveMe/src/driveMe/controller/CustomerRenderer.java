@@ -9,6 +9,8 @@ import java.awt.Insets;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -19,18 +21,20 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
+import org.apache.commons.lang.StringUtils;
+
+import driveMe.MainRenderer;
 import driveMe.ModifiedFlowLayout;
 import driveMe.constants.DriveMeConstants;
 import driveMe.customers.model.Customer;
-import driveMe.customers.service.CustomerService;
 import driveMe.util.DriveMeUtil;
 
-public class CustomerController {
+public class CustomerRenderer extends MainRenderer{
 
 	private DriveMeUtil driveMeUtil = new DriveMeUtil(); 
 	
 	
-	public JPanel getCustomerContent() 
+	public JPanel getCustomerContent(ArrayList<Customer> customers) 
 	{
 		JPanel customerBodyContentPanel = new JPanel();
 		customerBodyContentPanel.setBackground(Color.WHITE);
@@ -49,52 +53,29 @@ public class CustomerController {
 		scrollPaneContainer.setPreferredSize(new Dimension(0, 200));
 		scrollPaneContainer.getVerticalScrollBar().setUnitIncrement(13);
 		
-		ArrayList<Customer> customer = CustomerService.findCostumerByAll();
-		for (Customer currentCustomer : customer)
+		for (Customer currentCustomer : customers)
 		{
-
 			flowPane.add(createCustomerPanel(currentCustomer));
 		}
 		
 		customerBodyContentPanel.add(scrollPaneContainer, BorderLayout.CENTER);
-		
 
-		//Placeholder for customerBodyContentPanel WEST
-		JPanel placeholderWest = new JPanel();
-		placeholderWest.setBackground(Color.WHITE);
-		placeholderWest.setPreferredSize(new Dimension(30, 10));
-		
-		customerBodyContentPanel.add(placeholderWest, BorderLayout.WEST);
-		
-		//Placeholder for customerBodyContentPanel EAST
-		JPanel placeholderWEST = new JPanel();
-		placeholderWEST.setBackground(Color.WHITE);
-		placeholderWEST.setPreferredSize(new Dimension(30, 10));
+		customerBodyContentPanel.add(driveMeUtil.createPlaceholderPanel(new Dimension(30, 10)), BorderLayout.WEST);
 
-		customerBodyContentPanel.add(placeholderWEST, BorderLayout.EAST);
-	
-		//Placeholder for customerBodyContentPanel NORTH
-		JPanel placeholderNorth = new JPanel();
-		placeholderNorth.setBackground(Color.WHITE);
-		placeholderNorth.setPreferredSize(new Dimension(100, 30));
+		customerBodyContentPanel.add(driveMeUtil.createPlaceholderPanel(new Dimension(30, 10)), BorderLayout.EAST);
 		
-		customerBodyContentPanel.add(placeholderNorth, BorderLayout.NORTH);
+		customerBodyContentPanel.add(driveMeUtil.createPlaceholderPanel(new Dimension(100, 30)), BorderLayout.NORTH);
 		
-		//Placeholder for customerBodyContentPanel SOUTH
-		JPanel placeholderSouth = new JPanel();
-		placeholderSouth.setBackground(Color.WHITE);
-		placeholderSouth.setPreferredSize(new Dimension(30, 30));
-	
-		customerBodyContentPanel.add(placeholderSouth, BorderLayout.SOUTH);
+		customerBodyContentPanel.add(driveMeUtil.createPlaceholderPanel(new Dimension(30, 30)), BorderLayout.SOUTH);
 
 		return customerBodyContentPanel;
 	}
 	
 	private JPanel createCustomerPanel(Customer customer) {
-		JPanel costumerConatinerPanel = new JPanel();
-		costumerConatinerPanel.setPreferredSize(new Dimension(200, 275));
+		JPanel customerConatinerPanel = new JPanel();
+		customerConatinerPanel.setPreferredSize(new Dimension(200, 275));
 		
-		costumerConatinerPanel.setLayout(new BorderLayout(0, 0));
+		customerConatinerPanel.setLayout(new BorderLayout(0, 0));
 		
 			JPanel settingsPanel = new JPanel();
 			settingsPanel.setPreferredSize(new Dimension(10, 28));
@@ -108,14 +89,14 @@ public class CustomerController {
 				settingsButton.setPreferredSize(new Dimension(30, 30));
 				settingsPanel.add(settingsButton, BorderLayout.EAST);
 				
-		costumerConatinerPanel.add(settingsPanel, BorderLayout.NORTH);
+		customerConatinerPanel.add(settingsPanel, BorderLayout.NORTH);
 		
-		//Costumer Info Bottom
+		//Customer Info Bottom
 		JPanel customerInfoBottomPanel = new JPanel();
 		customerInfoBottomPanel.setPreferredSize(new Dimension(10, 145));
 		customerInfoBottomPanel.setLayout(new BorderLayout(0, 0));
 		
-			//Costumer Name
+			//Customer Name
 			JPanel ccustomerNamePanel = new JPanel();
 			ccustomerNamePanel.setPreferredSize(new Dimension(10, 25));
 			
@@ -136,7 +117,7 @@ public class CustomerController {
 				customerInfoPanel.add(customerNumberLabel);
 				
 				
-				//CostumerNumber
+				//CustomerNumber
 				JLabel customerAdressLabel = new JLabel("Geburtstag: " + customer.getBirthday());
 				customerAdressLabel.setBounds(10, 25, 180, 14);
 				customerAdressLabel.setAlignmentY(Component.TOP_ALIGNMENT);
@@ -169,30 +150,28 @@ public class CustomerController {
 		
 			customerInfoBottomPanel.add(customerButtonPanel, BorderLayout.SOUTH);
 				
-		costumerConatinerPanel.add(customerInfoBottomPanel, BorderLayout.SOUTH);
+		customerConatinerPanel.add(customerInfoBottomPanel, BorderLayout.SOUTH);
 		
 		//Profile Image Panel
 		JPanel profileImagePanel = new JPanel();
 		profileImagePanel.setForeground(Color.WHITE);
 		profileImagePanel.setBackground(Color.WHITE);
-		costumerConatinerPanel.add(profileImagePanel, BorderLayout.CENTER);
+		customerConatinerPanel.add(profileImagePanel, BorderLayout.CENTER);
 		
 		//Plac Holder WEST
 		JPanel placeholderWEST = new JPanel();
 		placeholderWEST.setPreferredSize(new Dimension(50, 10));
-		costumerConatinerPanel.add(placeholderWEST, BorderLayout.WEST);
+		customerConatinerPanel.add(placeholderWEST, BorderLayout.WEST);
 		
 		//Plac Holder EAST
 		JPanel placeholderEAST = new JPanel();
 		placeholderEAST.setPreferredSize(new Dimension(50, 10));
-		costumerConatinerPanel.add(placeholderEAST, BorderLayout.EAST);
+		customerConatinerPanel.add(placeholderEAST, BorderLayout.EAST);
 		
-	
-		
-		return costumerConatinerPanel;
+		return customerConatinerPanel;
 	}
 	
-	public JPanel customerHeaderBottom(JFrame mainFrame) 
+	public JPanel customerHeaderBottom(JFrame mainFrame, boolean vehiclePageActive) 
 	{
 		JPanel headerBottom = new JPanel();
 		headerBottom.setPreferredSize(new Dimension(10, 20));
@@ -254,7 +233,38 @@ public class CustomerController {
 		textField.setSize(new Dimension(400, 24));
 		midSidePanel.add(textField);
 		textField.setColumns(50);
+		textField.addKeyListener(new KeyAdapter() {
+	        @Override
+	        public void keyPressed(KeyEvent e) {
+	            	String input = textField.getText();
+	            	if(input.length() >2)
+	            	{
+	            		if(!vehiclePageActive)
+		            	{
+	            			refreshCustomerPanel(input);
+		            	}
+	            	}
+	            }
+	    });
 		
 		return headerBottom;
+	}
+	
+	
+	private void refreshCustomerPanel(String searchInput)
+	{
+		ArrayList<Customer> filteredCustomers = null;
+		if(allCustomers != null && StringUtils.isNotBlank(searchInput))
+		{
+			filteredCustomers = new ArrayList<>();
+			for(Customer currentCustomer : allCustomers)
+			{
+				if(searchInput.contains(currentCustomer.getUsername()))
+				{
+					filteredCustomers.add(currentCustomer);					
+				}
+			}
+		}
+		driveMeUtil.clearAndSetContentForBodyPanel(getCustomerContent(filteredCustomers));
 	}
 }

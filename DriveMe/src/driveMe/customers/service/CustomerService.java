@@ -13,7 +13,7 @@ import driveMe.service.DatabaseService;
 public class CustomerService {
 
 	
-	public static ArrayList<Customer> findCostumerByAll() {
+	public static ArrayList<Customer> findAllCustomers() {
 		Connection con = DatabaseService.MysqlConnection();
 		ArrayList<Customer> costumers = new ArrayList<Customer>();
 		
@@ -39,9 +39,9 @@ public class CustomerService {
 		return costumers;
 	}
 	
-	public static Customer findCostumerById(int id) {
+	public static Customer findCustomerById(int id) {
 		Connection con = DatabaseService.MysqlConnection();
-		Customer costumer = null;
+		Customer customer = null;
 		
 		try {
 			Statement st = con.createStatement();
@@ -54,7 +54,7 @@ public class CustomerService {
 				String username = rs.getString("username");
 				Date birthday = rs.getDate("birthday");
 				
-				costumer = new Customer(userid, firstname, lastname, username, birthday);
+				customer = new Customer(userid, firstname, lastname, username, birthday);
 			}
 			
 			con.close();		
@@ -63,12 +63,12 @@ public class CustomerService {
 			e.printStackTrace();
 		}
 
-		return costumer;
+		return customer;
 	}
 
-	public static Customer findCostumerByUsername(String usernameid) {
+	public static Customer findCustomerByUsername(String usernameid) {
 		Connection con = DatabaseService.MysqlConnection();
-		Customer costumer = null;
+		Customer customer = null;
 		
 		try {
 			Statement st = con.createStatement();
@@ -81,7 +81,7 @@ public class CustomerService {
 				String username = rs.getString("username");
 				Date birthday = rs.getDate("birthday");
 				
-				costumer = new Customer(userid, firstname, lastname, username, birthday);
+				customer = new Customer(userid, firstname, lastname, username, birthday);
 			}
 			
 			con.close();		
@@ -90,7 +90,7 @@ public class CustomerService {
 			e.printStackTrace();
 		}
 
-		return costumer;
+		return customer;
 	}
 	
 	

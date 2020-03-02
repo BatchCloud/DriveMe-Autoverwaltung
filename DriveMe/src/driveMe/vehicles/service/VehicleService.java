@@ -11,7 +11,7 @@ import driveMe.vehicles.model.Vehicle;
 
 public class VehicleService {
 	
-	public static ArrayList<Vehicle> findVehiclesByAll() {
+	public static ArrayList<Vehicle> findAllVehicles() {
 		Connection con = DatabaseService.MysqlConnection();
 		ArrayList<Vehicle> vehicles = new ArrayList<Vehicle>();
 		

@@ -23,7 +23,7 @@ public class RunApplication extends MainRenderer{
 				        UIManager.put("TabbedPane.borderColor", Color.RED);
 				        UIManager.put("TabbedPane.tabAreaBackground", Color.RED);
 				        UIManager.put("TabbedPane.unselectedTabBackground", Color.RED);
-				        MainRenderer window = new MainRenderer();
+				    MainRenderer window = new MainRenderer();
 					window.mainFrame.setVisible(true);
 					window.initialize();
 				} catch (Exception e) {
