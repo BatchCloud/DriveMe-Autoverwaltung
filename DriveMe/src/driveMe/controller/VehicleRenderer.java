@@ -38,6 +38,7 @@ public class VehicleRenderer extends MainRenderer{
 	
 	private DriveMeUtil driveMeUtil = new DriveMeUtil();
 	
+	private JPanel scrollPane;
 	
 	public JPanel vehicleHeaderBottom(JFrame mainFrame, boolean vehiclePageActive) 
 	{
@@ -135,15 +136,15 @@ public class VehicleRenderer extends MainRenderer{
 		
 		JPanel vehicleContentPanel = createVehiclePanelWest(vehicels);
 		VehicleRenderer.vehicleBodyContentPanel.add(vehicleContentPanel, BorderLayout.WEST);
-		VehicleRenderer.vehicleBodyContentPanel.putClientProperty(vehicleContentPanel, DriveMeConstants.VehicleContent.VEHICLE_KEY);
+//		VehicleRenderer.vehicleBodyContentPanel.putClientProperty(vehicleContentPanel, DriveMeConstants.VehicleContent.VEHICLE_KEY);
 
 		VehicleRenderer.vehicleBodyContentPanel.add(driveMeUtil.createPlaceholderPanel(new Dimension(30, 10)), BorderLayout.NORTH);
 			
 		VehicleRenderer.vehicleBodyContentPanel.add(driveMeUtil.createPlaceholderPanel(new Dimension(30, 10)), BorderLayout.SOUTH);
 		
 		JPanel vehicleBodyContentMap = createMapPanel();
-		VehicleRenderer.vehicleBodyContentPanel.add(createMapPanel(), BorderLayout.CENTER);
-		VehicleRenderer.vehicleBodyContentPanel.putClientProperty(vehicleBodyContentMap, DriveMeConstants.VehicleContent.MAP_KEY);
+		VehicleRenderer.vehicleBodyContentPanel.add(vehicleBodyContentMap, BorderLayout.CENTER);
+//		VehicleRenderer.vehicleBodyContentPanel.putClientProperty(vehicleBodyContentMap, DriveMeConstants.VehicleContent.MAP_KEY);
 		
 		return VehicleRenderer.vehicleBodyContentPanel;
 	}
@@ -257,7 +258,7 @@ public class VehicleRenderer extends MainRenderer{
 	
 	private JScrollPane createScrollPaneWithVehicles(ArrayList<Vehicle> vehicles)
 	{
-		JPanel scrollPane = new JPanel();
+		scrollPane = new JPanel();
 		scrollPane.setBackground(Color.WHITE);
 		scrollPane.setLayout(new MigLayout("", "[320px]", "[100px]"));
 		
@@ -295,12 +296,12 @@ public class VehicleRenderer extends MainRenderer{
 				}
 			}
 		}
-		Object vehiclePanelWest = VehicleRenderer.vehicleBodyContentPanel.getClientProperty(DriveMeConstants.VehicleContent.VEHICLE_KEY);
-		
-		if(vehiclePanelWest instanceof JPanel)
-		{
-			driveMeUtil.clearAndSetContent((JPanel)vehiclePanelWest, createVehiclePanelWest(filteredVehicles), null);
-		}
-//		driveMeUtil.clearAndSetContent(bodyContentPanel, getVehicleContent(filteredVehicles), null);
+//		Object vehiclePanelWest = VehicleRenderer.vehicleBodyContentPanel.getClientProperty(DriveMeConstants.VehicleContent.VEHICLE_KEY);
+//		
+//		if(vehiclePanelWest instanceof JPanel)
+//		{
+			driveMeUtil.clearAndSetContent(scrollPane, createVehiclePanelWest(filteredVehicles), null);
+//		}
+//		driveMeUtil.clearAndSetContent(bodyContentPanel, getVehicleContent(filteredVehicles));
 	}
 }

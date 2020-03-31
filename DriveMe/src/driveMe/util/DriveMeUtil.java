@@ -63,6 +63,19 @@ public class DriveMeUtil extends MainRenderer{
 //		contentPanel.revalidate();
 	}
 	
+	public void clearAndSetContent(JPanel contentPanel, JPanel content) 
+	{
+		contentPanel.removeAll();
+//		contentPanel.repaint();
+//		contentPanel.revalidate();
+		
+		contentPanel.add(content);
+		
+		SwingUtilities.updateComponentTreeUI(contentPanel);
+//		contentPanel.repaint();
+//		contentPanel.revalidate();
+	}
+	
 	public void clearAndSetContentForBodyPanel(JPanel content) 
 	{
 		bodyContentPanel.removeAll();
