@@ -4,31 +4,19 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
 import java.awt.Image;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
-import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 
 import driveMe.MainRenderer;
 import driveMe.constants.DriveMeConstants;
-import driveMe.controller.VehicleRenderer;
 import driveMe.service.DatabaseService;
-import driveMe.vehicles.model.Vehicle;
-import driveMe.vehicles.service.VehicleService;
 
 public class DriveMeUtil {
 	
@@ -117,6 +105,36 @@ public class DriveMeUtil {
 		placeholder.setPreferredSize(preferedSize);
 		
 		return placeholder;
+	}
+	
+	public String getStringFromSubComponentCombobox(Component currentComponent)
+	{
+		if(currentComponent instanceof Container) {
+			Container subCont = (Container) currentComponent;
+			for(Component currSubComponent : subCont.getComponents()) {
+				if(currSubComponent instanceof JComboBox) {
+					JComboBox<?> brand = (JComboBox<?>) currSubComponent;
+					String brandName = brand.getSelectedItem().toString();
+					return brandName;
+				}
+			}
+		}
+		return "";
+	}
+	
+	public String getStringFromSubComponentTextField(Component currentComponent)
+	{
+		if(currentComponent instanceof Container) {
+			Container subCont = (Container) currentComponent;
+			for(Component currSubComponent : subCont.getComponents()) {
+				if(currSubComponent instanceof JTextField) {
+					JTextField model = (JTextField) currSubComponent;
+					String textFieldInput = model.getText();
+					return textFieldInput;
+				}
+			}
+		}
+		return "";
 	}
 	
 }

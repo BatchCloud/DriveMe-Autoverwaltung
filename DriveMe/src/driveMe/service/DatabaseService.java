@@ -2,18 +2,7 @@ package driveMe.service;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.Timestamp;
-
-import org.apache.commons.lang.StringUtils;
-
-import driveMe.customers.model.Customer;
-import driveMe.customers.service.CustomerService;
-import driveMe.vehicles.model.Vehicle;
-import driveMe.vehicles.service.VehicleService;
 
 public class DatabaseService {
 

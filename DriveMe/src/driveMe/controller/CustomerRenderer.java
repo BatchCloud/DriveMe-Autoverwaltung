@@ -28,15 +28,13 @@ import driveMe.ModifiedFlowLayout;
 import driveMe.constants.DriveMeConstants;
 import driveMe.customers.model.Customer;
 import driveMe.customers.service.CustomerService;
-import driveMe.util.DriveMeUtil;
 
 public class CustomerRenderer extends MainRenderer{
 
-
-	private DriveMeUtil driveMeUtil;
+//	private DriveMeUtil driveMeUtil = new DriveMeUtil();
 	
 	public CustomerRenderer() {
-		driveMeUtil = new DriveMeUtil();
+//		driveMeUtil = new DriveMeUtil();
 	}
 	
 	public JPanel getCustomerContent(ArrayList<Customer> customers) 

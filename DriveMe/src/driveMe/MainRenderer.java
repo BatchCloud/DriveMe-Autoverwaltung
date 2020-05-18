@@ -37,9 +37,9 @@ public class MainRenderer {
 	public static JPanel bodyContentPanel = new JPanel();
 	private JLayeredPane bodyJLayeredPane = new JLayeredPane();;
 	
-	public VehicleRenderer vehicleRenderer;
+	private VehicleRenderer vehicleRenderer;
 	private CustomerRenderer customerRenderer;
-	public DriveMeUtil driveMeUtil;
+	public DriveMeUtil driveMeUtil = new DriveMeUtil();
 	
 	private boolean vehiclePageActive = true;
 	
@@ -53,7 +53,6 @@ public class MainRenderer {
 
 		vehicleRenderer = new VehicleRenderer();
 		customerRenderer = new CustomerRenderer();
-		driveMeUtil = new DriveMeUtil();
 		
 		//Setup Main frame
 //		mainFrame.setType(Type.POPUP);

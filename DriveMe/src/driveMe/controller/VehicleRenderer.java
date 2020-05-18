@@ -3,7 +3,6 @@ package driveMe.controller;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -32,14 +31,14 @@ import javax.swing.border.MatteBorder;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 
+import driveMe.MainRenderer;
 import driveMe.MapPanel;
 import driveMe.constants.DriveMeConstants;
-import driveMe.util.DriveMeUtil;
 import driveMe.vehicles.model.Vehicle;
 import driveMe.vehicles.service.VehicleService;
 import net.miginfocom.swing.MigLayout;
 
-public class VehicleRenderer {
+public class VehicleRenderer extends MainRenderer{
 
 	private static  JPanel vehicleBodyContentPanel = new JPanel();
 	
@@ -48,12 +47,10 @@ public class VehicleRenderer {
 	private JPanel vehicleContentPanel;
 	private JScrollPane scrollPaneContainer;
 	
-	private DriveMeUtil driveMeUtil;
-	private VehicleService vehicleService;
+	private VehicleService vehicleService= new VehicleService();
+	
 	public VehicleRenderer () 
 	{
-		driveMeUtil = new DriveMeUtil();		
-		vehicleService = new VehicleService();
 	}
 	
 	public JPanel vehicleHeaderBottom(JFrame mainFrame, boolean vehiclePageActive) 
@@ -321,9 +318,9 @@ public class VehicleRenderer {
 			Vehicle newVehicle = new Vehicle();
 			for(Component currentComponent : filledComponents) {
 				if(DriveMeConstants.Database.Vehicle.BRAND.equals(currentComponent.getName())){
-					String brandValue = getStringFromSubComponentCombobox(currentComponent);
+					String brandValue = driveMeUtil.getStringFromSubComponentCombobox(currentComponent);
 					newVehicle.setBrand(brandValue);
-					String modelValue = getStringFromSubComponentTextField(currentComponent);
+					String modelValue = driveMeUtil.getStringFromSubComponentTextField(currentComponent);
 					if(StringUtils.isEmpty(modelValue))
 					{
 						modelValue="";
@@ -331,7 +328,7 @@ public class VehicleRenderer {
 					newVehicle.setModel(modelValue);
 				}
 				else if(DriveMeConstants.Database.Vehicle.PS.equals(currentComponent.getName())){
-					String psValue = getStringFromSubComponentCombobox(currentComponent);
+					String psValue = driveMeUtil.getStringFromSubComponentCombobox(currentComponent);
 					int ps = 0;
 					if(psValue.matches("[0-9]+"))
 					{
@@ -341,7 +338,7 @@ public class VehicleRenderer {
 					newVehicle.setPs(ps);
 				}
 				else if(DriveMeConstants.Database.Vehicle.SEATS.equals(currentComponent.getName())){
-					String selectedSeat = getStringFromSubComponentCombobox(currentComponent);
+					String selectedSeat = driveMeUtil.getStringFromSubComponentCombobox(currentComponent);
 					int seatValue = 0;
 					if(selectedSeat.matches("[0-9]+"))
 					{
@@ -350,7 +347,7 @@ public class VehicleRenderer {
 					newVehicle.setSeats(seatValue);									
 				}
 				else if(DriveMeConstants.Database.Vehicle.LONGITUDE.equals(currentComponent.getName())){
-					String longitudeValue = getStringFromSubComponentTextField(currentComponent);
+					String longitudeValue = driveMeUtil.getStringFromSubComponentTextField(currentComponent);
 					if(StringUtils.isEmpty(longitudeValue))
 					{
 						longitudeValue="";
@@ -358,7 +355,7 @@ public class VehicleRenderer {
 					newVehicle.setLongitude(longitudeValue);									
 				}
 				else if(DriveMeConstants.Database.Vehicle.LATITUDE.equals(currentComponent.getName())){
-					String latitudeValue = getStringFromSubComponentTextField(currentComponent);
+					String latitudeValue = driveMeUtil.getStringFromSubComponentTextField(currentComponent);
 					if(StringUtils.isEmpty(latitudeValue))
 					{
 						latitudeValue="";
@@ -366,7 +363,7 @@ public class VehicleRenderer {
 					newVehicle.setLongitude(latitudeValue);									
 				}
 				else if(DriveMeConstants.Database.Vehicle.IMAGE.equals(currentComponent.getName())){
-					String imageValue= getStringFromSubComponentTextField(currentComponent);
+					String imageValue= driveMeUtil.getStringFromSubComponentTextField(currentComponent);
 					if(StringUtils.isEmpty(imageValue))
 					{
 						imageValue="";
@@ -374,7 +371,7 @@ public class VehicleRenderer {
 					newVehicle.setImage(imageValue);									
 				}
 				else if(DriveMeConstants.Database.Vehicle.FUEL.equals(currentComponent.getName())){
-					String fuelValue = getStringFromSubComponentTextField(currentComponent);
+					String fuelValue = driveMeUtil.getStringFromSubComponentTextField(currentComponent);
 					if(StringUtils.isEmpty(fuelValue))
 					{
 						fuelValue="";
@@ -490,34 +487,6 @@ public class VehicleRenderer {
 		panel.add(fuelInput);
 
 		return panel;
-	}
-	private String getStringFromSubComponentCombobox(Component currentComponent)
-	{
-		if(currentComponent instanceof Container) {
-			Container subCont = (Container) currentComponent;
-			for(Component currSubComponent : subCont.getComponents()) {
-				if(currSubComponent instanceof JComboBox) {
-					JComboBox<?> brand = (JComboBox<?>) currSubComponent;
-					String brandName = brand.getSelectedItem().toString();
-					return brandName;
-				}
-			}
-		}
-		return "";
-	}
-	private String getStringFromSubComponentTextField(Component currentComponent)
-	{
-		if(currentComponent instanceof Container) {
-			Container subCont = (Container) currentComponent;
-			for(Component currSubComponent : subCont.getComponents()) {
-				if(currSubComponent instanceof JTextField) {
-					JTextField model = (JTextField) currSubComponent;
-					String textFieldInput = model.getText();
-					return textFieldInput;
-				}
-			}
-		}
-		return "";
 	}
 	
 }
