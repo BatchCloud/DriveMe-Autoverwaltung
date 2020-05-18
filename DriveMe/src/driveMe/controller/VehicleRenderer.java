@@ -43,6 +43,8 @@ public class VehicleRenderer extends MainRenderer{
 	private DriveMeUtil driveMeUtil = new DriveMeUtil();
 	
 	private JPanel scrollPane;
+	private JPanel vehiclePanelWest;
+	private JPanel vehicleContentPanel;
 	
 	public JPanel vehicleHeaderBottom(JFrame mainFrame, boolean vehiclePageActive) 
 	{
@@ -134,7 +136,7 @@ public class VehicleRenderer extends MainRenderer{
 		VehicleRenderer.vehicleBodyContentPanel.setLayout(new BorderLayout(0, 0));
 		VehicleRenderer.vehicleBodyContentPanel.setPreferredSize(new Dimension(10, 90));
 		
-		JPanel vehicleContentPanel = createVehiclePanelWest(vehicels);
+		vehicleContentPanel = createVehiclePanelWest(vehicels);
 		VehicleRenderer.vehicleBodyContentPanel.add(vehicleContentPanel, BorderLayout.WEST);
 //		VehicleRenderer.vehicleBodyContentPanel.putClientProperty(vehicleContentPanel, DriveMeConstants.VehicleContent.VEHICLE_KEY);
 
@@ -213,7 +215,7 @@ public class VehicleRenderer extends MainRenderer{
 	private JPanel createVehiclePanelWest(ArrayList<Vehicle> vehicles)
 	{
 		//Vehicle Panel Align West 
-		JPanel vehiclePanelWest = new JPanel();
+		vehiclePanelWest = new JPanel();
 		
 		vehiclePanelWest.setMinimumSize(new Dimension(10, 128));
 		vehiclePanelWest.setPreferredSize(new Dimension(400, 10));
@@ -300,8 +302,9 @@ public class VehicleRenderer extends MainRenderer{
 //		
 //		if(vehiclePanelWest instanceof JPanel)
 //		{
-			scrollPane = driveMeUtil.clearAndSetContent(scrollPane, createVehiclePanelWest(filteredVehicles), null);
-			scrollPane.setLayout(new MigLayout("", "[320px]", "[100px]"));
+		driveMeUtil.clearAndSetContent(vehicleContentPanel, createVehiclePanelWest(filteredVehicles) );
+
+	//		scrollPane.setLayout(new MigLayout("", "[320px]", "[100px]"));
 //		}
 //		driveMeUtil.clearAndSetContent(bodyContentPanel, getVehicleContent(filteredVehicles));
 	}

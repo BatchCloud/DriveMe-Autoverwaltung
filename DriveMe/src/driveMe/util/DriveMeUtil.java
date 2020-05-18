@@ -94,6 +94,7 @@ public class DriveMeUtil extends MainRenderer{
 		SwingUtilities.updateComponentTreeUI(contentPanel);
 //		contentPanel.repaint();
 //		contentPanel.revalidate();
+		
 	}
 	
 	public void clearAndSetContentForBodyPanel(JPanel content) 
