@@ -41,19 +41,10 @@ public class MainRenderer {
 	private CustomerRenderer customerRenderer;
 	public DriveMeUtil driveMeUtil;
 	
-	public DriveMeUtil getDriveMeUtil() {
-		if (driveMeUtil == null) {
-			driveMeUtil = new DriveMeUtil();
-		}
-	
-		return driveMeUtil;
-	}
-
-
 	private boolean vehiclePageActive = true;
 	
-	protected ArrayList<Vehicle> allVehicles = VehicleService.findAllVehicles();
-	protected ArrayList<Customer> allCustomers = CustomerService.findAllCustomers();
+	private ArrayList<Vehicle> allVehicles = VehicleService.findAllVehicles();
+	private ArrayList<Customer> allCustomers = CustomerService.findAllCustomers();
 	
 	/**
 	 * @wbp.parser.entryPoint
@@ -62,6 +53,7 @@ public class MainRenderer {
 
 		vehicleRenderer = new VehicleRenderer();
 		customerRenderer = new CustomerRenderer();
+		driveMeUtil = new DriveMeUtil();
 		
 		//Setup Main frame
 //		mainFrame.setType(Type.POPUP);
@@ -173,10 +165,10 @@ public class MainRenderer {
 				vehicleButton.setBackground(DriveMeConstants.Colour.primaryColor);	
 				vehicleButton.setForeground(Color.WHITE);
 				
-				bodyContentPanel = getDriveMeUtil().clearAndSetContent(bodyContentPanel, customerContent, null);
+				bodyContentPanel = driveMeUtil.clearAndSetContent(bodyContentPanel, customerContent, null);
 //				getDriveMeUtil().clearAndSetContentForBodyPanel(customerContent);
 				
-				getDriveMeUtil().clearAndSetContent(headerBottom, customerHeaderBottom, BorderLayout.CENTER);
+				driveMeUtil.clearAndSetContent(headerBottom, customerHeaderBottom, BorderLayout.CENTER);
 
 				vehiclePageActive = false;
 			}
@@ -188,10 +180,10 @@ public class MainRenderer {
 				vehicleButton.setBackground(DriveMeConstants.Colour.secondColor);	
 				vehicleButton.setForeground(DriveMeConstants.Colour.primaryColor);
 
-				bodyContentPanel = getDriveMeUtil().clearAndSetContent(bodyContentPanel, vehicleContent, null);
+				bodyContentPanel = driveMeUtil.clearAndSetContent(bodyContentPanel, vehicleContent, null);
 //				getDriveMeUtil().clearAndSetContentForBodyPanel(vehicleContent);
 				
-				getDriveMeUtil().clearAndSetContent(headerBottom, vehicleHeaderBottom, BorderLayout.CENTER);
+				driveMeUtil.clearAndSetContent(headerBottom, vehicleHeaderBottom, BorderLayout.CENTER);
 
 				vehiclePageActive = true;
 			}

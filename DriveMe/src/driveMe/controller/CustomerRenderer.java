@@ -27,12 +27,17 @@ import driveMe.MainRenderer;
 import driveMe.ModifiedFlowLayout;
 import driveMe.constants.DriveMeConstants;
 import driveMe.customers.model.Customer;
+import driveMe.customers.service.CustomerService;
 import driveMe.util.DriveMeUtil;
 
 public class CustomerRenderer extends MainRenderer{
 
-	private DriveMeUtil driveMeUtil = new DriveMeUtil(); 
+
+	private DriveMeUtil driveMeUtil;
 	
+	public CustomerRenderer() {
+		driveMeUtil = new DriveMeUtil();
+	}
 	
 	public JPanel getCustomerContent(ArrayList<Customer> customers) 
 	{
@@ -254,6 +259,8 @@ public class CustomerRenderer extends MainRenderer{
 	private void refreshCustomerPanel(String searchInput)
 	{
 		ArrayList<Customer> filteredCustomers = null;
+		ArrayList<Customer> allCustomers = CustomerService.findAllCustomers();
+		
 		if(allCustomers != null && StringUtils.isNotBlank(searchInput))
 		{
 			filteredCustomers = new ArrayList<>();
@@ -265,6 +272,6 @@ public class CustomerRenderer extends MainRenderer{
 				}
 			}
 		}
-		driveMeUtil.clearAndSetContentForBodyPanel(getCustomerContent(filteredCustomers));
+		driveMeUtil.clearAndSetContentForBodyPanel(bodyContentPanel, getCustomerContent(filteredCustomers));
 	}
 }
