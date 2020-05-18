@@ -30,7 +30,7 @@ import driveMe.controller.VehicleRenderer;
 import driveMe.service.DatabaseService;
 import driveMe.vehicles.model.Vehicle;
 
-public class DriveMeUtil extends MainRenderer{
+public class DriveMeUtil {
 	
 	DatabaseService dataBaseService;
 	
@@ -196,6 +196,10 @@ public class DriveMeUtil extends MainRenderer{
 			if(vehicleSaved) {
 				System.out.println("Jucheii!");
 				//TODO
+				if(vehicleRenderer == null) {
+					vehicleRenderer = new VehicleRenderer();
+				}
+				vehicleRenderer.refreshVehiclePanel(allVehicles);
 			}
 			else {
 				System.out.println("Something went wrong while saving the vehicle!");
@@ -327,4 +331,5 @@ public class DriveMeUtil extends MainRenderer{
 		}
 		return "";
 	}
+	
 }

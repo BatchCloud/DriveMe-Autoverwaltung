@@ -36,7 +36,7 @@ import driveMe.util.DriveMeUtil;
 import driveMe.vehicles.model.Vehicle;
 import net.miginfocom.swing.MigLayout;
 
-public class VehicleRenderer extends MainRenderer{
+public class VehicleRenderer {
 
 	private static  JPanel vehicleBodyContentPanel = new JPanel();
 	
@@ -121,7 +121,7 @@ public class VehicleRenderer extends MainRenderer{
 	            	String input = textField.getText();
             		if(vehiclePageActive)
 	            	{
-            			refreshVehiclePanel(input);
+            			searchVehicles(input);
 	            	}
 	            }
 	    });
@@ -285,7 +285,7 @@ public class VehicleRenderer extends MainRenderer{
 		return scrollPaneContainer;
 	}
 	
-	private void refreshVehiclePanel(String searchInput)
+	private void searchVehicles(String searchInput)
 	{
 		ArrayList<Vehicle> filteredVehicles = null;
 		if(allVehicles != null)
@@ -299,11 +299,18 @@ public class VehicleRenderer extends MainRenderer{
 				}
 			}
 		}
+
+		refreshVehiclePanel(filteredVehicles);
+	}
+	
+	public void refreshVehiclePanel(ArrayList<Vehicle> vehicles)
+	{
+		
 //		Object vehiclePanelWest = VehicleRenderer.vehicleBodyContentPanel.getClientProperty(DriveMeConstants.VehicleContent.VEHICLE_KEY);
 //		
 //		if(vehiclePanelWest instanceof JPanel)
 //		{
-		driveMeUtil.clearAndSetContent(vehicleContentPanel, createVehiclePanelWest(filteredVehicles) );
+		getDriveMeUtil().clearAndSetContent(vehicleContentPanel, createVehiclePanelWest(vehicles) );
 		vehicleContentPanel.setBackground(Color.RED);
 		scrollPaneContainer.setBorder(null);
 //		}
