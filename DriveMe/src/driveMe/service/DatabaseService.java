@@ -8,6 +8,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 
+import org.apache.commons.lang.StringUtils;
+
 import driveMe.customers.model.Customer;
 import driveMe.customers.service.CustomerService;
 import driveMe.vehicles.model.Vehicle;
@@ -26,7 +28,7 @@ public class DatabaseService {
 
 	
 	
-	private static boolean rentVehicle(int customerid, int vehicleid, Timestamp from, Timestamp to) {
+	public static boolean rentVehicle(int customerid, int vehicleid, Timestamp from, Timestamp to) {
 
 		Customer customer = CustomerService.findCustomerById(customerid);
 		Vehicle vehicle = VehicleService.findVehiclesById(vehicleid);
@@ -88,6 +90,63 @@ public class DatabaseService {
 		return false;
 	}
 
+	public boolean saveVehicle(Vehicle vehicle) {
+		if (vehicle != null) {
+			Connection con = DatabaseService.MysqlConnection();
+			
+			try {
+				String query = "INSERT into vehicles (model, brand, ps, seats, longitude, latitude, image, fuel) values (?, ?, ?, ?, ?, ?, ?, ?)";
+				
+				String model = vehicle.getModel();
+				String brand = vehicle.getBrand();
+				int ps = vehicle.getPs();
+				int seats = vehicle.getSeats();
+				String lon = vehicle.getLongitude();
+				String lat = vehicle.getLatitude();
+				String image = vehicle.getImage();
+				String fuel = vehicle.getFuel();
+				
+				PreparedStatement preparedStmt = con.prepareStatement(query);
+				
+				if(StringUtils.isBlank(model)) {
+					model = "";
+				}
+				if(StringUtils.isBlank(brand)) {
+					brand = "";
+				}
+				if(StringUtils.isBlank(lon)) {
+					lon = "";
+				}
+				if(StringUtils.isBlank(lat)) {
+					lat = "";
+				}
+				if(StringUtils.isBlank(image)) {
+					image = "";
+				}
+				if(StringUtils.isBlank(fuel)) {
+					fuel = "";
+				}
+				
+				preparedStmt.setString(1, model);
+				preparedStmt.setString(2, brand);
+				preparedStmt.setInt(3, ps);
+				preparedStmt.setInt(4, seats);
+				preparedStmt.setString(5, lon);
+				preparedStmt.setString(6, lat);
+				preparedStmt.setString(7, image);
+				preparedStmt.setString(8, fuel);
+				
+				preparedStmt.execute();
+				con.close();
+
+				return true;
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+	
 	@SuppressWarnings("deprecation")
 	public static Connection MysqlConnection() {
 		final String hostname = "192.168.2.8";

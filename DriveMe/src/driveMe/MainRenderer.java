@@ -37,7 +37,7 @@ public class MainRenderer {
 	public static JPanel bodyContentPanel = new JPanel();
 	private JLayeredPane bodyJLayeredPane = new JLayeredPane();;
 	
-	private VehicleRenderer vehicleRenderer;
+	public VehicleRenderer vehicleRenderer;
 	private CustomerRenderer customerRenderer;
 	private DriveMeUtil driveMeUtil;
 	
@@ -165,7 +165,7 @@ public class MainRenderer {
 				vehicleButton.setBackground(DriveMeConstants.Colour.primaryColor);	
 				vehicleButton.setForeground(Color.WHITE);
 				
-				driveMeUtil.clearAndSetContent(bodyContentPanel, customerContent, null);
+				bodyContentPanel = driveMeUtil.clearAndSetContent(bodyContentPanel, customerContent, null);
 //				driveMeUtil.clearAndSetContentForBodyPanel(customerContent);
 				
 				driveMeUtil.clearAndSetContent(headerBottom, customerHeaderBottom, BorderLayout.CENTER);
@@ -180,7 +180,7 @@ public class MainRenderer {
 				vehicleButton.setBackground(DriveMeConstants.Colour.secondColor);	
 				vehicleButton.setForeground(DriveMeConstants.Colour.primaryColor);
 
-				driveMeUtil.clearAndSetContent(bodyContentPanel, vehicleContent, null);
+				bodyContentPanel = driveMeUtil.clearAndSetContent(bodyContentPanel, vehicleContent, null);
 //				driveMeUtil.clearAndSetContentForBodyPanel(vehicleContent);
 				
 				driveMeUtil.clearAndSetContent(headerBottom, vehicleHeaderBottom, BorderLayout.CENTER);

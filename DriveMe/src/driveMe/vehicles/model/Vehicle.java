@@ -12,7 +12,10 @@ public class Vehicle {
 	String image;
 	String fuel;
 
-	
+	public Vehicle()
+	{
+		
+	}
 	public Vehicle (int id, String model, String brand, int ps, int seats, String longitude, 
 					String latitude, String image, String fuel)
 	{

@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.Rectangle;
 import java.awt.SystemColor;
@@ -13,8 +14,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -64,17 +68,13 @@ public class VehicleRenderer extends MainRenderer{
 				
 //				JPanel p = new JPanel(); 
 //		        p.setPreferredSize(new Dimension(400,400));
-//		        p.setBackground(Color.blue); ;
+//		        p.setBackground(Color.blue);
 //
 //				p.setBounds( (mainFrame.getWidth() / 2) - 400,  (mainFrame.getHeight()/ 2) - 400 , 400,400 );
 //	        	p.setVisible(true);
 //	        	bodyJLayeredPane.add(p, JLayeredPane.POPUP_LAYER);
-				 JPanel panel = new JPanel();
-				 panel.add(new JButton("Click"));
-				 panel.add(new JTextField(20));
-				 panel.add(new JLabel("Label"));
-				 JOptionPane.showMessageDialog(mainFrame,panel,"Information",JOptionPane.INFORMATION_MESSAGE);
-			
+				
+				driveMeUtil.applyNewVehicle();
 			}
 		});
 		leftSidePanel.add(btnFahrzeugAnlegen);
@@ -84,7 +84,7 @@ public class VehicleRenderer extends MainRenderer{
 		btnFahrzeugsettings.setMargin(new Insets(0, 0, 0, 0));
 		btnFahrzeugsettings.setForeground(Color.WHITE);
 		btnFahrzeugsettings.setBorder(null);
-		btnFahrzeugsettings.setBackground(new Color(105, 157, 217));
+		btnFahrzeugsettings.setBackground(DriveMeConstants.Colour.primaryColor);
 		leftSidePanel.add(btnFahrzeugsettings);
 
 		//Set rightSidePanel to header bottom
@@ -300,7 +300,8 @@ public class VehicleRenderer extends MainRenderer{
 //		
 //		if(vehiclePanelWest instanceof JPanel)
 //		{
-			driveMeUtil.clearAndSetContent(scrollPane, createVehiclePanelWest(filteredVehicles), null);
+			scrollPane = driveMeUtil.clearAndSetContent(scrollPane, createVehiclePanelWest(filteredVehicles), null);
+			scrollPane.setLayout(new MigLayout("", "[320px]", "[100px]"));
 //		}
 //		driveMeUtil.clearAndSetContent(bodyContentPanel, getVehicleContent(filteredVehicles));
 	}
