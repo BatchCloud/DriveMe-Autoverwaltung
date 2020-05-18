@@ -45,6 +45,7 @@ public class VehicleRenderer extends MainRenderer{
 	private JPanel scrollPane;
 	private JPanel vehiclePanelWest;
 	private JPanel vehicleContentPanel;
+	private JScrollPane scrollPaneContainer;
 	
 	public JPanel vehicleHeaderBottom(JFrame mainFrame, boolean vehiclePageActive) 
 	{
@@ -275,7 +276,7 @@ public class VehicleRenderer extends MainRenderer{
 			}
 		}
 		
-		JScrollPane scrollPaneContainer = new JScrollPane(scrollPane, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPaneContainer = new JScrollPane(scrollPane, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPaneContainer.setBorder(null);
 		scrollPaneContainer.setBounds(new Rectangle(0, 0, 0, 20));
 		scrollPaneContainer.setPreferredSize(new Dimension(0, 200));
@@ -303,8 +304,8 @@ public class VehicleRenderer extends MainRenderer{
 //		if(vehiclePanelWest instanceof JPanel)
 //		{
 		driveMeUtil.clearAndSetContent(vehicleContentPanel, createVehiclePanelWest(filteredVehicles) );
-
-	//		scrollPane.setLayout(new MigLayout("", "[320px]", "[100px]"));
+		vehicleContentPanel.setBackground(Color.RED);
+		scrollPaneContainer.setBorder(null);
 //		}
 //		driveMeUtil.clearAndSetContent(bodyContentPanel, getVehicleContent(filteredVehicles));
 	}
