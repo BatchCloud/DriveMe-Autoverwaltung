@@ -28,9 +28,13 @@ import driveMe.ModifiedFlowLayout;
 import driveMe.constants.DriveMeConstants;
 import driveMe.customers.model.Customer;
 import driveMe.customers.service.CustomerService;
+import driveMe.vehicles.model.Vehicle;
+import driveMe.vehicles.service.VehicleService;
 
 public class CustomerRenderer extends MainRenderer{
 
+	
+	JPanel flowPane;
 //	private DriveMeUtil driveMeUtil = new DriveMeUtil();
 	
 	public CustomerRenderer() {
@@ -44,7 +48,7 @@ public class CustomerRenderer extends MainRenderer{
 		customerBodyContentPanel.setLayout(new BorderLayout(0, 0));
 		customerBodyContentPanel.setPreferredSize(new Dimension(10, 90));
 
-		JPanel flowPane = new JPanel();
+		flowPane = new JPanel();
 		flowPane.setAlignmentY(Component.TOP_ALIGNMENT);
 		flowPane.setAlignmentX(Component.LEFT_ALIGNMENT);
 		flowPane.setBackground(Color.WHITE);
@@ -187,7 +191,11 @@ public class CustomerRenderer extends MainRenderer{
 		leftSidePanel.setPreferredSize(new Dimension(200, 10));
 		
 		//Add compobox to rightSidePanel
-		driveMeUtil.addComboBoxToPanel(leftSidePanel);
+		//driveMeUtil.addComboBoxToPanel(leftSidePanel);
+		JPanel placeholder = new JPanel();
+		placeholder.setPreferredSize(new Dimension(145, 25));
+		leftSidePanel.add(placeholder);
+		
 		headerBottom.add(leftSidePanel, BorderLayout.WEST);
 
 		//Set rightSidePanel to header bottom
@@ -244,7 +252,7 @@ public class CustomerRenderer extends MainRenderer{
 	            	{
 	            		if(!vehiclePageActive)
 		            	{
-	            			refreshCustomerPanel(input);
+	            			searchCustomer(input);
 		            	}
 	            	}
 	            }
@@ -254,7 +262,7 @@ public class CustomerRenderer extends MainRenderer{
 	}
 	
 	
-	private void refreshCustomerPanel(String searchInput)
+	private void searchCustomer(String searchInput)
 	{
 		ArrayList<Customer> filteredCustomers = null;
 		ArrayList<Customer> allCustomers = CustomerService.findAllCustomers();
@@ -270,6 +278,21 @@ public class CustomerRenderer extends MainRenderer{
 				}
 			}
 		}
-		driveMeUtil.clearAndSetContentForBodyPanel(bodyContentPanel, getCustomerContent(filteredCustomers));
+
+		refreshCustomersPanel(filteredCustomers);
 	}
+	
+	public void refreshCustomersPanel(ArrayList<Customer> filteredCustomers)
+	{
+		flowPane.removeAll();
+		for (Customer currentCustomer : filteredCustomers)
+		{
+			flowPane.add(createCustomerPanel(currentCustomer));
+		}
+		
+
+	}
+	
+
+	
 }

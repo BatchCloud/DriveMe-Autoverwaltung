@@ -14,10 +14,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -46,6 +48,7 @@ public class VehicleRenderer extends MainRenderer{
 	private JPanel vehiclePanelWest;
 	private JPanel vehicleContentPanel;
 	private JScrollPane scrollPaneContainer;
+	private MapPanel map = new MapPanel();
 	
 	private VehicleService vehicleService= new VehicleService();
 	
@@ -79,21 +82,27 @@ public class VehicleRenderer extends MainRenderer{
 		});
 		leftSidePanel.add(btnFahrzeugAnlegen);
 		
-		JButton btnFahrzeugsettings = new JButton("Fahrzeuge ‰ndern");
-		btnFahrzeugsettings.setPreferredSize(new Dimension(145, 25));
-		btnFahrzeugsettings.setMargin(new Insets(0, 0, 0, 0));
-		btnFahrzeugsettings.setForeground(Color.WHITE);
-		btnFahrzeugsettings.setBorder(null);
-		btnFahrzeugsettings.setBackground(DriveMeConstants.Colour.primaryColor);
-		leftSidePanel.add(btnFahrzeugsettings);
+//		SebS - disable Vehicle edit button 
+//		JButton btnFahrzeugsettings = new JButton("Fahrzeuge ‰ndern");
+//		btnFahrzeugsettings.setPreferredSize(new Dimension(145, 25));
+//		btnFahrzeugsettings.setMargin(new Insets(0, 0, 0, 0));
+//		btnFahrzeugsettings.setForeground(DriveMeConstants.Colour.secondColor);
+//		btnFahrzeugsettings.setBorder(null);
+//		btnFahrzeugsettings.setBackground(DriveMeConstants.Colour.secondColor);
+//		leftSidePanel.add(btnFahrzeugsettings);
+		JPanel placeholder = new JPanel();
+		placeholder.setPreferredSize(new Dimension(145, 25));
+		leftSidePanel.add(placeholder);
 
 		//Set rightSidePanel to header bottom
 		JPanel rightSidePanel = new JPanel();
 		rightSidePanel.setPreferredSize(new Dimension(200, 10));
 		rightSidePanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		
 		headerBottom.add(rightSidePanel, BorderLayout.EAST);
-		//Add compobox to rightSidePanel
-		driveMeUtil.addComboBoxToPanel(rightSidePanel);
+//		//Add compobox to rightSidePanel
+//		driveMeUtil.addComboBoxToPanel(rightSidePanel);
+		//rightSidePanel.add(placeholder);
 		
 		//Set topSidePanel to header bottom
 		JPanel topSidePanel = new JPanel();
@@ -151,16 +160,29 @@ public class VehicleRenderer extends MainRenderer{
 		JPanel vehiclePanel = new JPanel();
 		vehiclePanel.setLayout(new BorderLayout(0, 0));
 		
+		
 		JPanel innerVehiclePanel = new JPanel();
 		innerVehiclePanel.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
 		innerVehiclePanel.setPreferredSize(new Dimension(10, 50));
 		innerVehiclePanel.setLayout(null);
+		
+		JLabel vehicleIcon = new JLabel("");
+		try {
+			vehicleIcon.setIcon(driveMeUtil.resizeImageIconURL(currentVehicle.getImage(), 40, 30));
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		vehicleIcon.setBounds(5,5,50,40);
+		innerVehiclePanel.add(vehicleIcon);
 			
 		JLabel vehicleDetails = new JLabel(currentVehicle.getBrand() + " " + currentVehicle.getModel());
 		vehicleDetails.setBounds(59, 11, 200, 14);
 		innerVehiclePanel.add(vehicleDetails);
 	
-		JLabel vehicleLocation = new JLabel("Beinberger Weg 11, 75394 Oberreichenbach");
+		
+		
+		JLabel vehicleLocation = new JLabel("Musterstraﬂe 1, 71209 Musterstadt");
 		vehicleLocation.setFont(new Font("Tahoma", Font.PLAIN, 9));
 		vehicleLocation.setBounds(59, 25, 261, 14);
 		innerVehiclePanel.add(vehicleLocation);
@@ -170,14 +192,20 @@ public class VehicleRenderer extends MainRenderer{
 		moreDetailsBtn.setBorder(null);
 		moreDetailsBtn.setPreferredSize(new Dimension(10, 10));
 		moreDetailsBtn.setBounds(294, 11, 26, 23);
+		moreDetailsBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				vehicleService.jumpToLocation(map, currentVehicle);
+			}
+		});
 		innerVehiclePanel.add(moreDetailsBtn);
 		
-		JButton reservationBtn = new JButton("");
-		reservationBtn.setIcon(driveMeUtil.resizeImageIcon("menu.png", 15, 15));
-		reservationBtn.setBorder(null);
-		reservationBtn.setPreferredSize(new Dimension(10, 10));
-		reservationBtn.setBounds(269, 11, 26, 23);
-		innerVehiclePanel.add(reservationBtn);
+//		SebS - remove menu button
+//		JButton reservationBtn = new JButton("");
+//		reservationBtn.setIcon(driveMeUtil.resizeImageIcon("menu.png", 15, 15));
+//		reservationBtn.setBorder(null);
+//		reservationBtn.setPreferredSize(new Dimension(10, 10));
+//		reservationBtn.setBounds(269, 11, 26, 23);
+//		innerVehiclePanel.add(reservationBtn);
 				
 		vehiclePanel.add(innerVehiclePanel, BorderLayout.NORTH);
 
@@ -242,7 +270,8 @@ public class VehicleRenderer extends MainRenderer{
 		vehiclePanelCenter.setBackground(SystemColor.GREEN);
 		vehiclePanelCenter.setLayout(new BorderLayout(0, 0));
 		
-		vehiclePanelCenter.add(new MapPanel());
+		
+		vehiclePanelCenter.add(map);
 		
 		//Placeholder for vehiclePanelCenter
 		JPanel placeholderEAST = new JPanel();
@@ -310,85 +339,87 @@ public class VehicleRenderer extends MainRenderer{
 	{
 		JPanel panel = setVehicleFormToPanel();
 		
-		JOptionPane.showMessageDialog(mainFrame, panel, "Fahrzeug anlegen", JOptionPane.DEFAULT_OPTION);
-		
-		Component[] filledComponents = panel.getComponents();
-		if(ArrayUtils.isNotEmpty(filledComponents))
-		{
-			Vehicle newVehicle = new Vehicle();
-			for(Component currentComponent : filledComponents) {
-				if(DriveMeConstants.Database.Vehicle.BRAND.equals(currentComponent.getName())){
-					String brandValue = driveMeUtil.getStringFromSubComponentCombobox(currentComponent);
-					newVehicle.setBrand(brandValue);
-					String modelValue = driveMeUtil.getStringFromSubComponentTextField(currentComponent);
-					if(StringUtils.isEmpty(modelValue))
-					{
-						modelValue="";
-					}
-					newVehicle.setModel(modelValue);
-				}
-				else if(DriveMeConstants.Database.Vehicle.PS.equals(currentComponent.getName())){
-					String psValue = driveMeUtil.getStringFromSubComponentCombobox(currentComponent);
-					int ps = 0;
-					if(psValue.matches("[0-9]+"))
-					{
-						ps = Integer.valueOf(psValue);
-					}
+		int exit = JOptionPane.showConfirmDialog(mainFrame, panel, "Fahrzeug anlegen", JOptionPane.DEFAULT_OPTION);
 
-					newVehicle.setPs(ps);
-				}
-				else if(DriveMeConstants.Database.Vehicle.SEATS.equals(currentComponent.getName())){
-					String selectedSeat = driveMeUtil.getStringFromSubComponentCombobox(currentComponent);
-					int seatValue = 0;
-					if(selectedSeat.matches("[0-9]+"))
-					{
-						seatValue = Integer.valueOf(selectedSeat);
+		if (exit == JOptionPane.YES_OPTION){
+			Component[] filledComponents = panel.getComponents();
+			if(ArrayUtils.isNotEmpty(filledComponents))
+			{
+				Vehicle newVehicle = new Vehicle();
+				for(Component currentComponent : filledComponents) {
+					if(DriveMeConstants.Database.Vehicle.BRAND.equals(currentComponent.getName())){
+						String brandValue = driveMeUtil.getStringFromSubComponentCombobox(currentComponent);
+						newVehicle.setBrand(brandValue);
+						String modelValue = driveMeUtil.getStringFromSubComponentTextField(currentComponent);
+						if(StringUtils.isEmpty(modelValue))
+						{
+							modelValue="";
+						}
+						newVehicle.setModel(modelValue);
 					}
-					newVehicle.setSeats(seatValue);									
-				}
-				else if(DriveMeConstants.Database.Vehicle.LONGITUDE.equals(currentComponent.getName())){
-					String longitudeValue = driveMeUtil.getStringFromSubComponentTextField(currentComponent);
-					if(StringUtils.isEmpty(longitudeValue))
-					{
-						longitudeValue="";
+					else if(DriveMeConstants.Database.Vehicle.PS.equals(currentComponent.getName())){
+						String psValue = driveMeUtil.getStringFromSubComponentCombobox(currentComponent);
+						int ps = 0;
+						if(psValue.matches("[0-9]+"))
+						{
+							ps = Integer.valueOf(psValue);
+						}
+
+						newVehicle.setPs(ps);
 					}
-					newVehicle.setLongitude(longitudeValue);									
-				}
-				else if(DriveMeConstants.Database.Vehicle.LATITUDE.equals(currentComponent.getName())){
-					String latitudeValue = driveMeUtil.getStringFromSubComponentTextField(currentComponent);
-					if(StringUtils.isEmpty(latitudeValue))
-					{
-						latitudeValue="";
+					else if(DriveMeConstants.Database.Vehicle.SEATS.equals(currentComponent.getName())){
+						String selectedSeat = driveMeUtil.getStringFromSubComponentCombobox(currentComponent);
+						int seatValue = 0;
+						if(selectedSeat.matches("[0-9]+"))
+						{
+							seatValue = Integer.valueOf(selectedSeat);
+						}
+						newVehicle.setSeats(seatValue);									
 					}
-					newVehicle.setLongitude(latitudeValue);									
-				}
-				else if(DriveMeConstants.Database.Vehicle.IMAGE.equals(currentComponent.getName())){
-					String imageValue= driveMeUtil.getStringFromSubComponentTextField(currentComponent);
-					if(StringUtils.isEmpty(imageValue))
-					{
-						imageValue="";
+					else if(DriveMeConstants.Database.Vehicle.LONGITUDE.equals(currentComponent.getName())){
+						String longitudeValue = driveMeUtil.getStringFromSubComponentTextField(currentComponent);
+						if(StringUtils.isEmpty(longitudeValue))
+						{
+							longitudeValue="0.0";
+						}
+						newVehicle.setLongitude(longitudeValue);									
 					}
-					newVehicle.setImage(imageValue);									
-				}
-				else if(DriveMeConstants.Database.Vehicle.FUEL.equals(currentComponent.getName())){
-					String fuelValue = driveMeUtil.getStringFromSubComponentTextField(currentComponent);
-					if(StringUtils.isEmpty(fuelValue))
-					{
-						fuelValue="";
+					else if(DriveMeConstants.Database.Vehicle.LATITUDE.equals(currentComponent.getName())){
+						String latitudeValue = driveMeUtil.getStringFromSubComponentTextField(currentComponent);
+						if(StringUtils.isEmpty(latitudeValue))
+						{
+							latitudeValue="0.0";
+						}
+						newVehicle.setLatitude(latitudeValue);									
 					}
-					newVehicle.setFuel(fuelValue);									
+					else if(DriveMeConstants.Database.Vehicle.IMAGE.equals(currentComponent.getName())){
+						String imageValue= driveMeUtil.getStringFromSubComponentTextField(currentComponent);
+						if(StringUtils.isEmpty(imageValue))
+						{
+							imageValue="https://www.huk-autowelt.de/images/Gebrauchtwagensuche/HUK_Auto-kaufen_Gebrauchtwagen.png";
+						}
+						newVehicle.setImage(imageValue);									
+					}
+					else if(DriveMeConstants.Database.Vehicle.FUEL.equals(currentComponent.getName())){
+						String fuelValue = driveMeUtil.getStringFromSubComponentTextField(currentComponent);
+						if(StringUtils.isEmpty(fuelValue))
+						{
+							fuelValue="";
+						}
+						newVehicle.setFuel(fuelValue);									
+					}
 				}
-			}
-			boolean vehicleSaved = vehicleService.saveVehicle(newVehicle);
-			if(vehicleSaved) {
-				System.out.println("Jucheii!");
-				//TODO
-				ArrayList<Vehicle> allVehicles = VehicleService.findAllVehicles();
-				refreshVehiclePanel(allVehicles);
-			}
-			else {
-				System.out.println("Something went wrong while saving the vehicle!");
-			}
+				boolean vehicleSaved = vehicleService.saveVehicle(newVehicle);
+				if(vehicleSaved) {
+					System.out.println("Jucheii!");
+					//TODO
+					ArrayList<Vehicle> allVehicles = VehicleService.findAllVehicles();
+					refreshVehiclePanel(allVehicles);
+				}
+				else {
+					System.out.println("Something went wrong while saving the vehicle!");
+				}
+			} 
 		}
 	}
 	

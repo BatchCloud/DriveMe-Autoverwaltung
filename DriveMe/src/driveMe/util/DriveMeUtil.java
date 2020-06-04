@@ -5,7 +5,11 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Image;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
@@ -34,6 +38,17 @@ public class DriveMeUtil {
 		Image image = imageIcon.getImage(); // transform it 
 		Image newimg = image.getScaledInstance(heigth, width,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way  
 		return imageIcon = new ImageIcon(newimg);
+	}
+	
+	public ImageIcon resizeImageIconURL(String vehicleUrl, int heigth, int width) throws IOException 
+	{
+		URL url = new URL(vehicleUrl);
+		
+		Image image = ImageIO.read(url); // transform it 
+		Image newimg = image.getScaledInstance(heigth, width,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way  
+		
+		ImageIcon imageIcon = new ImageIcon(newimg);
+		return imageIcon;
 	}
 	
 	public void addComboBoxToPanel(JPanel panel)

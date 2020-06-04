@@ -1,5 +1,8 @@
 package driveMe.vehicles.service;
 
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.Image;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -7,15 +10,30 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import javax.swing.Painter;
 
 import org.apache.commons.lang.StringUtils;
+import org.jxmapviewer.JXMapViewer;
+import org.jxmapviewer.painter.CompoundPainter;
+import org.jxmapviewer.viewer.GeoPosition;
+import org.jxmapviewer.viewer.Waypoint;
+import org.jxmapviewer.viewer.WaypointPainter;
+import org.jxmapviewer.viewer.WaypointRenderer;
 
+import driveMe.MapPanel;
 import driveMe.customers.model.Customer;
 import driveMe.customers.service.CustomerService;
 import driveMe.service.DatabaseService;
+import driveMe.util.DriveMeUtil;
 import driveMe.vehicles.model.Vehicle;
 
 public class VehicleService {
+	
+	public DriveMeUtil driveMeUtil = new DriveMeUtil();
 	
 	public static ArrayList<Vehicle> findAllVehicles() {
 		Connection con = DatabaseService.MysqlConnection();
@@ -194,4 +212,17 @@ public class VehicleService {
 
 		return false;
 	}
+	
+
+
+	public void jumpToLocation(MapPanel map, Vehicle currentVehicle) {
+		GeoPosition currentVehiclePostion = new GeoPosition( Double.parseDouble(currentVehicle.getLongitude()), Double.parseDouble(currentVehicle.getLatitude()));
+		map.setAddressLocation(currentVehiclePostion);
+		map.setZoom(4);
+		map.revalidate();
+		map.repaint();
+	}
+	
+	
+	 
 }
