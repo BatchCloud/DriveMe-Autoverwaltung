@@ -68,8 +68,6 @@ public class DriveMeUtil {
 	public JPanel clearAndSetContent(JPanel contentPanel, JPanel content, String borderLayout) 
 	{
 		contentPanel.removeAll();
-//		contentPanel.repaint();
-//		contentPanel.revalidate();
 		
 		if(StringUtils.isNotBlank(borderLayout))
 		{
@@ -80,10 +78,10 @@ public class DriveMeUtil {
 			contentPanel.add(content);
 		}
 		SwingUtilities.updateComponentTreeUI(contentPanel);
-		
-		return contentPanel;
-//		contentPanel.repaint();
-//		contentPanel.revalidate();
+		contentPanel.repaint();
+		contentPanel.revalidate();
+		return contentPanel;	
+//		
 	}
 	
 	public void clearAndSetContent(JPanel contentPanel, JPanel content) 

@@ -1,14 +1,18 @@
 package driveMe.customers.service;
 
 import java.sql.Connection;
-import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Date;
+
+import org.apache.commons.lang.StringUtils;
 
 import driveMe.customers.model.Customer;
 import driveMe.service.DatabaseService;
+import driveMe.vehicles.model.Vehicle;
 
 public class CustomerService {
 
@@ -91,6 +95,53 @@ public class CustomerService {
 		}
 
 		return customer;
+	}
+
+	
+	
+	public boolean saveCustomer(Customer newCustomer) {
+		if (newCustomer != null) {
+			Connection con = DatabaseService.MysqlConnection();
+			
+			try {
+				String query = "INSERT into customers (firstname, lastname, username, birthday, token, since, verified) values (?, ?, ?, ?, ?, ?, ?)";
+				
+				String fistname = newCustomer.getFirstname();
+				String lastname = newCustomer.getLastname();
+				String username = newCustomer.getUsername();
+				Date birthday = newCustomer.getBirthday();
+				
+				
+				PreparedStatement preparedStmt = con.prepareStatement(query);
+				
+				if(StringUtils.isBlank(fistname)) {
+					fistname = "";
+				}
+				if(StringUtils.isBlank(lastname)) {
+					lastname = "";
+				}
+				if(StringUtils.isBlank(username)) {
+					username = "";
+				}
+				
+		
+				
+				preparedStmt.setString(1, fistname);
+				preparedStmt.setString(2, lastname);
+				preparedStmt.setString(3, username);
+				preparedStmt.setDate(4, new java.sql.Date(birthday.getTime()));
+				preparedStmt.setString(5, "");
+				preparedStmt.setDate(6, new java.sql.Date(new Date().getTime()) );
+				preparedStmt.setBoolean(7, true);
+				preparedStmt.execute();
+				con.close();
+
+				return true;
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
 	}
 	
 	

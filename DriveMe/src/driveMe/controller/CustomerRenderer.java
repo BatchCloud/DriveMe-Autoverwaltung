@@ -5,15 +5,23 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -21,6 +29,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 
 import driveMe.MainRenderer;
@@ -30,11 +39,16 @@ import driveMe.customers.model.Customer;
 import driveMe.customers.service.CustomerService;
 import driveMe.vehicles.model.Vehicle;
 import driveMe.vehicles.service.VehicleService;
+import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
+import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
+import net.sourceforge.jdatepicker.impl.UtilDateModel;
 
 public class CustomerRenderer extends MainRenderer{
 
 	
 	JPanel flowPane;
+	private CustomerService customerService= new CustomerService();
+	ArrayList<Customer> allCustomer = CustomerService.findAllCustomers();
 //	private DriveMeUtil driveMeUtil = new DriveMeUtil();
 	
 	public CustomerRenderer() {
@@ -143,6 +157,7 @@ public class CustomerRenderer extends MainRenderer{
 				btnNewButton.setBorder(null);
 				btnNewButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+						JOptionPane.showMessageDialog(mainFrame, new JLabel("Zurzeit sind Keine Fahrzeuge Verfügbar"));
 					}
 				});
 				customerButtonPanel.add(btnNewButton);
@@ -152,7 +167,11 @@ public class CustomerRenderer extends MainRenderer{
 				reserveVehicleButton.setBackground(DriveMeConstants.Colour.primaryColor);
 				reserveVehicleButton.setForeground(Color.WHITE);
 				reserveVehicleButton.setBorder(null);
-				
+				reserveVehicleButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						JOptionPane.showMessageDialog(mainFrame, new JLabel("Zurzeit sind Keine Fahrzeuge Verfügbar"));
+					}
+				});
 				customerButtonPanel.add(reserveVehicleButton);
 		
 			customerInfoBottomPanel.add(customerButtonPanel, BorderLayout.SOUTH);
@@ -161,8 +180,12 @@ public class CustomerRenderer extends MainRenderer{
 		
 		//Profile Image Panel
 		JPanel profileImagePanel = new JPanel();
-		profileImagePanel.setForeground(Color.WHITE);
-		profileImagePanel.setBackground(Color.WHITE);
+			JLabel userImage = new JLabel("");
+			userImage.setIcon(driveMeUtil.resizeImageIcon("userimage.png", 80, 80));
+			userImage.setBounds(5,5,50,40);
+		profileImagePanel.add(userImage);
+//		profileImagePanel.setForeground(Color.);
+//		profileImagePanel.setBackground(Color.WHITE);
 		customerConatinerPanel.add(profileImagePanel, BorderLayout.CENTER);
 		
 		//Plac Holder WEST
@@ -212,17 +235,12 @@ public class CustomerRenderer extends MainRenderer{
 		btnFahrzeugAnlegen.setBackground(DriveMeConstants.Colour.primaryColor);
 		btnFahrzeugAnlegen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+
+				applyNewCustomer(mainFrame);
 				
-//				JPanel p = new JPanel(); 
-//		        p.setPreferredSize(new Dimension(400,400));
-//		        p.setBackground(Color.blue); ;
-//
-//				p.setBounds( (mainFrame.getWidth() / 2) - 400,  (mainFrame.getHeight()/ 2) - 400 , 400,400 );
-//	        	p.setVisible(true);
-//	        	bodyJLayeredPane.add(p, JLayeredPane.POPUP_LAYER);
-			
-				JOptionPane.showMessageDialog(mainFrame,new JTextField());
 			}
+
+			
 		});
 		rightSidePanel.add(btnFahrzeugAnlegen);
 		
@@ -247,14 +265,19 @@ public class CustomerRenderer extends MainRenderer{
 		textField.addKeyListener(new KeyAdapter() {
 	        @Override
 	        public void keyPressed(KeyEvent e) {
+	        	
 	            	String input = textField.getText();
-	            	if(input.length() >2)
+	            	if(input.length() > 0)
 	            	{
-	            		if(!vehiclePageActive)
+	            		if(vehiclePageActive)
 		            	{
 	            			searchCustomer(input);
 		            	}
+	            	} else {
+	            		
+	            		refreshCustomersPanel(allCustomer);
 	            	}
+	       
 	            }
 	    });
 		
@@ -272,7 +295,7 @@ public class CustomerRenderer extends MainRenderer{
 			filteredCustomers = new ArrayList<>();
 			for(Customer currentCustomer : allCustomers)
 			{
-				if(searchInput.contains(currentCustomer.getUsername()))
+				if(currentCustomer.getUsername().toLowerCase().contains(searchInput.toLowerCase()))
 				{
 					filteredCustomers.add(currentCustomer);					
 				}
@@ -289,10 +312,121 @@ public class CustomerRenderer extends MainRenderer{
 		{
 			flowPane.add(createCustomerPanel(currentCustomer));
 		}
-		
+
+		flowPane.repaint();		
 
 	}
+	private void applyNewCustomer(JFrame mainFrame) {
+		JPanel panel = setVehicleFormToPanel();
+		
+		int exit = JOptionPane.showConfirmDialog(mainFrame, panel, "Benutzer anlegen", JOptionPane.DEFAULT_OPTION);
+
+		if (exit == JOptionPane.YES_OPTION){
+			Component[] filledComponents = panel.getComponents();
+			if(ArrayUtils.isNotEmpty(filledComponents))
+			{
+				Customer newCustomer = new Customer();
+				for(Component currentComponent : filledComponents) {
+					
+					if(DriveMeConstants.Database.Customer.Firstname.equals(currentComponent.getName())){
+						String fistnameValue = driveMeUtil.getStringFromSubComponentTextField(currentComponent);
+						String fistname = "Firstname";
+						if(fistnameValue.length() > 0)
+						{
+							fistname = fistnameValue;
+						}
+
+						newCustomer.setFirstname(fistname);
+					}
+					else if(DriveMeConstants.Database.Customer.Lastname.equals(currentComponent.getName())){
+						String lastnameValue = driveMeUtil.getStringFromSubComponentTextField(currentComponent);
+						String lastname = "Lastname";
+						if(lastnameValue.length() > 0)
+						{
+							lastname = lastnameValue;
+						}
+
+						newCustomer.setLastname(lastname);								
+					}
+					else if(DriveMeConstants.Database.Customer.Username.equals(currentComponent.getName())){
+						String usernameValue = driveMeUtil.getStringFromSubComponentTextField(currentComponent);
+						String username = "Username";
+						if(usernameValue.length() > 0)
+						{
+							username = usernameValue;
+						}
+
+						newCustomer.setUsername(username);								
+					}
+					else if(DriveMeConstants.Database.Customer.Birthday.equals(currentComponent.getName())){
+						String bdayValue = driveMeUtil.getStringFromSubComponentTextField(currentComponent);
+						Date bday = new Date();
+						if(bdayValue.length() > 0)
+						{
+							try {
+								bday = new SimpleDateFormat("dd.MM.yyyy").parse(bdayValue);
+							} catch (ParseException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						}
+
+						newCustomer.setBirthday(bday);								
+					}
+
+				}
+				boolean vehicleSaved = customerService.saveCustomer(newCustomer);
+				if(vehicleSaved) {
+					System.out.println("Jucheii!");
+					//TODO
+					ArrayList<Customer> allCustomer = CustomerService.findAllCustomers();
+					refreshCustomersPanel(allCustomer);
+				}
+				else {
+					System.out.println("Something went wrong while saving the customer!");
+				}
+			} 
+		}
+		
+	}
+
 	
 
+	private JPanel setVehicleFormToPanel() {
+		JPanel panel = new JPanel();
+		panel.setLayout(new GridLayout(0, 1));
+
+		//Firstname input
+		JPanel firstNameInput = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		firstNameInput.add(new JLabel("Vorname:"));
+		firstNameInput.add(new JTextField(10));
+		firstNameInput.setName(DriveMeConstants.Database.Customer.Firstname);
+		panel.add(firstNameInput);
+		
+		//Firstname input
+		JPanel lastnameNameInput = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		lastnameNameInput.add(new JLabel("Nachname:"));
+		lastnameNameInput.add(new JTextField(10));
+		lastnameNameInput.setName(DriveMeConstants.Database.Customer.Lastname);
+		panel.add(lastnameNameInput);
+		
+		//username input
+		JPanel userNameInput = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		userNameInput.add(new JLabel("Username:"));
+		userNameInput.add(new JTextField(10));
+		userNameInput.setName(DriveMeConstants.Database.Customer.Username);
+		panel.add(userNameInput);
+		
+		//brithday input
+		UtilDateModel model = new UtilDateModel();
+		JDatePanelImpl datePanel = new JDatePanelImpl(model);
+		JDatePickerImpl datePicker = new JDatePickerImpl(datePanel);
+		datePicker.setName(DriveMeConstants.Database.Customer.Birthday);
+		datePicker.setLayout(new FlowLayout(FlowLayout.LEFT));
+		panel.add(datePicker);
+		
+
+		return panel;
+	}
 	
 }

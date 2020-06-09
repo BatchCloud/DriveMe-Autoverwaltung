@@ -33,6 +33,15 @@ public class DriveMeConstants {
 			public static final String IMAGE = "image";
 			public static final String FUEL = "fuel";
 		}
+
+
+		public class Customer{
+			public static final String Firstname = "firstname";
+			public static final String Lastname = "lastname";
+			public static final String Username = "username";
+			public static final String Birthday = "birthday";
+			
+		}
 	}
 	
 }

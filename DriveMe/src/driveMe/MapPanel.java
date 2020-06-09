@@ -21,7 +21,6 @@ import org.jxmapviewer.viewer.GeoPosition;
 import org.jxmapviewer.viewer.TileFactoryInfo;
 import org.jxmapviewer.viewer.Waypoint;
 
-
 public final class MapPanel extends JXMapViewer{
 	
 	public MapPanel() {
