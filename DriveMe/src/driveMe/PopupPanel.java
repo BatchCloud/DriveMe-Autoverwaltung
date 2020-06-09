@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*; 
 import java.awt.event.*;
 import java.util.Random; 
+@SuppressWarnings("serial")
 class PopupPanel extends JFrame implements ActionListener { 
 	  // popup 
     Popup po; 

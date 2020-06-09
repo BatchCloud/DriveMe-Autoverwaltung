@@ -12,7 +12,6 @@ import org.apache.commons.lang.StringUtils;
 
 import driveMe.customers.model.Customer;
 import driveMe.service.DatabaseService;
-import driveMe.vehicles.model.Vehicle;
 
 public class CustomerService {
 

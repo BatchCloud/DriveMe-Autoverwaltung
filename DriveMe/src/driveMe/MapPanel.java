@@ -1,10 +1,7 @@
 package driveMe;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+
 
 import javax.swing.event.MouseInputListener;
 
@@ -15,12 +12,13 @@ import org.jxmapviewer.input.CenterMapListener;
 import org.jxmapviewer.input.PanKeyListener;
 import org.jxmapviewer.input.PanMouseInputListener;
 import org.jxmapviewer.input.ZoomMouseWheelListenerCursor;
-import org.jxmapviewer.painter.CompoundPainter;
+
 import org.jxmapviewer.viewer.DefaultTileFactory;
 import org.jxmapviewer.viewer.GeoPosition;
 import org.jxmapviewer.viewer.TileFactoryInfo;
-import org.jxmapviewer.viewer.Waypoint;
 
+
+@SuppressWarnings("serial")
 public final class MapPanel extends JXMapViewer{
 	
 	public MapPanel() {

@@ -12,16 +12,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.io.IOException;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
+
 import java.util.Date;
-import java.util.List;
+
 
 import javax.swing.JButton;
-import javax.swing.JComboBox;
+
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -37,8 +37,7 @@ import driveMe.ModifiedFlowLayout;
 import driveMe.constants.DriveMeConstants;
 import driveMe.customers.model.Customer;
 import driveMe.customers.service.CustomerService;
-import driveMe.vehicles.model.Vehicle;
-import driveMe.vehicles.service.VehicleService;
+
 import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
 import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
 import net.sourceforge.jdatepicker.impl.UtilDateModel;
